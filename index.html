@@ -24,7 +24,7 @@
     }
     .logo-container {
       background: white;
-      border-radius: 50%; /* perfect circle */
+      border-radius: 50%; /* makes it a perfect circle */
       padding: 20px;
       display: flex;
       align-items: center;
@@ -33,16 +33,15 @@
       flex-shrink: 0;
     }
     .logo-container img {
-      max-height: 160px; /* ~1.8x bigger */
+      max-height: 160px; /* ~1.8x bigger than before */
       width: auto;
       display: block;
     }
     .divider {
       width: 3px;
       background: black;
-      height: 70%; /* only 70% of header height */
+      height: 100%;
       margin: 0 20px;
-      align-self: center; /* centers vertically */
     }
     .header-text {
       flex: 1;
@@ -91,4 +90,28 @@
     </div>
     <div class="divider"></div>
     <div class="header-text">
-      <
+      <h1>Camino De Salvación</h1>
+      <p>Bienvenidos a nuestra transmisión en vivo</p>
+    </div>
+    <div class="header-line"></div>
+  </header>
+
+  <main>
+    <!-- 🎥 Place your Facebook embed code below -->
+    <iframe 
+      src="https://www.facebook.com/plugins/video.php?height=314&href=https%3A%2F%2Fwww.facebook.com%2Fcamino.de.salvacion.291890%2Fvideos%2F2207156126464474%2F&show_text=true&width=560&t=0" 
+      width="800" height="450" 
+      style="border:none;overflow:hidden" 
+      scrolling="no" 
+      frameborder="0" 
+      allowfullscreen="true" 
+      allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
+    </iframe>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Camino De Salvación</p>
+  </footer>
+
+</body>
+</html>
