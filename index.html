@@ -67,6 +67,28 @@
       font-size: 0.9em;
     }
   </style>
+
+  <!-- Paste your FULL Facebook video link here -->
+  <script>
+    const VIDEO_URL = "PASTE_FULL_FACEBOOK_VIDEO_URL_HERE"; 
+
+    function getVideoID(url) {
+      const match = url.match(/\/videos\/(\d+)/);
+      return match ? match[1] : null;
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      const videoID = getVideoID(VIDEO_URL);
+      if (videoID) {
+        const pageUrl = "https://www.facebook.com/camino.de.salvacion.291890/videos/" + videoID;
+        document.getElementById("livestream").src =
+          "https://www.facebook.com/plugins/video.php?href=" + encodeURIComponent(pageUrl) + "&show_text=false&autoplay=true";
+      } else {
+        document.getElementById("livestream").outerHTML =
+          "<p style='color:red;'>⚠️ Invalid Facebook video link. Please check URL.</p>";
+      }
+    });
+  </script>
 </head>
 <body>
 
@@ -84,10 +106,8 @@
   <!-- Main livestream area -->
   <main>
     <div class="video-container">
-      <!-- Replace ONLY the numbers at the end of this URL each time -->
-      <iframe 
-        src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Fcamino.de.salvacion.291890%2Fvideos%2FPASTE_VIDEO_ID_HERE&show_text=false&autoplay=true" 
-        allowfullscreen="true"
+      <!-- iframe src will be filled by JavaScript -->
+      <iframe id="livestream" allowfullscreen="true"
         allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
       </iframe>
     </div>
@@ -99,5 +119,4 @@
 
 </body>
 </html>
-
 
