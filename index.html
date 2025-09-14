@@ -18,35 +18,33 @@
       color: white;
       padding: 20px;
       display: flex;
-      justify-content: center;
       align-items: center;
+      justify-content: flex-start; /* keep everything aligned left */
       flex-wrap: wrap;
-      position: relative;
     }
 
     .logo-container {
       background: white;
       border-radius: 50%;
-      width: 200px;   /* perfect circle */
-      height: 200px;
+      width: 230px;   /* circle */
+      height: 230px;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin: 10px;
+      margin-right: 20px;
       flex-shrink: 0;
     }
 
     .logo-container img {
-      max-height: 140px; /* adjusted to make logo ~1.8x bigger */
+      max-height: 200px; /* scale logo so letters touch edges */
       width: auto;
     }
 
     .divider {
       width: 3px;
       background: black;
-      height: 70%;
-      align-self: center;
-      margin: 0 20px;
+      height: 70%; /* proportional height */
+      margin-right: 20px;
     }
 
     .header-text {
@@ -101,15 +99,17 @@
 
       .header-text {
         text-align: center;
+        margin-top: 10px;
       }
 
       .logo-container {
-        width: 150px;
-        height: 150px;
+        width: 180px;
+        height: 180px;
+        margin: 0 0 10px 0;
       }
 
       .logo-container img {
-        max-height: 100px;
+        max-height: 150px;
       }
 
       .header-text h1 {
