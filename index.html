@@ -1,103 +1,66 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Camino De Salvación - En Vivo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <!-- SEO Meta -->
-  <meta name="description" content="Únete a nuestras transmisiones en vivo de Camino De Salvación. Alabanzas, prédicas y más, transmitido en directo.">
-  <meta name="keywords" content="Camino De Salvación, iglesia, en vivo, livestream, culto, prédica, alabanza">
-  <meta name="author" content="Camino De Salvación">
-
-  <!-- Open Graph (for Facebook, WhatsApp, etc.) -->
-  <meta property="og:title" content="Camino De Salvación - En Vivo">
-  <meta property="og:description" content="Transmisión en vivo desde Camino De Salvación.">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://ecdsalvacion.org/">
-  <meta property="og:image" content="https://ecdsalvacion.org/preview.jpg">
-
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Camino De Salvación - En Vivo">
-  <meta name="twitter:description" content="Transmisión en vivo desde Camino De Salvación.">
-  <meta name="twitter:image" content="https://ecdsalvacion.org/preview.jpg">
-
+  <title>Camino De Salvación - Live</title>
   <style>
     body {
-      font-family: "Segoe UI", Roboto, sans-serif;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: #f9f9f9;
       margin: 0;
       padding: 0;
-      text-align: center;
-      background: #f4f4f4;
-      color: #222;
     }
     header {
-      background: #1e3a8a;
+      background: #2c3e50;
       color: white;
-      padding: 1rem;
+      padding: 20px;
     }
-    h1 {
+    header h1 {
       margin: 0;
-      font-size: 1.8rem;
     }
-    p {
-      margin: 0.5rem 0 1rem;
+    main {
+      margin: 20px;
     }
-    .logo {
-      max-width: 200px;
-      margin: 20px auto;
-      display: block;
-    }
-    .video-wrapper {
-      position: relative;
-      padding-bottom: 56.25%; /* 16:9 ratio */
-      height: 0;
-      overflow: hidden;
-      max-width: 100%;
-      background: #000;
-      margin: 0 auto;
-    }
-    .video-wrapper .fb-video {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+    iframe {
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
     }
     footer {
-      background: #1e3a8a;
+      margin-top: 40px;
+      padding: 20px;
+      background: #2c3e50;
       color: white;
-      padding: 1rem;
-      margin-top: 2rem;
-      font-size: 0.9rem;
     }
   </style>
 </head>
 <body>
+
   <header>
     <h1>Camino De Salvación</h1>
-    <p>Transmisión en Vivo</p>
+    <p>Bienvenidos a nuestra transmisión en vivo</p>
   </header>
 
-  <!-- Clickable Logo -->
-  <a href="https://ecdsalvacion.org/">
-    <img src="logo.png" alt="Camino De Salvación Logo" class="logo">
-  </a>
+  <main>
+    <iframe 
+      src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2FCaminoDeSalvaci%C3%B3n%2Flive%2F&show_text=false&autoplay=true" 
+      width="800" height="450" 
+      style="border:none;overflow:hidden" 
+      scrolling="no" 
+      frameborder="0" 
+      allowfullscreen="true" 
+      allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
+    </iframe>
+  </main>
 
-  <!-- Facebook SDK -->
-  <div id="fb-root"></div>
-  <script async defer crossorigin="anonymous" 
-    src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v15.0"></script>
+  <footer>
+    <p>&copy; 2025 Camino De Salvación</p>
+  </footer>
 
-  <!-- Permanent Livestream Embed -->
-  <div class="video-wrapper">
-    <div class="fb-video" 
-      data-href="https://www.facebook.com/CaminoDeSalvaci%C3%B3n/live/"
-      data-width="800"
-      data-show-text="false">
-    </div>
-  </div>
+</body>
+</html>
+
 
   <footer>
     © <span id="year"></span> Camino De Salvación | Todos los derechos reservados
