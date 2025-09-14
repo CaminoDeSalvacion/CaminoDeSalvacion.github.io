@@ -1,90 +1,112 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>My Live Stream</title>
+  <meta charset="UTF-8">
+  <title>Camino De Salvación - En Vivo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- SEO Meta -->
+  <meta name="description" content="Únete a nuestras transmisiones en vivo de Camino De Salvación. Alabanzas, prédicas y más, transmitido en directo.">
+  <meta name="keywords" content="Camino De Salvación, iglesia, en vivo, livestream, culto, prédica, alabanza">
+  <meta name="author" content="Camino De Salvación">
+
+  <!-- Open Graph (for Facebook, WhatsApp, etc.) -->
+  <meta property="og:title" content="Camino De Salvación - En Vivo">
+  <meta property="og:description" content="Transmisión en vivo desde Camino De Salvación.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://ecdsalvacion.org/">
+  <meta property="og:image" content="https://ecdsalvacion.org/preview.jpg">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Camino De Salvación - En Vivo">
+  <meta name="twitter:description" content="Transmisión en vivo desde Camino De Salvación.">
+  <meta name="twitter:image" content="https://ecdsalvacion.org/preview.jpg">
+
   <style>
     body {
+      font-family: "Segoe UI", Roboto, sans-serif;
       margin: 0;
-      font-family: "Segoe UI", sans-serif;
-      background-color: #f5f7fa;
-      color: #333;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
+      padding: 0;
+      text-align: center;
+      background: #f4f4f4;
+      color: #222;
     }
     header {
-      background-color: #1a1a1a;
+      background: #1e3a8a;
       color: white;
-      padding: 1.2rem 2rem;
-      text-align: center;
+      padding: 1rem;
     }
     h1 {
       margin: 0;
-      font-size: 2rem;
+      font-size: 1.8rem;
     }
-    main {
-      flex: 1;
-      padding: 2rem;
-      max-width: 900px;
-      margin: auto;
-      text-align: center;
+    p {
+      margin: 0.5rem 0 1rem;
     }
-    /* Container for Facebook plugin */
-    .fb-page {
-      margin-top: 20px;
-      margin-left: auto;
-      margin-right: auto;
-      max-width: 720px;
-      width: 100%;
-      height: 405px; /* Facebook plugin height */
-      border: none;
+    .logo {
+      max-width: 200px;
+      margin: 20px auto;
+      display: block;
+    }
+    .video-wrapper {
+      position: relative;
+      padding-bottom: 56.25%; /* 16:9 ratio */
+      height: 0;
       overflow: hidden;
+      max-width: 100%;
+      background: #000;
+      margin: 0 auto;
+    }
+    .video-wrapper .fb-video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
     }
     footer {
-      background-color: #1a1a1a;
+      background: #1e3a8a;
       color: white;
-      text-align: center;
       padding: 1rem;
+      margin-top: 2rem;
       font-size: 0.9rem;
-    }
-    @media (max-width: 768px) {
-      .fb-page {
-        height: 300px;
-      }
     }
   </style>
 </head>
 <body>
   <header>
-    <h1>🎥 My Live Stream</h1>
+    <h1>Camino De Salvación</h1>
+    <p>Transmisión en Vivo</p>
   </header>
 
-  <main>
-    <p>Welcome! Watch the live video below.</p>
+  <!-- Clickable Logo -->
+  <a href="https://ecdsalvacion.org/">
+    <img src="logo.png" alt="Camino De Salvación Logo" class="logo">
+  </a>
 
-    <!-- Load Facebook SDK for JavaScript -->
-    <div id="fb-root"></div>
-    <script async defer crossorigin="anonymous" 
-      src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v16.0"></script>
+  <!-- Facebook SDK -->
+  <div id="fb-root"></div>
+  <script async defer crossorigin="anonymous" 
+    src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v15.0"></script>
 
-    <!-- Facebook Page Plugin with live tab -->
-    <div class="fb-page" 
-      data-href="https://www.facebook.com/CaminoDeSalvaci%C3%B3n" 
-      data-tabs="live" 
-      data-width="720" 
-      data-height="405" 
-      data-small-header="false" 
-      data-adapt-container-width="true" 
-      data-hide-cover="false" 
-      data-show-facepile="false">
+  <!-- Permanent Livestream Embed -->
+  <div class="video-wrapper">
+    <div class="fb-video" 
+      data-href="https://www.facebook.com/CaminoDeSalvacion/live/"
+      data-width="800"
+      data-show-text="false">
     </div>
-  </main>
+  </div>
 
   <footer>
-    &copy; 2025 Your Name. All rights reserved.
+    © <span id="year"></span> Camino De Salvación | Todos los derechos reservados
   </footer>
+
+  <script>
+    // Auto-update year in footer
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
 
