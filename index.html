@@ -131,9 +131,10 @@
   </header>
 
   <main>
-    <div class="video-container">
-      <!-- YouTube Live Embed: always shows your most recent livestream -->
+    <div class="video-container" id="video-box">
+      <!-- Default: YouTube Live -->
       <iframe
+        id="yt-live"
         src="https://www.youtube.com/embed/live_stream?channel=UCXQ5Kk-W4naw4YuUweLYW6g"
         width="800"
         height="450"
@@ -147,5 +148,26 @@
   <footer>
     <p>© 2025 Camino De Salvación</p>
   </footer>
+
+  <script>
+    // If YouTube live doesn't load, fallback to Facebook Page timeline
+    document.getElementById("yt-live").addEventListener("error", function() {
+      document.getElementById("video-box").innerHTML = `
+        <iframe 
+          src="https://www.facebook.com/plugins/page.php?
+          href=https%3A%2F%2Fwww.facebook.com%2Fcamino.de.salvacion.291890
+          &tabs=timeline&width=800&height=450&small_header=false
+          &adapt_container_width=true&hide_cover=false&show_facepile=false"
+          width="800" 
+          height="450" 
+          style="border:none;overflow:hidden" 
+          scrolling="no" 
+          frameborder="0" 
+          allowfullscreen="true" 
+          allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
+        </iframe>
+      `;
+    });
+  </script>
 </body>
 </html>
