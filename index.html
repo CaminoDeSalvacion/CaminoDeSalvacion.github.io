@@ -16,7 +16,7 @@
   main { padding:20px;}
   .video-container { position:relative; max-width:800px; margin:20px auto; background:white; padding:10px; border-radius:10px; box-shadow:0 4px 8px rgba(0,0,0,0.1);}
   iframe { width:100%; height:450px; border:none; border-radius:10px;}
-  .overlay { position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); color:white; display:flex; justify-content:center; align-items:center; font-size:1.2em; cursor:pointer; border-radius:10px; text-align:center; padding:20px;}
+  .overlay { position:absolute; top:0; left:0; width:100%; height:100%; cursor:pointer; border-radius:10px; background:transparent;}
   footer { background:#2c3e50; color:white; padding:15px; margin-top:20px;}
   @media (max-width:768px){header{flex-direction:column;} .divider{display:none;} .header-text{text-align:center;margin-top:10px;} .logo-container{width:180px;height:180px;margin:0 0 10px 0;} .logo-container img{max-height:150px;} .header-text h1{font-size:2em;}}
 </style>
@@ -34,8 +34,8 @@
 <main>
   <div class="video-container" id="video-box">
     <!-- YouTube Live Embed -->
-    <iframe id="yt-live" src="https://www.youtube.com/embed/live_stream?channel=UCXQ5Kk-W4naw4YuUweLYW6g&autoplay=1&mute=1" width="800" height="450" allow="accelerometer; autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" allowfullscreen></iframe>
-    <div class="overlay" id="unmute-overlay">🔊 Haz clic para activar el sonido / Click to unmute</div>
+    <iframe id="yt-live" src="https://www.youtube.com/embed/live_stream?channel=UCXQ5Kk-W4naw4YuUweLYW6g&autoplay=1&mute=1&enablejsapi=1" width="800" height="450" allow="accelerometer; autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" allowfullscreen></iframe>
+    <div class="overlay" id="play-overlay"></div>
   </div>
 </main>
 
@@ -44,13 +44,27 @@
 </footer>
 
 <script>
-  // Overlay click: unmute and play video
-  document.getElementById("unmute-overlay").addEventListener("click", function() {
+  // Load YouTube IFrame API
+  let tag = document.createElement('script');
+  tag.src = "https://www.youtube.com/iframe_api";
+  let firstScriptTag = document.getElementsByTagName('script')[0];
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+  let player;
+  function onYouTubeIframeAPIReady() {
+    player = new YT.Player('yt-live', {});
+  }
+
+  // Overlay click: unmute and try to play video
+  document.getElementById("play-overlay").addEventListener("click", function() {
     const iframe = document.getElementById("yt-live");
-    // Remove mute=1 to unmute
-    const src = iframe.src.replace("&mute=1", "&mute=0");
-    iframe.src = src; // reload iframe unmuted
+    iframe.src = iframe.src.replace("&mute=1", "&mute=0"); // unmute
     this.style.display = "none"; // hide overlay
+
+    // Attempt to play via YouTube API after short delay
+    setTimeout(() => {
+      if(player && player.playVideo) player.playVideo();
+    }, 500);
   });
 
   // Auto fallback: scrape most recent Facebook post if YouTube fails
@@ -61,7 +75,6 @@
     fetch(fbPageURL)
       .then(res => res.text())
       .then(html => {
-        // Extract first post ID from page HTML
         const match = html.match(/\/posts\/(\d+)/);
         if(match && match[1]) {
           const postId = match[1];
