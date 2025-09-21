@@ -44,23 +44,24 @@
 </footer>
 
 <script>
-  // Unmute overlay logic
+  // Overlay click: unmute and play video
   document.getElementById("unmute-overlay").addEventListener("click", function() {
     const iframe = document.getElementById("yt-live");
-    const src = iframe.src.replace("&mute=1", "");
-    iframe.src = src;
-    this.style.display = "none";
+    // Remove mute=1 to unmute
+    const src = iframe.src.replace("&mute=1", "&mute=0");
+    iframe.src = src; // reload iframe unmuted
+    this.style.display = "none"; // hide overlay
   });
 
-  // Auto fallback: try to scrape most recent Facebook post if YouTube fails
+  // Auto fallback: scrape most recent Facebook post if YouTube fails
   document.getElementById("yt-live").addEventListener("error", function() {
     const videoBox = document.getElementById("video-box");
-    const pageURL = "https://www.facebook.com/camino.de.salvacion.291890";
+    const fbPageURL = "https://www.facebook.com/camino.de.salvacion.291890";
 
-    fetch(pageURL)
+    fetch(fbPageURL)
       .then(res => res.text())
       .then(html => {
-        // Try to extract first post ID from page HTML
+        // Extract first post ID from page HTML
         const match = html.match(/\/posts\/(\d+)/);
         if(match && match[1]) {
           const postId = match[1];
