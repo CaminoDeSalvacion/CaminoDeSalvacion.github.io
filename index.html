@@ -16,7 +16,6 @@
   main { padding:20px;}
   .video-container { position:relative; max-width:800px; margin:20px auto; background:white; padding:10px; border-radius:10px; box-shadow:0 4px 8px rgba(0,0,0,0.1);}
   iframe { width:100%; height:450px; border:none; border-radius:10px;}
-  .overlay { position:absolute; top:0; left:0; width:100%; height:100%; cursor:pointer; border-radius:10px; background:transparent;}
   footer { background:#2c3e50; color:white; padding:15px; margin-top:20px;}
   @media (max-width:768px){header{flex-direction:column;} .divider{display:none;} .header-text{text-align:center;margin-top:10px;} .logo-container{width:180px;height:180px;margin:0 0 10px 0;} .logo-container img{max-height:150px;} .header-text h1{font-size:2em;}}
 </style>
@@ -34,8 +33,7 @@
 <main>
   <div class="video-container" id="video-box">
     <!-- YouTube Live Embed -->
-    <iframe id="yt-live" src="https://www.youtube.com/embed/live_stream?channel=UCXQ5Kk-W4naw4YuUweLYW6g&autoplay=1&mute=1&enablejsapi=1" width="800" height="450" allow="accelerometer; autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" allowfullscreen></iframe>
-    <div class="overlay" id="play-overlay"></div>
+    <div id="yt-live"></div>
   </div>
 </main>
 
@@ -52,41 +50,36 @@
 
   let player;
   function onYouTubeIframeAPIReady() {
-    player = new YT.Player('yt-live', {});
+    player = new YT.Player('yt-live', {
+      height: '450',
+      width: '800',
+      playerVars: {
+        autoplay: 1,
+        mute: 1,
+        playsinline: 1,
+        modestbranding: 1,
+        controls: 1,
+        rel: 0
+      },
+      events: {
+        'onError': onPlayerError
+      }
+    });
   }
 
-  // Overlay click: unmute and try to play video
-  document.getElementById("play-overlay").addEventListener("click", function() {
-    const iframe = document.getElementById("yt-live");
-    iframe.src = iframe.src.replace("&mute=1", "&mute=0"); // unmute
-    this.style.display = "none"; // hide overlay
-
-    // Attempt to play via YouTube API after short delay
-    setTimeout(() => {
-      if(player && player.playVideo) player.playVideo();
-    }, 500);
-  });
-
-  // Auto fallback: scrape most recent Facebook post if YouTube fails
-  document.getElementById("yt-live").addEventListener("error", function() {
+  function onPlayerError(event) {
     const videoBox = document.getElementById("video-box");
-    const fbPageURL = "https://www.facebook.com/camino.de.salvacion.291890";
-
-    fetch(fbPageURL)
-      .then(res => res.text())
-      .then(html => {
-        const match = html.match(/\/posts\/(\d+)/);
-        if(match && match[1]) {
-          const postId = match[1];
-          videoBox.innerHTML = `<iframe src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fcamino.de.salvacion.291890%2Fposts%2F${postId}&width=800" width="800" height="450" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>`;
-        } else {
-          videoBox.innerHTML = "<p>No se pudo encontrar la última publicación de Facebook.</p>";
-        }
-      })
-      .catch(() => {
-        videoBox.innerHTML = "<p>Facebook fallback no disponible.</p>";
-      });
-  });
+    // Fallback: Facebook page timeline (always shows latest post/video)
+    videoBox.innerHTML = `
+      <iframe 
+        src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fcamino.de.salvacion.291890&tabs=timeline&width=800&height=450&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=false"
+        width="800" height="450" style="border:none;overflow:hidden" scrolling="no" frameborder="0"
+        allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+        allowfullscreen>
+      </iframe>
+    `;
+  }
 </script>
 </body>
 </html>
+
