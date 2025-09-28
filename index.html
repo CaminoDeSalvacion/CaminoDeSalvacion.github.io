@@ -32,7 +32,7 @@
 
 <main>
   <div class="video-container" id="video-box">
-    <!-- Video will be inserted here -->
+    <!-- Video will appear here -->
   </div>
 </main>
 
@@ -41,21 +41,23 @@
 </footer>
 
 <script>
-  // Fetch the Worker to get the "live" video
-  fetch('https://youtube-live-proxy.iglesia-4e5.workers.dev')
+  const workerURL = 'https://youtube-live-proxy.iglesia-4e5.workers.dev';
+
+  fetch(workerURL)
     .then(res => res.json())
     .then(data => {
       const videoBox = document.getElementById("video-box");
       if (data.videoId) {
-        // Embed YouTube video
+        // Embed YouTube video returned by Worker
         videoBox.innerHTML = `<iframe width="800" height="450" src="https://www.youtube.com/embed/${data.videoId}?autoplay=0&mute=1" frameborder="0" allowfullscreen></iframe>`;
       } else {
-        // Fallback to Facebook page timeline
+        // Fallback to Facebook page timeline if no videoId
         videoBox.innerHTML = `<iframe src="https://www.facebook.com/plugins/page.php?href=https://www.facebook.com/camino.de.salvacion.291890&tabs=timeline&width=800&height=450" width="800" height="450" frameborder="0" allowfullscreen></iframe>`;
       }
     })
-    .catch(() => {
-      // On fetch error, also fallback to Facebook
+    .catch(err => {
+      // On fetch error, fallback to Facebook
+      console.error(err);
       const videoBox = document.getElementById("video-box");
       videoBox.innerHTML = `<iframe src="https://www.facebook.com/plugins/page.php?href=https://www.facebook.com/camino.de.salvacion.291890&tabs=timeline&width=800&height=450" width="800" height="450" frameborder="0" allowfullscreen></iframe>`;
     });
