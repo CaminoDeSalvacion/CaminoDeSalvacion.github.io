@@ -32,7 +32,7 @@
 
 <main>
   <div class="video-container" id="video-box">
-    <!-- Live video will load here -->
+    <!-- Video will be inserted here -->
   </div>
 </main>
 
@@ -41,41 +41,24 @@
 </footer>
 
 <script>
-async function loadLiveVideo() {
-  const videoBox = document.getElementById("video-box");
-
-  try {
-    // Call your Worker to get the most recent live YouTube video
-    const res = await fetch("https://youtube-live-proxy.iglesia-4e5.workers.dev");
-    const data = await res.json();
-
-    if (data.videoId) {
-      // Embed YouTube live video
-      videoBox.innerHTML = `
-        <iframe 
-          width="800" height="450"
-          src="https://www.youtube.com/embed/${data.videoId}?autoplay=0&mute=1"
-          frameborder="0" allow="accelerometer; autoplay; clipboard-write; 
-          encrypted-media; picture-in-picture; web-share" allowfullscreen>
-        </iframe>
-      `;
-    } else {
-      // Fallback: Facebook video
-      videoBox.innerHTML = `
-        <iframe 
-          src="https://www.facebook.com/plugins/video.php?height=314&href=https%3A%2F%2Fwww.facebook.com%2Fecdsalvacion%2Fvideos%2F1975989666489792%2F&show_text=false&width=560&t=0"
-          width="560" height="314" style="border:none;overflow:hidden" scrolling="no" frameborder="0"
-          allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
-          allowFullScreen="true"></iframe>
-      `;
-    }
-  } catch (err) {
-    videoBox.innerHTML = "<p>No se pudo cargar el video en este momento.</p>";
-  }
-}
-
-// Load live video on page load
-loadLiveVideo();
+  // Fetch the Worker to get the "live" video
+  fetch('https://youtube-live-proxy.iglesia-4e5.workers.dev')
+    .then(res => res.json())
+    .then(data => {
+      const videoBox = document.getElementById("video-box");
+      if (data.videoId) {
+        // Embed YouTube video
+        videoBox.innerHTML = `<iframe width="800" height="450" src="https://www.youtube.com/embed/${data.videoId}?autoplay=0&mute=1" frameborder="0" allowfullscreen></iframe>`;
+      } else {
+        // Fallback to Facebook page timeline
+        videoBox.innerHTML = `<iframe src="https://www.facebook.com/plugins/page.php?href=https://www.facebook.com/camino.de.salvacion.291890&tabs=timeline&width=800&height=450" width="800" height="450" frameborder="0" allowfullscreen></iframe>`;
+      }
+    })
+    .catch(() => {
+      // On fetch error, also fallback to Facebook
+      const videoBox = document.getElementById("video-box");
+      videoBox.innerHTML = `<iframe src="https://www.facebook.com/plugins/page.php?href=https://www.facebook.com/camino.de.salvacion.291890&tabs=timeline&width=800&height=450" width="800" height="450" frameborder="0" allowfullscreen></iframe>`;
+    });
 </script>
 </body>
 </html>
