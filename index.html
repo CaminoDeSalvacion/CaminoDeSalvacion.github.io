@@ -41,17 +41,17 @@
 </footer>
 
 <script>
-  const workerURL = 'WORKER_URL'; // replace with your Worker URL
+  const workerURL = 'https://youtube-live-proxy.iglesia-4e5.workers.dev'; // your Worker URL
 
   fetch(workerURL)
     .then(res => res.json())
     .then(data => {
       const videoBox = document.getElementById("video-box");
       if (data.videoId) {
-        // Embed YouTube video WITHOUT autoplay
+        // Embed the most recent YouTube video (not autoplay)
         videoBox.innerHTML = `<iframe width="800" height="450" src="https://www.youtube.com/embed/${data.videoId}?autoplay=0&mute=0" frameborder="0" allowfullscreen></iframe>`;
       } else {
-        // Fallback to Facebook page timeline
+        // Fallback: Facebook page timeline
         videoBox.innerHTML = `<iframe src="https://www.facebook.com/plugins/page.php?href=https://www.facebook.com/camino.de.salvacion.291890&tabs=timeline&width=800&height=450" width="800" height="450" frameborder="0" allowfullscreen></iframe>`;
       }
     })
