@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -17,7 +18,14 @@
   .video-container { position:relative; max-width:800px; margin:20px auto; background:white; padding:10px; border-radius:10px; box-shadow:0 4px 8px rgba(0,0,0,0.1);}
   iframe { width:100%; height:450px; border:none; border-radius:10px;}
   footer { background:#2c3e50; color:white; padding:15px; margin-top:20px;}
-  @media (max-width:768px){header{flex-direction:column;} .divider{display:none;} .header-text{text-align:center;margin-top:10px;} .logo-container{width:180px;height:180px;margin:0 0 10px 0;} .logo-container img{max-height:150px;} .header-text h1{font-size:2em;}}
+  @media (max-width:768px){
+    header{flex-direction:column;}
+    .divider{display:none;}
+    .header-text{text-align:center;margin-top:10px;}
+    .logo-container{width:180px;height:180px;margin:0 0 10px 0;}
+    .logo-container img{max-height:150px;}
+    .header-text h1{font-size:2em;}
+  }
 </style>
 </head>
 <body>
@@ -69,10 +77,10 @@
 
   function onPlayerError(event) {
     const videoBox = document.getElementById("video-box");
-    // Fallback: Facebook page timeline (always shows latest post/video)
+    // Fallback: specific Facebook video
     videoBox.innerHTML = `
       <iframe 
-        src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fcamino.de.salvacion.291890&tabs=timeline&width=800&height=450&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=false"
+        src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Ffb.watch%2FCok4KKEVVZ%2F&show_text=false&width=800&height=450"
         width="800" height="450" style="border:none;overflow:hidden" scrolling="no" frameborder="0"
         allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
         allowfullscreen>
@@ -82,4 +90,4 @@
 </script>
 </body>
 </html>
-
+```
