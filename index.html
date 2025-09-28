@@ -39,55 +39,20 @@
 </header>
 
 <main>
-  <div class="video-container" id="video-box">
-    <!-- YouTube Live Embed -->
-    <div id="yt-live"></div>
+  <div class="video-container">
+    <!-- Facebook Live Embed -->
+    <iframe 
+      src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Ffb.watch%2FCok4KKEVVZ%2F&show_text=false&width=800&height=450"
+      width="800" height="450" style="border:none;overflow:hidden" scrolling="no" frameborder="0"
+      allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+      allowfullscreen>
+    </iframe>
   </div>
 </main>
 
 <footer>
   <p>© 2025 Camino De Salvación</p>
 </footer>
-
-<script>
-  // Load YouTube IFrame API
-  let tag = document.createElement('script');
-  tag.src = "https://www.youtube.com/iframe_api";
-  let firstScriptTag = document.getElementsByTagName('script')[0];
-  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-  let player;
-  function onYouTubeIframeAPIReady() {
-    player = new YT.Player('yt-live', {
-      height: '450',
-      width: '800',
-      playerVars: {
-        autoplay: 1,
-        mute: 1,
-        playsinline: 1,
-        modestbranding: 1,
-        controls: 1,
-        rel: 0
-      },
-      events: {
-        'onError': onPlayerError
-      }
-    });
-  }
-
-  function onPlayerError(event) {
-    const videoBox = document.getElementById("video-box");
-    // Fallback: specific Facebook video
-    videoBox.innerHTML = `
-      <iframe 
-        src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Ffb.watch%2FCok4KKEVVZ%2F&show_text=false&width=800&height=450"
-        width="800" height="450" style="border:none;overflow:hidden" scrolling="no" frameborder="0"
-        allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
-        allowfullscreen>
-      </iframe>
-    `;
-  }
-</script>
 </body>
 </html>
 ```
