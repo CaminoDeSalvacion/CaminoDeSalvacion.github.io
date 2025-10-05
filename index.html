@@ -18,8 +18,7 @@
 
     <main>
       <div class="video-container" id="video-box">
-      <!-- YouTube Live Embed -->
-      <div id="yt-live"></div>
+        <div id="yt-live"></div>
       </div>
     </main>
 
@@ -28,44 +27,58 @@
     </footer>
 
     <script>
-      // Load YouTube IFrame API
-      let tag = document.createElement('script');
-      tag.src = "https://www.youtube.com/iframe_api";
-      let firstScriptTag = document.getElementsByTagName('script')[0];
-      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+      const workerURL = 'https://youtube-live-proxy.iglesia-4e5.workers.dev'; // your Cloudflare Worker
 
-      let player;
-      function onYouTubeIframeAPIReady() {
-        player = new YT.Player('yt-live', {
-          height: '450',
-          width: '800',
-          playerVars: {
-            autoplay: 1,
-            mute: 1,
-            playsinline: 1,
-            modestbranding: 1,
-            controls: 1,
-            rel: 0
-          },
-          events: {
-            'onError': onPlayerError
+      fetch(workerURL)
+        .then(res => res.json())
+        .then(data => {
+          if (data.videoId) {
+            loadYouTubeVideo(data.videoId);
+          } else {
+            showFacebookFallback();
           }
-        });
-    }
+        })
+        .catch(() => showFacebookFallback());
+
+      function loadYouTubeVideo(videoId) {
+        const tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        document.body.appendChild(tag);
+
+        window.onYouTubeIframeAPIReady = function() {
+          new YT.Player('yt-live', {
+            height: '450',
+            width: '800',
+            videoId: videoId,
+            playerVars: {
+              autoplay: 0,
+              mute: 0,
+              playsinline: 1,
+              modestbranding: 1,
+              controls: 1,
+              rel: 0
+            },
+            events: {
+              'onError': onPlayerError
+            }
+          });
+        };
+      }
 
       function onPlayerError(event) {
+        showFacebookFallback();
+      }
+
+      function showFacebookFallback() {
         const videoBox = document.getElementById("video-box");
-        // Fallback: Facebook page timeline (always shows latest post/video)
         videoBox.innerHTML = `
         <iframe 
           src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fcamino.de.salvacion.291890&tabs=timeline&width=800&height=450&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=false"
           width="800" height="450" style="border:none;overflow:hidden" scrolling="no" frameborder="0"
           allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
           allowfullscreen>
-        </iframe>
-        `;
+        </iframe>`;
       }
     </script>
   </body>
 </html>
-
