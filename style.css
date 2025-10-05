@@ -97,13 +97,13 @@ footer {
   }
 
   .logo-container {
-    width: 180px;
-    height: 180px;
-    margin: 0 0 10px 0;
+    width: 250px;
+    height: 250px;
+    margin: 0 0 20px 0;
   }
 
   .logo-container img {
-    max-height: 150px;
+    max-height: 200px;
   }
 
   .header-text h1 {
