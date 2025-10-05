@@ -1,65 +1,52 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Camino De Salvación</title>
-<style>
-  body { margin:0; font-family: Arial,sans-serif; background:#f4f4f9; color:#333; text-align:center;}
-  header { background: linear-gradient(135deg,#2c3e50,#34495e); color:white; padding:20px; display:flex; align-items:center; justify-content:flex-start; flex-wrap:wrap;}
-  .logo-container { background:white; border-radius:50%; width:190px; height:190px; display:flex; align-items:center; justify-content:center; margin-right:20px; flex-shrink:0;}
-  .logo-container img { max-height:160px; width:auto;}
-  .divider { width:3px; background:black; height:70%; margin-right:20px;}
-  .header-text { text-align:left;}
-  .header-text h1 { margin:0; font-size:2.5em;}
-  .header-text p { margin:5px 0 0; font-size:1.2em;}
-  main { padding:20px;}
-  .video-container { position:relative; max-width:800px; margin:20px auto; background:white; padding:10px; border-radius:10px; box-shadow:0 4px 8px rgba(0,0,0,0.1);}
-  iframe { width:100%; height:450px; border:none; border-radius:10px;}
-  footer { background:#2c3e50; color:white; padding:15px; margin-top:20px;}
-  @media (max-width:768px){header{flex-direction:column;} .divider{display:none;} .header-text{text-align:center;margin-top:10px;} .logo-container{width:180px;height:180px;margin:0 0 10px 0;} .logo-container img{max-height:150px;} .header-text h1{font-size:2em;}}
-</style>
-</head>
-<body>
-<header>
-  <div class="logo-container"><img src="logo.png" alt="Camino De Salvación Logo"></div>
-  <div class="divider"></div>
-  <div class="header-text">
-    <h1>Camino De Salvación</h1>
-    <p>Bienvenidos a nuestra transmisión en vivo</p>
-  </div>
-</header>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Camino De Salvación</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  
+  <body>
+    <header>
+      <div class="logo-container"><img src="logo.png" alt="Camino De Salvación Logo"></div>
+      <div class="divider"></div>
+      <div class="header-text">
+      <h1>Camino De Salvación</h1>
+      <p>Bienvenidos a nuestra transmisión en vivo</p>
+      </div>
+    </header>
 
-<main>
-  <div class="video-container" id="video-box">
-    <!-- Video will appear here -->
-  </div>
-</main>
+    <main>
+      <div class="video-container" id="video-box">
+        <!-- Video will appear here -->
+      </div>
+    </main>
 
-<footer>
-  <p>© 2025 Camino De Salvación</p>
-</footer>
+    <footer>
+      <p>© 2025 Camino De Salvación</p>
+    </footer>
 
-<script>
-  const workerURL = 'https://youtube-live-proxy.iglesia-4e5.workers.dev'; // your Worker URL
+    <script>
+      const workerURL = 'https://youtube-live-proxy.iglesia-4e5.workers.dev'; // your Worker URL
 
-  fetch(workerURL)
-    .then(res => res.json())
-    .then(data => {
-      const videoBox = document.getElementById("video-box");
-      if (data.videoId) {
-        // Embed the most recent YouTube video (not autoplay)
-        videoBox.innerHTML = `<iframe width="800" height="450" src="https://www.youtube.com/embed/${data.videoId}?autoplay=0&mute=0" frameborder="0" allowfullscreen></iframe>`;
-      } else {
-        // Fallback: Facebook page timeline
-        videoBox.innerHTML = `<iframe src="https://www.facebook.com/plugins/page.php?href=https://www.facebook.com/camino.de.salvacion.291890&tabs=timeline&width=800&height=450" width="800" height="450" frameborder="0" allowfullscreen></iframe>`;
-      }
-    })
-    .catch(err => {
-      console.error(err);
-      const videoBox = document.getElementById("video-box");
-      videoBox.innerHTML = `<iframe src="https://www.facebook.com/plugins/page.php?href=https://www.facebook.com/camino.de.salvacion.291890&tabs=timeline&width=800&height=450" width="800" height="450" frameborder="0" allowfullscreen></iframe>`;
-    });
-</script>
-</body>
+      fetch(workerURL)
+        .then(res => res.json())
+        .then(data => {
+          const videoBox = document.getElementById("video-box");
+          if (data.videoId) {
+            // Embed the most recent YouTube video (not autoplay)
+            videoBox.innerHTML = `<iframe width="800" height="450" src="https://www.youtube.com/embed/${data.videoId}?autoplay=0&mute=0" frameborder="0" allowfullscreen></iframe>`;
+          } else {
+            // Fallback: Facebook page timeline
+            videoBox.innerHTML = `<iframe src="https://www.facebook.com/plugins/page.php?href=https://www.facebook.com/camino.de.salvacion.291890&tabs=timeline&width=800&height=450" width="800" height="450" frameborder="0" allowfullscreen></iframe>`;
+          }
+        })
+        .catch(err => {
+          console.error(err);
+          const videoBox = document.getElementById("video-box");
+          videoBox.innerHTML = `<iframe src="https://www.facebook.com/plugins/page.php?href=https://www.facebook.com/camino.de.salvacion.291890&tabs=timeline&width=800&height=450" width="800" height="450" frameborder="0" allowfullscreen></iframe>`;
+        });
+    </script>
+  </body>
 </html>
