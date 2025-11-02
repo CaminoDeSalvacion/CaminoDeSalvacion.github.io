@@ -94,6 +94,19 @@
     margin: 5px 0 0;
     font-size: 1.1em;
   }
+  .back-button {
+    background: #2c3e50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    margin-top: 10px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .back-button:hover {
+    background: #1a242f;
+  }
   @media (max-width: 768px) {
     header { flex-direction: column; }
     .divider { display: none; }
@@ -130,9 +143,12 @@
   const workerURL = 'https://youtube-live-proxy.iglesia-4e5.workers.dev';
   const videoBox = document.getElementById("video-box");
 
-  // function to render a video by ID + title
-  function renderVideo(videoId, title) {
-    videoBox.innerHTML = `
+  let currentVideo = null;
+  let previousVideo = null;
+  let showingPrevious = false;
+
+  function renderVideo(videoId, title, showBack = false) {
+    let html = `
       <h2 style="margin:10px 0; font-size:1.5em;">${title}</h2>
       <iframe
         src="https://www.youtube.com/embed/${videoId}?autoplay=1"
@@ -140,30 +156,50 @@
         allowfullscreen loading="lazy">
       </iframe>
     `;
+
+    if (showBack) {
+      html += `<button class="back-button" onclick="showCurrentVideo()">Volver al Video Actual</button>`;
+    }
+
+    videoBox.innerHTML = html;
+  }
+
+  function showCurrentVideo() {
+    showingPrevious = false;
+    renderVideo(currentVideo.videoId, currentVideo.title);
+    showPreviousThumbnail();
+  }
+
+  function showPreviousThumbnail() {
+    if (previousVideo) {
+      const prevHTML = `
+        <div class="previous-video">
+          <h3>Video Anterior</h3>
+          <img src="https://img.youtube.com/vi/${previousVideo.videoId}/hqdefault.jpg"
+               alt="${previousVideo.title}"
+               onclick="showPreviousVideo()">
+          <p>${previousVideo.title}</p>
+        </div>
+      `;
+      videoBox.innerHTML += prevHTML;
+    }
+  }
+
+  function showPreviousVideo() {
+    showingPrevious = true;
+    renderVideo(previousVideo.videoId, previousVideo.title, true);
   }
 
   fetch(workerURL)
     .then(res => res.json())
     .then(data => {
       if (data.videoId) {
-        renderVideo(data.videoId, data.title);
+        currentVideo = { videoId: data.videoId, title: data.title };
+        previousVideo = data.previousVideo || null;
 
-        // If previous video info exists, add clickable preview
-        if (data.previousVideo && data.previousVideo.videoId) {
-          const prev = data.previousVideo;
-          const prevHTML = `
-            <div class="previous-video">
-              <h3>Video Anterior</h3>
-              <img src="https://img.youtube.com/vi/${prev.videoId}/hqdefault.jpg"
-                   alt="${prev.title}"
-                   onclick="renderVideo('${prev.videoId}', '${prev.title.replace(/'/g, "\\'")}')">
-              <p>${prev.title}</p>
-            </div>
-          `;
-          videoBox.innerHTML += prevHTML;
-        }
+        renderVideo(currentVideo.videoId, currentVideo.title);
+        showPreviousThumbnail();
       } else {
-        // fallback to Facebook
         videoBox.innerHTML = `
           <h2 style="margin:10px 0;">Facebook en vivo</h2>
           <iframe
