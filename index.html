@@ -85,9 +85,14 @@
     max-width: 100%;
     border-radius: 10px;
     transition: transform 0.2s;
+    cursor: pointer;
   }
   .previous-video img:hover {
     transform: scale(1.02);
+  }
+  .previous-video p {
+    margin: 5px 0 0;
+    font-size: 1.1em;
   }
   @media (max-width: 768px) {
     header { flex-direction: column; }
@@ -122,47 +127,43 @@
 </footer>
 
 <script>
-  const workerURL = 'https://youtube-live-proxy.iglesia-4e5.workers.dev'; // your Worker URL
+  const workerURL = 'https://youtube-live-proxy.iglesia-4e5.workers.dev';
   const videoBox = document.getElementById("video-box");
+
+  // function to render a video by ID + title
+  function renderVideo(videoId, title) {
+    videoBox.innerHTML = `
+      <h2 style="margin:10px 0; font-size:1.5em;">${title}</h2>
+      <iframe
+        src="https://www.youtube.com/embed/${videoId}?autoplay=1"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen loading="lazy">
+      </iframe>
+    `;
+  }
 
   fetch(workerURL)
     .then(res => res.json())
     .then(data => {
       if (data.videoId) {
-        // Current video title
-        const titleHTML = data.title
-          ? `<h2 style="margin:10px 0; font-size:1.5em;">${data.title}</h2>`
-          : '';
+        renderVideo(data.videoId, data.title);
 
-        // YouTube video embed
-        let html = `
-          ${titleHTML}
-          <iframe
-            src="https://www.youtube.com/embed/${data.videoId}?autoplay=0&mute=0"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen
-            loading="lazy">
-          </iframe>
-        `;
-
-        // If previous video info exists, add thumbnail + link
+        // If previous video info exists, add clickable preview
         if (data.previousVideo && data.previousVideo.videoId) {
           const prev = data.previousVideo;
-          html += `
+          const prevHTML = `
             <div class="previous-video">
               <h3>Video Anterior</h3>
-              <a href="https://www.youtube.com/watch?v=${prev.videoId}" target="_blank" style="text-decoration:none; color:#2c3e50;">
-                <img src="https://img.youtube.com/vi/${prev.videoId}/hqdefault.jpg" alt="${prev.title}">
-                <p>${prev.title}</p>
-              </a>
+              <img src="https://img.youtube.com/vi/${prev.videoId}/hqdefault.jpg"
+                   alt="${prev.title}"
+                   onclick="renderVideo('${prev.videoId}', '${prev.title.replace(/'/g, "\\'")}')">
+              <p>${prev.title}</p>
             </div>
           `;
+          videoBox.innerHTML += prevHTML;
         }
-
-        videoBox.innerHTML = html;
       } else {
-        // Fallback: Facebook page
+        // fallback to Facebook
         videoBox.innerHTML = `
           <h2 style="margin:10px 0;">Facebook en vivo</h2>
           <iframe
