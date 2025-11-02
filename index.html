@@ -42,24 +42,50 @@
 
 <script>
   const workerURL = 'https://youtube-live-proxy.iglesia-4e5.workers.dev'; // your Worker URL
+  const videoBox = document.getElementById("video-box");
 
   fetch(workerURL)
     .then(res => res.json())
     .then(data => {
-      const videoBox = document.getElementById("video-box");
       if (data.videoId) {
-        // Embed the most recent YouTube video (not autoplay)
-        videoBox.innerHTML = `<iframe width="800" height="450" src="https://www.youtube.com/embed/${data.videoId}?autoplay=0&mute=0" frameborder="0" allowfullscreen></iframe>`;
+        // Create the title HTML (show title if available)
+        const titleHTML = data.title
+          ? `<h2 style="margin:10px 0; font-size:1.5em;">${data.title}</h2>`
+          : '';
+
+        // Embed the YouTube video
+        videoBox.innerHTML = `
+          ${titleHTML}
+          <iframe 
+            src="https://www.youtube.com/embed/${data.videoId}?autoplay=0&mute=0" 
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+            loading="lazy">
+          </iframe>
+        `;
       } else {
         // Fallback: Facebook page timeline
-        videoBox.innerHTML = `<iframe src="https://www.facebook.com/plugins/page.php?href=https://www.facebook.com/camino.de.salvacion.291890&tabs=timeline&width=800&height=450" width="800" height="450" frameborder="0" allowfullscreen></iframe>`;
+        videoBox.innerHTML = `
+          <h2 style="margin:10px 0;">Facebook en vivo</h2>
+          <iframe 
+            src="https://www.facebook.com/plugins/page.php?href=https://www.facebook.com/camino.de.salvacion.291890&tabs=timeline&width=800&height=450"
+            width="800" height="450" frameborder="0" allowfullscreen loading="lazy">
+          </iframe>
+        `;
       }
     })
     .catch(err => {
       console.error(err);
-      const videoBox = document.getElementById("video-box");
-      videoBox.innerHTML = `<iframe src="https://www.facebook.com/plugins/page.php?href=https://www.facebook.com/camino.de.salvacion.291890&tabs=timeline&width=800&height=450" width="800" height="450" frameborder="0" allowfullscreen></iframe>`;
+      videoBox.innerHTML = `
+        <h2 style="margin:10px 0;">Transmisión no disponible</h2>
+        <iframe 
+          src="https://www.facebook.com/plugins/page.php?href=https://www.facebook.com/camino.de.salvacion.291890&tabs=timeline&width=800&height=450"
+          width="800" height="450" frameborder="0" allowfullscreen loading="lazy">
+        </iframe>
+      `;
     });
 </script>
+
 </body>
 </html>
