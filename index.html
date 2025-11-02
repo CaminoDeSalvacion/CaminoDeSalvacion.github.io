@@ -77,22 +77,39 @@
     padding: 15px;
     margin-top: 20px;
   }
+  /* 🎨 Translucent black box for "Video Anterior" */
   .previous-video {
+    position: relative;
     margin-top: 25px;
-    padding: 10px;
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.6);
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    border-radius: 12px;
+    color: white;
+    max-width: 780px;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  }
+  .previous-video h3 {
+    margin-top: 0;
+    font-size: 1.3em;
+    color: #f1f1f1;
   }
   .previous-video img {
     max-width: 100%;
     border-radius: 10px;
-    transition: transform 0.2s;
+    transition: transform 0.25s ease;
     cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.3);
   }
   .previous-video img:hover {
-    transform: scale(1.02);
+    transform: scale(1.03);
   }
   .previous-video p {
-    margin: 5px 0 0;
-    font-size: 1.1em;
+    margin: 8px 0 0;
+    font-size: 1.05em;
+    color: #e8e8e8;
   }
   .back-button {
     background: #2c3e50;
