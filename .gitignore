@@ -1,0 +1,29 @@
+#this is just stuff we dont want to commit to git
+
+# macOS system files
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows system files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Node (if you ever use npm for local testing)
+node_modules/
+
+# VS Code
+.vscode/
+
+# Build and cache folders
+dist/
+build/
+.cache/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Other common hidden files
+.env
