@@ -1,29 +1,5 @@
 <!DOCTYPE html>
 <html lang="es">
-<<<<<<< HEAD
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Camino De Salvación</title>
-    <link rel="stylesheet" href="style.css">
-  </head>
-  
-  <body>
-    <header>
-      <div class="logo-container"><img src="logo.png" alt="Camino De Salvación Logo"></div>
-      <div class="divider"></div>
-      <div class="header-text">
-      <h1>Camino De Salvación</h1>
-      <p>Bienvenidos a nuestra transmisión en vivo</p>
-      </div>
-    </header>
-
-    <main>
-      <div class="video-container" id="video-box">
-        <!-- Video will appear here -->
-      </div>
-    </main>
-=======
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -175,36 +151,11 @@
     <p>Cargando transmisión...</p>
   </div>
 </main>
->>>>>>> origin/main
 
     <footer>
       <p>© 2025 Camino De Salvación</p>
     </footer>
 
-<<<<<<< HEAD
-    <script>
-      const workerURL = 'https://youtube-live-proxy.iglesia-4e5.workers.dev'; // your Worker URL
-
-      fetch(workerURL)
-        .then(res => res.json())
-        .then(data => {
-          const videoBox = document.getElementById("video-box");
-          if (data.videoId) {
-            // Embed the most recent YouTube video (not autoplay)
-            videoBox.innerHTML = `<iframe width="800" height="450" src="https://www.youtube.com/embed/${data.videoId}?autoplay=0&mute=0" frameborder="0" allowfullscreen></iframe>`;
-          } else {
-            // Fallback: Facebook page timeline
-            videoBox.innerHTML = `<iframe src="https://www.facebook.com/plugins/page.php?href=https://www.facebook.com/camino.de.salvacion.291890&tabs=timeline&width=800&height=450" width="800" height="450" frameborder="0" allowfullscreen></iframe>`;
-          }
-        })
-        .catch(err => {
-          console.error(err);
-          const videoBox = document.getElementById("video-box");
-          videoBox.innerHTML = `<iframe src="https://www.facebook.com/plugins/page.php?href=https://www.facebook.com/camino.de.salvacion.291890&tabs=timeline&width=800&height=450" width="800" height="450" frameborder="0" allowfullscreen></iframe>`;
-        });
-    </script>
-  </body>
-=======
 <script>
   const workerURL = 'https://youtube-live-proxy.iglesia-4e5.workers.dev';
   const videoBox = document.getElementById("video-box");
@@ -287,5 +238,4 @@
     });
 </script>
 </body>
->>>>>>> origin/main
 </html>
