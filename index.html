@@ -8,45 +8,48 @@
 </head>
 
 <body>
-  <header>
-    <div class="logo-container">
-      <img src="logo.png" alt="Camino De Salvación Logo">
-    </div>
 
-    <div class="divider"></div>
+<header>
+  <div class="logo-container">
+    <img src="logo.png" alt="Camino De Salvación Logo">
+  </div>
 
-    <div class="header-text">
-      <h1>El Camino De Salvación</h1>
-      <p>Bienvenidos a nuestra transmisión en vivo</p>
-    </div>
-  </header>
+  <div class="divider"></div>
 
-  <!-- GLOBAL NAVIGATION -->
-  <nav>
-    <a href="index.html" class="nav-link active" id="inicio-tab">Inicio</a>
-    <a href="anuncios.html" class="nav-link">Anuncios</a>
-  </nav>
+  <div class="header-text">
+    <h1>El Camino De Salvación</h1>
+    <p>Bienvenidos a nuestra transmisión en vivo</p>
+  </div>
+</header>
 
-  <!-- GLOBAL CONTENT WRAPPER -->
+<!-- NAVIGATION -->
+<div class="navbar">
+  <a href="index.html" class="active">Inicio</a>
+  <a href="anuncios.html">Anuncios</a>
+</div>
+
+<!-- GLOBAL PAGE CONTAINER -->
+<div class="page-container">
+
   <main>
-    <div class="content-container">
-      <div class="video-container" id="video-box">
-        <p>Cargando transmisión...</p>
-      </div>
+    <div class="video-container" id="video-box">
+      <p>Cargando transmisión...</p>
     </div>
   </main>
 
-  <footer>
-    <p>© 2025 El Camino De Salvación</p>
-  </footer>
+</div>
+
+<footer>
+  <p>© 2025 El Camino De Salvación</p>
+</footer>
 
 <script>
   const workerURL = 'https://youtube-live-proxy.iglesia-4e5.workers.dev';
   const videoBox = document.getElementById("video-box");
-  const inicioTab = document.getElementById("inicio-tab");
 
   let currentVideo = null;
   let previousVideo = null;
+  let showingPrevious = false;
 
   function renderVideo(videoId, title, showBack = false) {
     let html = `
@@ -67,6 +70,7 @@
 
   function showCurrentVideo() {
     if (!currentVideo) return;
+    showingPrevious = false;
     renderVideo(currentVideo.videoId, currentVideo.title);
     showPreviousThumbnail();
   }
@@ -88,30 +92,10 @@
 
   function showPreviousVideo() {
     if (!previousVideo) return;
+    showingPrevious = true;
     renderVideo(previousVideo.videoId, previousVideo.title, true);
   }
 
-  // 🔥 LIVE STATUS INDICATOR — makes Inicio tab glow red when LIVE
-  async function checkLive(videoId) {
-    if (!videoId) return;
-
-    const apiURL = `https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${videoId}&format=json`;
-
-    try {
-      const res = await fetch(apiURL);
-      const data = await res.json();
-
-      if (data.live_broadcast === "live") {
-        inicioTab.classList.add("nav-live");
-      } else {
-        inicioTab.classList.remove("nav-live");
-      }
-    } catch {
-      inicioTab.classList.remove("nav-live");
-    }
-  }
-
-  // INITIAL LOAD
   fetch(workerURL)
     .then(res => res.json())
     .then(data => {
@@ -121,11 +105,6 @@
 
         renderVideo(currentVideo.videoId, currentVideo.title);
         showPreviousThumbnail();
-
-        // 🔥 check if LIVE
-        checkLive(currentVideo.videoId);
-        setInterval(() => checkLive(currentVideo.videoId), 20000);
-
       } else {
         videoBox.innerHTML = `
           <h2 style="margin:10px 0;">Facebook en vivo</h2>
