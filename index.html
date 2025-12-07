@@ -5,6 +5,29 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Camino De Salvación</title>
   <link rel="stylesheet" href="style.css">
+
+  <style>
+    nav {
+      display: flex;
+      justify-content: center;
+      background: #222;
+      padding: 10px;
+      gap: 20px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-size: 1.2em;
+      cursor: pointer;
+      padding: 8px 15px;
+      border-radius: 6px;
+    }
+
+    nav a.active {
+      background: #444;
+    }
+  </style>
 </head>
 <body>
   <header>
@@ -17,6 +40,12 @@
       <p>Bienvenidos a nuestra transmisión en vivo</p>
     </div>
   </header>
+
+  <!-- ⭐ NAVIGATION TABS ⭐ -->
+  <nav>
+    <a href="index.html" class="active">Inicio</a>
+    <a href="anuncios.html">Anuncios</a>
+  </nav>
 
   <main>
     <div class="video-container" id="video-box">
@@ -113,3 +142,4 @@
 </script>
 </body>
 </html>
+in>
