@@ -5,47 +5,31 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Camino De Salvación</title>
   <link rel="stylesheet" href="style.css">
-
-  <style>
-    nav {
-      display: flex;
-      justify-content: center;
-      background: #222;
-      padding: 10px;
-      gap: 20px;
-    }
-
-    nav a {
-      color: white;
-      text-decoration: none;
-      font-size: 1.2em;
-      cursor: pointer;
-      padding: 8px 15px;
-      border-radius: 6px;
-    }
-
-    nav a.active {
-      background: #444;
-    }
-  </style>
 </head>
-<body>
-  <header>
-    <div class="logo-container">
-      <img src="logo.png" alt="Camino De Salvación Logo">
-    </div>
-    <div class="divider"></div>
-    <div class="header-text">
-      <h1>El Camino De Salvación</h1>
-      <p>Bienvenidos a nuestra transmisión en vivo</p>
-    </div>
-  </header>
 
-  <!-- ⭐ NAVIGATION TABS ⭐ -->
-  <nav>
-    <a href="index.html" class="active">Inicio</a>
-    <a href="anuncios.html">Anuncios</a>
-  </nav>
+<body>
+
+<header>
+  <div class="logo-container">
+    <img src="logo.png" alt="Camino De Salvación Logo">
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="header-text">
+    <h1>El Camino De Salvación</h1>
+    <p>Bienvenidos a nuestra transmisión en vivo</p>
+  </div>
+</header>
+
+<!-- NAVIGATION -->
+<div class="navbar">
+  <a href="index.html" class="active">Inicio</a>
+  <a href="anuncios.html">Anuncios</a>
+</div>
+
+<!-- GLOBAL PAGE CONTAINER -->
+<div class="page-container">
 
   <main>
     <div class="video-container" id="video-box">
@@ -53,9 +37,11 @@
     </div>
   </main>
 
-  <footer>
-    <p>© 2025 El Camino De Salvación</p>
-  </footer>
+</div>
+
+<footer>
+  <p>© 2025 El Camino De Salvación</p>
+</footer>
 
 <script>
   const workerURL = 'https://youtube-live-proxy.iglesia-4e5.workers.dev';
@@ -140,6 +126,6 @@
       `;
     });
 </script>
+
 </body>
 </html>
-in>
