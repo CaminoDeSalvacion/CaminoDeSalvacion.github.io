@@ -1,6 +1,4 @@
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
   margin: 0;
@@ -10,10 +8,7 @@ body {
   text-align: center;
 }
 
-/* ----------------------------- */
-/* HEADER                        */
-/* ----------------------------- */
-
+/* HEADER */
 header {
   background: linear-gradient(135deg, #2c3e50, #34495e);
   color: white;
@@ -48,9 +43,7 @@ header {
   margin-right: 20px;
 }
 
-.header-text {
-  text-align: left;
-}
+.header-text { text-align: left; }
 
 .header-text h1 {
   margin: 0;
@@ -62,65 +55,62 @@ header {
   font-size: 1.2em;
 }
 
-/* ----------------------------- */
-/* GLOBAL NAVIGATION TABS        */
-/* ----------------------------- */
-
-.navbar {
+/* NAVIGATION */
+nav {
+  background: #222;
+  padding: 12px;
   display: flex;
   justify-content: center;
-  background: #2c3e50;
-  padding: 10px 0;
-  gap: 20px;
+  gap: 25px;
 }
 
-.navbar a {
-  color: #ddd;
-  background: rgba(255, 255, 255, 0.08);
-  padding: 10px 18px;
-  border-radius: 8px;
+.nav-link {
+  color: white;
   text-decoration: none;
+  padding: 10px 18px;
+  border-radius: 6px;
   font-size: 1.1em;
   transition: 0.2s;
 }
 
-.navbar a:hover {
-  background: rgba(255, 255, 255, 0.18);
-  color: white;
+.nav-link:hover {
+  background: #444;
 }
 
-.navbar a.active {
-  background: white;
-  color: #2c3e50;
-  font-weight: bold;
+.nav-link.active {
+  background: #555;
 }
 
-/* ----------------------------- */
-/* GLOBAL PAGE CONTAINER         */
-/* ----------------------------- */
+/* 🔥 LIVE GLOW EFFECT */
+.nav-live {
+  background: rgba(255, 0, 0, 0.35) !important;
+  border: 2px solid red !important;
+  box-shadow: 0 0 12px red;
+  animation: livePulse 1.4s infinite ease-in-out;
+}
 
-.page-container {
+@keyframes livePulse {
+  0% { box-shadow: 0 0 8px red; }
+  50% { box-shadow: 0 0 16px red; }
+  100% { box-shadow: 0 0 8px red; }
+}
+
+/* GLOBAL CONTENT WRAPPER */
+.content-container {
   max-width: 900px;
-  margin: 30px auto;
+  margin: 20px auto;
   background: white;
   padding: 25px;
-  border-radius: 18px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  text-align: center;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-/* ----------------------------- */
-/* VIDEO PLAYER + PREVIOUS VIDEO */
-/* ----------------------------- */
-
+/* VIDEO BLOCK */
 .video-container {
   position: relative;
   max-width: 800px;
   margin: 20px auto;
-  background: white;
   padding: 10px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 iframe {
@@ -131,7 +121,6 @@ iframe {
 }
 
 .previous-video {
-  position: relative;
   margin-top: 25px;
   padding: 15px;
   background: rgba(0, 0, 0, 0.6);
@@ -142,12 +131,6 @@ iframe {
   margin-left: auto;
   margin-right: auto;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-}
-
-.previous-video h3 {
-  margin-top: 0;
-  font-size: 1.3em;
-  color: #f1f1f1;
 }
 
 .previous-video img {
@@ -162,12 +145,6 @@ iframe {
   transform: scale(1.03);
 }
 
-.previous-video p {
-  margin: 8px 0 0;
-  font-size: 1.05em;
-  color: #e8e8e8;
-}
-
 .back-button {
   background: #2c3e50;
   color: white;
@@ -176,54 +153,18 @@ iframe {
   border-radius: 8px;
   margin-top: 10px;
   cursor: pointer;
-  transition: background 0.2s;
 }
-
-.back-button:hover {
-  background: #1a242f;
-}
-
-/* ----------------------------- */
-/* FOOTER                        */
-/* ----------------------------- */
 
 footer {
   background: #2c3e50;
   color: white;
   padding: 15px;
-  margin-top: 20px;
   text-align: center;
+  margin-top: 20px;
 }
 
-/* ----------------------------- */
-/* MOBILE                        */
-/* ----------------------------- */
-
 @media (max-width: 768px) {
-  header {
-    flex-direction: column;
-  }
-
-  .divider {
-    display: none;
-  }
-
-  .header-text {
-    text-align: center;
-    margin-top: 10px;
-  }
-
-  .logo-container {
-    width: 180px;
-    height: 180px;
-    margin: 0 0 10px 0;
-  }
-
-  .logo-container img {
-    max-height: 150px;
-  }
-
-  .header-text h1 {
-    font-size: 2em;
-  }
+  header { flex-direction: column; }
+  .divider { display: none; }
+  .header-text { text-align: center; margin-top: 10px; }
 }
