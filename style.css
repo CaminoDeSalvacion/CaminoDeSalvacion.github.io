@@ -242,4 +242,29 @@ footer {
   margin: 0;
   font-size: 1.1em;
 }
+.announcement-box {
+  background: rgba(255, 255, 255, 0.9); /* Slightly off-white to pop from page */
+  border: 1px solid rgba(0, 0, 0, 0.1); /* Subtle border */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* Soft shadow */
+  padding: 15px 20px;
+  border-radius: 12px;
+  margin-bottom: 15px;
+  text-align: left;
+  transition: transform 0.2s ease;
+}
+
+.announcement-box:hover {
+  transform: translateY(-2px); /* small hover lift effect */
+}
+
+.announcement-box h3 {
+  margin: 0 0 5px 0;
+  color: #2c3e50;
+}
+
+.announcement-box p {
+  margin: 0;
+  color: #333;
+  font-size: 1.05em;
+}
 
