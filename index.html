@@ -97,36 +97,36 @@
     renderVideo(previousVideo.videoId, previousVideo.title, true);
   }
 
+  // Attempt to fetch from worker
   fetch(workerURL)
     .then(res => res.json())
     .then(data => {
       if (data.videoId) {
         currentVideo = { videoId: data.videoId, title: data.title };
         previousVideo = data.previousVideo || null;
-
         renderVideo(currentVideo.videoId, currentVideo.title);
         showPreviousThumbnail();
       } else {
-        videoBox.innerHTML = `
-          <h2 style="margin:10px 0;">Facebook en vivo</h2>
-          <iframe
-            src="https://www.facebook.com/plugins/page.php?href=https://www.facebook.com/camino.de.salvacion.291890&tabs=timeline&width=800&height=450"
-            width="800" height="450" frameborder="0" allowfullscreen loading="lazy">
-          </iframe>
-        `;
+        fallbackYouTube();
       }
     })
     .catch(err => {
-      console.error(err);
-      videoBox.innerHTML = `
-        <h2 style="margin:10px 0;">Transmisión no disponible</h2>
-        <iframe
-          src="https://www.facebook.com/plugins/page.php?href=https://www.facebook.com/camino.de.salvacion.291890&tabs=timeline&width=800&height=450"
-          width="800" height="450" frameborder="0" allowfullscreen loading="lazy">
-        </iframe>
-      `;
+      console.error('Worker fetch failed:', err);
+      fallbackYouTube();
     });
+
+  // Fallback if worker fails
+  function fallbackYouTube() {
+    const fallbackVideoId = 'RV3FIOjypVM'; // Your live YouTube ID
+    const fallbackTitle = 'Transmisión por defecto';
+
+    currentVideo = { videoId: fallbackVideoId, title: fallbackTitle };
+    previousVideo = null;
+
+    renderVideo(currentVideo.videoId, currentVideo.title);
+  }
 </script>
+
 
 </body>
 </html>
