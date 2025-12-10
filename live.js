@@ -24,11 +24,15 @@ const Live = (() => {
 
       if (isLive) applyGlow();
       else removeGlow();
+
+      return data; // return worker data for use in render
     } catch (err) {
       console.error('Live worker fetch error:', err);
       // Optionally glow for testing even if worker fails
       if (forceLive) applyGlow();
       else removeGlow();
+
+      return null;
     }
   };
 
@@ -47,6 +51,7 @@ const Live = (() => {
           background: red !important;
           color: white !important;
           font-weight: bold;
+          border-radius: 8px;
           animation: pulse-red 1.5s infinite;
         }
       `;
@@ -61,5 +66,22 @@ const Live = (() => {
     updateTabGlow(forceLive);
   };
 
-  return { init, updateTabGlow };
+  // Fetch worker data and render video
+  const fetchAndRender = async (videoBox, renderVideoFn, forceLive = false) => {
+    const data = await updateTabGlow(forceLive);
+
+    // Force isLive true for testing if needed
+    const isLive = forceLive || (data && data.isLive);
+
+    if (data && data.videoId) {
+      const currentVideo = { videoId: data.videoId, title: data.title, isLive };
+      const previousVideo = data.previousVideo || null;
+
+      renderVideoFn(currentVideo.videoId, currentVideo.title, false, currentVideo.isLive, previousVideo);
+    } else {
+      videoBox.innerHTML = `<p>No hay transmisión disponible en este momento.</p>`;
+    }
+  };
+
+  return { init, updateTabGlow, fetchAndRender };
 })();
