@@ -61,12 +61,16 @@
   Live.init();
 </script>
 <!-- ----------------------------- -->
-<!-- CHRISTMAS EFFECTS -->
+<!-- CHRISTMAS VIBES MODULE        -->
 <!-- ----------------------------- -->
 <canvas id="snow-canvas"></canvas>
-<div id="christmas-trees-left"></div>
-<div id="christmas-trees-right"></div>
-<div id="christmas-gifts-bottom"></div>
+
+<div id="christmas-trees">
+  <div class="tree-left">🎄</div>
+  <div class="tree-right">🎄</div>
+</div>
+
+<div id="christmas-gifts">🎁🎁🎁</div>
 
 <script>
 /* ---------- Snowfall ---------- */
@@ -102,66 +106,77 @@ function moveSnow() {
 }
 
 setInterval(drawSnow, 30);
-
-/* ---------- Trees on sides ---------- */
-function createTree(side) {
-  const tree = document.createElement('div');
-  tree.textContent = '🎄';
-  tree.style.position = 'fixed';
-  tree.style.top = (Math.random() * (window.innerHeight - 50)) + 'px';
-  tree.style[side] = '10px';
-  tree.style.fontSize = (20 + Math.random()*30) + 'px';
-  tree.style.opacity = Math.random()*0.8 + 0.2;
-  tree.style.zIndex = '9999';
-  document.body.appendChild(tree);
-
-  setTimeout(() => tree.remove(), 15000); // remove after 15s
-}
-
-setInterval(() => { createTree('left'); createTree('right'); }, 800);
-
-/* ---------- Gifts at bottom ---------- */
-const giftsContainer = document.getElementById('christmas-gifts-bottom');
-function createGift() {
-  const gift = document.createElement('div');
-  gift.textContent = '🎁';
-  gift.style.position = 'fixed';
-  gift.style.bottom = '5px';
-  gift.style.left = Math.random() * (window.innerWidth - 30) + 'px';
-  gift.style.fontSize = (20 + Math.random()*20) + 'px';
-  gift.style.opacity = Math.random()*0.8 + 0.2;
-  gift.style.zIndex = '9999';
-  giftsContainer.appendChild(gift);
-}
-for(let i=0;i<10;i++) createGift(); // populate some gifts initially
-
-/* ---------- Handle resize ---------- */
 window.addEventListener('resize', () => {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
 });
-
-/* ---------- Force Live Tab Red Glow ---------- */
-const inicioTab = document.querySelector('.navbar a[href="/"]');
-if(inicioTab) inicioTab.classList.add('live');
 </script>
 
 <style>
+/* ---------- Snow canvas ---------- */
 #snow-canvas {
   position: fixed;
   top:0; left:0;
   pointer-events: none;
-  z-index: 9998;
-}
-
-#christmas-trees-left, #christmas-trees-right, #christmas-gifts-bottom {
-  pointer-events: none;
-  position: fixed;
-  top:0; left:0; width:100%; height:100%;
   z-index: 9999;
 }
-</style>
 
+/* ---------- Trees on edges ---------- */
+#christmas-trees {
+  position: fixed;
+  top: 100px;
+  width: 100%;
+  z-index: 10000;
+  pointer-events: none;
+}
+
+.tree-left, .tree-right {
+  font-size: 2.5em;
+  position: fixed;
+  top: 100px;
+}
+
+.tree-left {
+  left: 10px;
+}
+
+.tree-right {
+  right: 10px;
+}
+
+/* ---------- Gifts at bottom ---------- */
+#christmas-gifts {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  font-size: 2em;
+  z-index: 10000;
+  pointer-events: none;
+}
+
+/* ---------- Subtle festive navbar colors ---------- */
+.navbar a.active {
+  background: #b71c1c !important; /* red */
+  color: #fff !important;
+}
+
+.back-button {
+  background: #1b5e20 !important; /* green */
+}
+
+/* Optional: add blinking effect to trees */
+@keyframes blink {
+  0%{opacity:1;color:#f44336;}
+  25%{opacity:0.5;color:#ffeb3b;}
+  50%{opacity:1;color:#4caf50;}
+  75%{opacity:0.5;color:#2196f3;}
+  100%{opacity:1;color:#f44336;}
+}
+.tree-left, .tree-right {
+  animation: blink 2s infinite alternate;
+}
+</style>
 
 </body>
 </html>
