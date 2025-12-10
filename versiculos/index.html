@@ -17,20 +17,17 @@
   <div class="divider"></div>
 
   <div class="header-text">
-    <!-- Títulos con luces navideñas -->
     <h1 class="light-letters">Iglesia Cristiana </h1>
     <h1 class="light-letters">El Camino De Salvación</h1>
     <p>Versículos Para Memorizar</p>
   </div>
 
-  <!-- 🎄 CHRISTMAS DECOR – delete this whole <div> after the holidays -->
+  <!-- 🎄 CHRISTMAS DECOR -->
   <div id="christmas-decor">
-    <!-- Árbol a la orilla, regalo hacia el centro -->
     <div class="christmas-left">
       🎄 <span class="gift">🎁</span>
     </div>
 
-    <!-- Regalo hacia el centro, árbol a la orilla -->
     <div class="christmas-right">
       <span class="gift">🎁</span> 🎄
     </div>
@@ -101,16 +98,12 @@
   <p>© 2025 Iglesia Cristiana El Camino De Salvación</p>
 </footer>
 
-<!-- Include centralized live.js for dynamic glow -->
 <script src="../live.js"></script>
 <script>
   Live.init();
 </script>
 
-<!-- ====================================================== -->
-<!-- 🎄 CHRISTMAS VIBES MODULE – delete this whole section  -->
-<!-- ====================================================== -->
-
+<!-- SNOW + CHRISTMAS MODULE -->
 <canvas id="snow-canvas"></canvas>
 
 <script>
@@ -158,10 +151,10 @@ window.addEventListener("resize", () => {
   canvas.height = window.innerHeight;
 });
 
-/* ---------- Per-letter Christmas lights on the title ---------- */
+/* ---------- Christmas Lights on Letters ---------- */
 document.addEventListener("DOMContentLoaded", () => {
   const elements = document.querySelectorAll(".light-letters");
-  const colors = ["#ff5252", "#ffca28", "#66bb6a", "#42a5f5"]; // red, yellow, green, blue
+  const colors = ["#ff5252", "#ffca28", "#66bb6a", "#42a5f5"]; 
 
   elements.forEach(el => {
     const text = el.textContent;
@@ -185,7 +178,7 @@ document.addEventListener("DOMContentLoaded", () => {
 </script>
 
 <style>
-/* ---------- Snow canvas ---------- */
+/* Snow */
 #snow-canvas {
   position: fixed;
   top: 0;
@@ -194,12 +187,9 @@ document.addEventListener("DOMContentLoaded", () => {
   z-index: 9999;
 }
 
-/* Allow decor to anchor to the header */
-header {
-  position: relative;
-}
+header { position: relative; }
 
-/* ---------- Christmas corner decor (trees & gifts) ---------- */
+/* ---------- Christmas Decor ---------- */
 #christmas-decor {
   position: absolute;
   left: 0;
@@ -212,76 +202,49 @@ header {
 #christmas-decor .christmas-left,
 #christmas-decor .christmas-right {
   position: absolute;
-  font-size: 3.1rem;         /* tree size */
+  font-size: 3.1rem;
   display: flex;
-  flex-direction: row;       /* tree and gift side by side */
-  align-items: flex-end;     /* align bottoms together */
+  flex-direction: row;
+  align-items: flex-end;
   gap: 4px;
   animation: blink 2s infinite alternate;
 }
 
-/* LEFT: tree outside, gift toward center */
-#christmas-decor .christmas-left {
-  left: 8%;                  /* closer to center than 10px */
-  bottom: 0;
-}
+/* trees closer together */
+#christmas-decor .christmas-left  { left: 8%;  bottom: 0; }
+#christmas-decor .christmas-right { right: 8%; bottom: 0; }
 
-/* RIGHT: gift toward center, tree outside */
-#christmas-decor .christmas-right {
-  right: 8%;                 /* closer to center than 10px */
-  bottom: 0;
-}
-
-/* 🎁 Gifts smaller next to tree */
+/* Small gifts */
 #christmas-decor .gift {
-  font-size: 1.1rem;         /* small gift */
-  margin-bottom: 0.15em;     /* slight vertical adjust */
+  font-size: 1.1rem;
+  margin-bottom: 0.15em;
 }
 
-/* ---------- Festive navbar colors ---------- */
-@keyframes christmas-tab {
-  0% { background: #1b5e20; }
-  50% { background: #b71c1c; }
-  100% { background: #1b5e20; }
-}
-
-.navbar a.active {
-  animation: christmas-tab 2s infinite;
-  color: #fff !important;
-}
-
-/* Tree blinking */
+/* Blink animation */
 @keyframes blink {
-  0%   { opacity: 1;   color: #4caf50; }
+  0%   { opacity: 1; color: #4caf50; }
   25%  { opacity: 0.5; color: #f44336; }
-  50%  { opacity: 1;   color: #4caf50; }
+  50%  { opacity: 1; color: #4caf50; }
   75%  { opacity: 0.5; color: #b71c1c; }
-  100% { opacity: 1;   color: #4caf50; }
+  100% { opacity: 1; color: #4caf50; }
 }
 
-/* ---------- Christmas lights on letters ---------- */
-.light-letters {
-  position: relative;
-}
+/* ---------- Lights ON TOP of Letters ---------- */
+.light-letters { position: relative; }
 
-/* green letters with subtle red outline */
 .light-letter {
   position: relative;
   display: inline-block;
-  color: #1b5e20;  /* green */
-  font-weight: 900;
-  text-shadow:
-    1px 0   #b71c1c,
-   -1px 0   #b71c1c,
-    0   1px #b71c1c,
-    0  -1px #b71c1c;
+  color: inherit;  
+  font-weight: inherit;
+  text-shadow: none;
 }
 
-/* wire just touching top of letters */
+/* wire VERY close to letters */
 .light-letter::before {
   content: "";
   position: absolute;
-  top: -0.12em;            /* wire close to top of letter */
+  top: -0.05em;      /* CLOSER */
   left: 5%;
   width: 90%;
   height: 2px;
@@ -289,38 +252,27 @@ header {
   border-radius: 999px;
 }
 
-/* bulb sitting right above wire */
+/* bulbs right above wire */
 .light-letter::after {
   content: "";
   position: absolute;
-  top: -0.18em;            /* just above letters */
+  top: -0.25em;      /* CLOSER */
   left: 50%;
   transform: translateX(-50%);
   width: 0.34em;
   height: 0.34em;
   border-radius: 50%;
-  background: var(--bulb-color, #ff5252);
-  box-shadow: 0 0 6px var(--bulb-color, #ff5252);
+  background: var(--bulb-color);
+  box-shadow: 0 0 6px var(--bulb-color);
   animation: bulb-blink 1.4s infinite;
   animation-delay: calc(var(--index) * 0.08s);
 }
 
-/* blinking animation for bulbs */
 @keyframes bulb-blink {
-  0%, 100% {
-    opacity: 1;
-    filter: brightness(1);
-  }
-  50% {
-    opacity: 0.4;
-    filter: brightness(1.6);
-  }
+  0%, 100% { opacity: 1; filter: brightness(1); }
+  50%     { opacity: 0.4; filter: brightness(1.6); }
 }
 </style>
-
-<!-- ====================================================== -->
-<!-- END CHRISTMAS MODULE                                   -->
-<!-- ====================================================== -->
 
 </body>
 </html>
