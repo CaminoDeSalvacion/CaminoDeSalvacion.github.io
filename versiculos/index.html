@@ -21,6 +21,12 @@
     <h1>El Camino De Salvación</h1>
     <p>Versículos Para Memorizar</p>
   </div>
+
+  <!-- 🎄 CHRISTMAS DECOR – delete this whole <div> after the holidays -->
+  <div id="christmas-decor">
+    <div class="christmas-left">🎄🎁</div>
+    <div class="christmas-right">🎁🎄</div>
+  </div>
 </header>
 
 <!-- NAVIGATION -->
@@ -93,17 +99,13 @@
   // Initialize live glow dynamically
   Live.init();
 </script>
-<!-- ----------------------------- -->
-<!-- CHRISTMAS VIBES MODULE        -->
-<!-- ----------------------------- -->
+
+<!-- ====================================================== -->
+<!-- 🎄 CHRISTMAS VIBES MODULE – delete this whole section  -->
+<!--    after the holidays if you want to remove it         -->
+<!-- ====================================================== -->
+
 <canvas id="snow-canvas"></canvas>
-
-<div id="christmas-trees">
-  <div class="tree-left">🎄</div>
-  <div class="tree-right">🎄</div>
-</div>
-
-<div id="christmas-gifts">🎁🎁🎁</div>
 
 <script>
 /* ---------- Snowfall ---------- */
@@ -112,20 +114,20 @@ const ctx = canvas.getContext('2d');
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
-const snowflakes = Array.from({length: 120}, () => ({
-  x: Math.random()*canvas.width,
-  y: Math.random()*canvas.height,
-  r: Math.random()*4 + 1,
-  d: Math.random()*1
+const snowflakes = Array.from({ length: 120 }, () => ({
+  x: Math.random() * canvas.width,
+  y: Math.random() * canvas.height,
+  r: Math.random() * 4 + 1,
+  d: Math.random() * 1
 }));
 
 function drawSnow() {
-  ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.fillStyle = 'white';
   ctx.beginPath();
   snowflakes.forEach(f => {
     ctx.moveTo(f.x, f.y);
-    ctx.arc(f.x, f.y, f.r, 0, Math.PI*2);
+    ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
   });
   ctx.fill();
   moveSnow();
@@ -134,7 +136,10 @@ function drawSnow() {
 function moveSnow() {
   snowflakes.forEach(f => {
     f.y += Math.pow(f.d, 2) + 1;
-    if(f.y > canvas.height){ f.y = -10; f.x = Math.random()*canvas.width; }
+    if (f.y > canvas.height) {
+      f.y = -10;
+      f.x = Math.random() * canvas.width;
+    }
   });
 }
 
@@ -149,39 +154,44 @@ window.addEventListener('resize', () => {
 /* ---------- Snow canvas ---------- */
 #snow-canvas {
   position: fixed;
-  top:0; left:0;
+  top: 0;
+  left: 0;
   pointer-events: none;
   z-index: 9999;
 }
 
-/* ---------- Trees on edges ---------- */
-#christmas-trees {
-  position: fixed;
-  top: 100px;
-  width: 100%;
-  z-index: 10000;
-  pointer-events: none;
+/* Make header a positioning context for the decor */
+header {
+  position: relative;
 }
 
-.tree-left, .tree-right {
-  font-size: 2.5em;
-  position: fixed;
-  top: 100px;
+/* ---------- Corner Christmas trees on header ---------- */
+#christmas-decor {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -18px;          /* tweak this to move trees up/down */
+  pointer-events: none;
+  z-index: 10001;         /* above snow */
+}
+
+#christmas-decor .christmas-left,
+#christmas-decor .christmas-right {
+  position: absolute;
+  font-size: 2.4rem;      /* size of the trees/gifts */
   animation: blink 2s infinite alternate;
 }
 
-.tree-left { left: 10px; }
-.tree-right { right: 10px; }
-
-/* ---------- Gifts at bottom ---------- */
-#christmas-gifts {
-  position: fixed;
+/* Left bottom corner */
+#christmas-decor .christmas-left {
+  left: 16px;
   bottom: 0;
-  width: 100%;
-  text-align: center;
-  font-size: 2em;
-  z-index: 10000;
-  pointer-events: none;
+}
+
+/* Right bottom corner */
+#christmas-decor .christmas-right {
+  right: 16px;
+  bottom: 0;
 }
 
 /* ---------- Festive navbar colors ---------- */
@@ -203,13 +213,14 @@ window.addEventListener('resize', () => {
 
 /* Optional blinking for trees */
 @keyframes blink {
-  0%{opacity:1;color:#4caf50;}
-  25%{opacity:0.5;color:#f44336;}
-  50%{opacity:1;color:#4caf50;}
-  75%{opacity:0.5;color:#b71c1c;}
-  100%{opacity:1;color:#4caf50;}
+  0%   { opacity: 1;   color: #4caf50; }
+  25%  { opacity: 0.5; color: #f44336; }
+  50%  { opacity: 1;   color: #4caf50; }
+  75%  { opacity: 0.5; color: #b71c1c; }
+  100% { opacity: 1;   color: #4caf50; }
 }
 </style>
+<!-- ===================== END CHRISTMAS MODULE ===================== -->
 
 </body>
 </html>
