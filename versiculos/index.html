@@ -24,8 +24,13 @@
 
   <!-- 🎄 CHRISTMAS DECOR – delete this whole <div> after the holidays -->
   <div id="christmas-decor">
-    <div class="christmas-left">🎄🎁</div>
-    <div class="christmas-right">🎁🎄</div>
+    <div class="christmas-left">
+      🎄 <span class="gift">🎁</span>
+    </div>
+
+    <div class="christmas-right">
+      <span class="gift">🎁</span> 🎄
+    </div>
   </div>
 </header>
 
@@ -96,13 +101,11 @@
 <!-- Include centralized live.js for dynamic glow -->
 <script src="../live.js"></script>
 <script>
-  // Initialize live glow dynamically
   Live.init();
 </script>
 
 <!-- ====================================================== -->
 <!-- 🎄 CHRISTMAS VIBES MODULE – delete this whole section  -->
-<!--    after the holidays if you want to remove it         -->
 <!-- ====================================================== -->
 
 <canvas id="snow-canvas"></canvas>
@@ -123,12 +126,14 @@ const snowflakes = Array.from({ length: 120 }, () => ({
 
 function drawSnow() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx.fillStyle = 'white';
   ctx.beginPath();
+  ctx.fillStyle = "white";
+
   snowflakes.forEach(f => {
     ctx.moveTo(f.x, f.y);
     ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
   });
+
   ctx.fill();
   moveSnow();
 }
@@ -144,7 +149,8 @@ function moveSnow() {
 }
 
 setInterval(drawSnow, 30);
-window.addEventListener('resize', () => {
+
+window.addEventListener("resize", () => {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
 });
@@ -160,44 +166,53 @@ window.addEventListener('resize', () => {
   z-index: 9999;
 }
 
-/* Make header a positioning context for the decor */
+/* Allow decor to anchor to the header */
 header {
   position: relative;
 }
 
-/* ---------- Corner Christmas trees on header ---------- */
+/* ---------- Christmas corner decor ---------- */
 #christmas-decor {
   position: absolute;
   left: 0;
   right: 0;
-  bottom: -18px;          /* tweak this to move trees up/down */
+  bottom: -8px;     /* moved slightly UP */
   pointer-events: none;
-  z-index: 10001;         /* above snow */
+  z-index: 10001;
 }
 
+/* Tree + gift sizing */
 #christmas-decor .christmas-left,
 #christmas-decor .christmas-right {
   position: absolute;
-  font-size: 2.4rem;      /* size of the trees/gifts */
+  font-size: 3.1rem;   /* tree is 30% BIGGER */
+  display: flex;
+  align-items: center;
+  gap: 6px;
   animation: blink 2s infinite alternate;
 }
 
-/* Left bottom corner */
+/* LEFT SIDE */
 #christmas-decor .christmas-left {
-  left: 16px;
-  bottom: 0;
+  left: 12px;
+  bottom: 4px;        /* moved UP slightly */
 }
 
-/* Right bottom corner */
+/* RIGHT SIDE */
 #christmas-decor .christmas-right {
-  right: 16px;
-  bottom: 0;
+  right: 12px;
+  bottom: 4px;        /* moved UP slightly */
+}
+
+/* GIFTS smaller */
+#christmas-decor .gift {
+  font-size: 0.9em;   /* 10% smaller */
 }
 
 /* ---------- Festive navbar colors ---------- */
 @keyframes christmas-tab {
-  0% { background: #1b5e20; }   /* green */
-  50% { background: #b71c1c; }  /* red */
+  0% { background: #1b5e20; }
+  50% { background: #b71c1c; }
   100% { background: #1b5e20; }
 }
 
@@ -206,12 +221,7 @@ header {
   color: #fff !important;
 }
 
-.back-button {
-  background: #1b5e20 !important; /* green */
-  color: #fff;
-}
-
-/* Optional blinking for trees */
+/* Tree blinking */
 @keyframes blink {
   0%   { opacity: 1;   color: #4caf50; }
   25%  { opacity: 0.5; color: #f44336; }
@@ -220,7 +230,11 @@ header {
   100% { opacity: 1;   color: #4caf50; }
 }
 </style>
-<!-- ===================== END CHRISTMAS MODULE ===================== -->
+
+<!-- ====================================================== -->
+<!-- END CHRISTMAS MODULE                                   -->
+<!-- ====================================================== -->
 
 </body>
 </html>
+
