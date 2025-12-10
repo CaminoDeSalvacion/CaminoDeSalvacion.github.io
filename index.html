@@ -48,10 +48,7 @@
   let currentVideo = null;
   let previousVideo = null;
 
-  function renderVideo(videoId, title, showBack = false, isLive = false) {
-    // Update glow via live.js
-    Live.init(isLive);
-
+  function renderVideo(videoId, title, showBack = false) {
     const html = `
       <h2 style="margin:10px 0; font-size:1.5em;">${title}</h2>
       <iframe
@@ -66,7 +63,7 @@
 
   function showCurrentVideo() {
     if (!currentVideo) return;
-    renderVideo(currentVideo.videoId, currentVideo.title, false, currentVideo.isLive);
+    renderVideo(currentVideo.videoId, currentVideo.title, false);
     showPreviousThumbnail();
   }
 
@@ -89,28 +86,25 @@
   }
 
   // Fetch Worker and render video
-  const workerURL = 'https://youtube-live-proxy.iglesia-4e5.workers.dev';
-  fetch(workerURL)
+  fetch('https://youtube-live-proxy.iglesia-4e5.workers.dev')
     .then(res => res.json())
     .then(data => {
-      // Force live for testing
-      const isLive = true;
-
       if (data.videoId) {
-        currentVideo = { videoId: data.videoId, title: data.title, isLive };
+        currentVideo = { videoId: data.videoId, title: data.title };
         previousVideo = data.previousVideo || null;
-        renderVideo(currentVideo.videoId, currentVideo.title, false, currentVideo.isLive);
+        renderVideo(currentVideo.videoId, currentVideo.title, false);
         showPreviousThumbnail();
       } else {
         videoBox.innerHTML = `<p>No hay transmisión disponible en este momento.</p>`;
-        Live.init(true); // glow for test
       }
     })
     .catch(err => {
       console.error(err);
       videoBox.innerHTML = `<p>Error cargando transmisión.</p>`;
-      Live.init(true); // glow for test
     });
+
+  // Initialize the dynamic live glow for Inicio tab
+  Live.init();
 </script>
 
 </body>
