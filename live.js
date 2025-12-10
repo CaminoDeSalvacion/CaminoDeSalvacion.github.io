@@ -1,37 +1,32 @@
 // live.js
 const Live = (() => {
-  // const workerURL = 'https://youtube-live-proxy.iglesia-4e5.workers.dev';
-  // Find Inicio tab by text content
-  const inicioTab = [...document.querySelectorAll('.navbar a')]
-    .find(a => a.textContent.trim() === 'Inicio');
+  const workerURL = 'https://youtube-live-proxy.iglesia-4e5.workers.dev';
+  const inicioTab = document.querySelector('.navbar a[href="/"]');
 
+  // Apply pulsing glow effect
   const applyGlow = () => {
     if (inicioTab) inicioTab.classList.add('live');
   };
 
+  // Remove glow
   const removeGlow = () => {
     if (inicioTab) inicioTab.classList.remove('live');
   };
 
-  const updateTabGlow = async (forceLive = false) => {
+  // Fetch worker and update glow
+  const updateTabGlow = async () => {
     try {
-      // Only fetch worker if not forcing live
-      let isLive = forceLive;
-      if (!forceLive) {
-        const res = await fetch('https://youtube-live-proxy.iglesia-4e5.workers.dev');
-        const data = await res.json();
-        isLive = data.isLive;
-      }
-
-      if (isLive) applyGlow();
+      const res = await fetch(workerURL);
+      const data = await res.json();
+      if (data.isLive) applyGlow();
       else removeGlow();
     } catch (err) {
       console.error('Live worker fetch error:', err);
-      if (forceLive) applyGlow();
-      else removeGlow();
+      removeGlow();
     }
   };
 
+  // Add CSS for pulsing animation (once)
   const addGlowStyle = () => {
     if (!document.getElementById('live-glow-style')) {
       const style = document.createElement('style');
@@ -53,9 +48,13 @@ const Live = (() => {
     }
   };
 
-  const init = (forceLive = false) => {
+  // Initialize live glow (dynamic)
+  const init = () => {
+    if (!inicioTab) return;
     addGlowStyle();
-    updateTabGlow(forceLive);
+    updateTabGlow();
+    // Optional: check every 30s for live status updates
+    setInterval(updateTabGlow, 30000);
   };
 
   return { init, updateTabGlow };
