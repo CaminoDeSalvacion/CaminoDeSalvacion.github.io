@@ -17,8 +17,9 @@
   <div class="divider"></div>
 
   <div class="header-text">
-    <h1>Iglesia Cristiana </h1>
-    <h1>El Camino De Salvación</h1>
+    <!-- Títulos con luces navideñas -->
+    <h1 class="light-letters">Iglesia Cristiana </h1>
+    <h1 class="light-letters">El Camino De Salvación</h1>
     <p>Versículos Para Memorizar</p>
   </div>
 
@@ -29,7 +30,7 @@
     </div>
 
     <div class="christmas-right">
-      <span class="gift">🎁</span> 🎄
+      🎄 <span class="gift">🎁</span>
     </div>
   </div>
 </header>
@@ -154,6 +155,31 @@ window.addEventListener("resize", () => {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
 });
+
+/* ---------- Per-letter Christmas lights on the title ---------- */
+document.addEventListener("DOMContentLoaded", () => {
+  const elements = document.querySelectorAll(".light-letters");
+  const colors = ["#ff5252", "#ffca28", "#66bb6a", "#42a5f5"]; // red, yellow, green, blue
+
+  elements.forEach(el => {
+    const text = el.textContent;
+    el.textContent = "";
+
+    [...text].forEach((ch, i) => {
+      if (ch === " ") {
+        el.appendChild(document.createTextNode(" "));
+        return;
+      }
+
+      const span = document.createElement("span");
+      span.textContent = ch;
+      span.className = "light-letter";
+      span.style.setProperty("--bulb-color", colors[i % colors.length]);
+      span.style.setProperty("--index", i);
+      el.appendChild(span);
+    });
+  });
+});
 </script>
 
 <style>
@@ -171,12 +197,12 @@ header {
   position: relative;
 }
 
-/* ---------- Christmas corner decor ---------- */
+/* ---------- Christmas corner decor (trees & gifts) ---------- */
 #christmas-decor {
   position: absolute;
   left: 0;
   right: 0;
-  bottom: -8px;     /* moved slightly UP */
+  bottom: -8px;          /* a little above the bottom of header */
   pointer-events: none;
   z-index: 10001;
 }
@@ -185,28 +211,30 @@ header {
 #christmas-decor .christmas-left,
 #christmas-decor .christmas-right {
   position: absolute;
-  font-size: 3.1rem;   /* tree is 30% BIGGER */
+  font-size: 3.1rem;     /* big tree */
   display: flex;
+  flex-direction: column;/* stack tree over gift */
   align-items: center;
-  gap: 6px;
+  gap: 2px;
   animation: blink 2s infinite alternate;
 }
 
 /* LEFT SIDE */
 #christmas-decor .christmas-left {
-  left: 12px;
-  bottom: 4px;        /* moved UP slightly */
+  left: 10px;
+  bottom: 0;
 }
 
 /* RIGHT SIDE */
 #christmas-decor .christmas-right {
-  right: 12px;
-  bottom: 4px;        /* moved UP slightly */
+  right: 10px;
+  bottom: 0;
 }
 
-/* GIFTS smaller */
+/* 🎁 Gifts small under the tree */
 #christmas-decor .gift {
-  font-size: 0.9em;   /* 10% smaller */
+  font-size: 1rem;       /* much smaller, like your reference */
+  margin-top: -4px;      /* tucks gift closer to the tree */
 }
 
 /* ---------- Festive navbar colors ---------- */
@@ -228,6 +256,66 @@ header {
   50%  { opacity: 1;   color: #4caf50; }
   75%  { opacity: 0.5; color: #b71c1c; }
   100% { opacity: 1;   color: #4caf50; }
+}
+
+/* ---------- Christmas lights on letters ---------- */
+.light-letters {
+  position: relative;
+}
+
+/* green letters with subtle red outline */
+.light-letter {
+  position: relative;
+  display: inline-block;
+  color: #1b5e20;  /* green */
+  font-weight: 900;
+
+  /* “outline” using text-shadow (red) */
+  text-shadow:
+    1px 0   #b71c1c,
+   -1px 0   #b71c1c,
+    0   1px #b71c1c,
+    0  -1px #b71c1c;
+}
+
+/* little wire segment above each letter */
+.light-letter::before {
+  content: "";
+  position: absolute;
+  top: -0.4em;
+  left: 10%;
+  width: 80%;
+  height: 2px;
+  background: #222; /* dark wire */
+  border-radius: 999px;
+}
+
+/* little bulb above each letter */
+.light-letter::after {
+  content: "";
+  position: absolute;
+  top: -0.7em;           /* bulb slightly above the wire */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0.38em;
+  height: 0.38em;
+  border-radius: 50%;
+  background: var(--bulb-color, #ff5252);
+  box-shadow: 0 0 6px var(--bulb-color, #ff5252);
+  animation: bulb-blink 1.4s infinite;
+  animation-delay: calc(var(--index) * 0.08s);
+}
+
+/* blinking animation for bulbs */
+@keyframes bulb-blink {
+  0%, 100% {
+    opacity: 1;
+    filter: brightness(1);
+  }
+  50% {
+    opacity: 0.4;
+    filter: brightness(1.6);
+  }
 }
 </style>
 
