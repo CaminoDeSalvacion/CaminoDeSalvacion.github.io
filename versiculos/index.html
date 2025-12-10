@@ -24,10 +24,12 @@
 
   <!-- 🎄 CHRISTMAS DECOR -->
   <div id="christmas-decor">
+    <!-- Tree outside, gift inside -->
     <div class="christmas-left">
       🎄 <span class="gift">🎁</span>
     </div>
 
+    <!-- Gift inside, tree outside -->
     <div class="christmas-right">
       <span class="gift">🎁</span> 🎄
     </div>
@@ -189,12 +191,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
 header { position: relative; }
 
-/* ---------- Christmas Decor ---------- */
+/* ---------- Christmas Decor (trees + gifts) ---------- */
 #christmas-decor {
   position: absolute;
   left: 0;
   right: 0;
-  bottom: -8px;
+  bottom: -6px;          /* slight tweak so they hug the header edge */
   pointer-events: none;
   z-index: 10001;
 }
@@ -202,31 +204,31 @@ header { position: relative; }
 #christmas-decor .christmas-left,
 #christmas-decor .christmas-right {
   position: absolute;
-  font-size: 3.1rem;
+  font-size: 3.1rem;     /* tree size */
   display: flex;
-  flex-direction: row;
+  flex-direction: row;   /* tree + gift side by side */
   align-items: flex-end;
   gap: 4px;
   animation: blink 2s infinite alternate;
 }
 
-/* trees closer together */
-#christmas-decor .christmas-left  { left: 8%;  bottom: 0; }
-#christmas-decor .christmas-right { right: 8%; bottom: 0; }
+/* Trees closer together, gifts inside */
+#christmas-decor .christmas-left  { left: 8%;  bottom: -2px; }
+#christmas-decor .christmas-right { right: 8%; bottom: -2px; }
 
-/* Small gifts */
+/* Small gifts by trunk */
 #christmas-decor .gift {
   font-size: 1.1rem;
-  margin-bottom: 0.15em;
+  margin-bottom: 0;      /* keep baseline aligned */
 }
 
-/* Blink animation */
+/* Blink animation for trees */
 @keyframes blink {
-  0%   { opacity: 1; color: #4caf50; }
+  0%   { opacity: 1;   color: #4caf50; }
   25%  { opacity: 0.5; color: #f44336; }
-  50%  { opacity: 1; color: #4caf50; }
+  50%  { opacity: 1;   color: #4caf50; }
   75%  { opacity: 0.5; color: #b71c1c; }
-  100% { opacity: 1; color: #4caf50; }
+  100% { opacity: 1;   color: #4caf50; }
 }
 
 /* ---------- Lights ON TOP of Letters ---------- */
@@ -235,16 +237,16 @@ header { position: relative; }
 .light-letter {
   position: relative;
   display: inline-block;
-  color: inherit;  
+  color: inherit;
   font-weight: inherit;
   text-shadow: none;
 }
 
-/* wire VERY close to letters */
+/* wire TOUCHING the top of the letters */
 .light-letter::before {
   content: "";
   position: absolute;
-  top: -0.05em;      /* CLOSER */
+  top: 0em;          /* now right at the top of the glyph */
   left: 5%;
   width: 90%;
   height: 2px;
@@ -252,11 +254,11 @@ header { position: relative; }
   border-radius: 999px;
 }
 
-/* bulbs right above wire */
+/* bulbs overlapping / touching letters */
 .light-letter::after {
   content: "";
   position: absolute;
-  top: -0.25em;      /* CLOSER */
+  top: -0.18em;      /* pulled down so it visually touches the letter */
   left: 50%;
   transform: translateX(-50%);
   width: 0.34em;
