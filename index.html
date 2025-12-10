@@ -107,6 +107,123 @@
   // Initialize the dynamic live glow for Inicio tab
   Live.init();
 </script>
+<!-- ----------------------------- -->
+<!-- CHRISTMAS VIBES MODULE        -->
+<!-- ----------------------------- -->
+<canvas id="snow-canvas"></canvas>
+
+<div id="christmas-trees">
+  <div class="tree-left">🎄</div>
+  <div class="tree-right">🎄</div>
+</div>
+
+<div id="christmas-gifts">🎁🎁🎁</div>
+
+<script>
+/* ---------- Snowfall ---------- */
+const canvas = document.getElementById('snow-canvas');
+const ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+const snowflakes = Array.from({length: 120}, () => ({
+  x: Math.random()*canvas.width,
+  y: Math.random()*canvas.height,
+  r: Math.random()*4 + 1,
+  d: Math.random()*1
+}));
+
+function drawSnow() {
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle = 'white';
+  ctx.beginPath();
+  snowflakes.forEach(f => {
+    ctx.moveTo(f.x, f.y);
+    ctx.arc(f.x, f.y, f.r, 0, Math.PI*2);
+  });
+  ctx.fill();
+  moveSnow();
+}
+
+function moveSnow() {
+  snowflakes.forEach(f => {
+    f.y += Math.pow(f.d, 2) + 1;
+    if(f.y > canvas.height){ f.y = -10; f.x = Math.random()*canvas.width; }
+  });
+}
+
+setInterval(drawSnow, 30);
+window.addEventListener('resize', () => {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+});
+</script>
+
+<style>
+/* ---------- Snow canvas ---------- */
+#snow-canvas {
+  position: fixed;
+  top:0; left:0;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* ---------- Trees on edges ---------- */
+#christmas-trees {
+  position: fixed;
+  top: 100px;
+  width: 100%;
+  z-index: 10000;
+  pointer-events: none;
+}
+
+.tree-left, .tree-right {
+  font-size: 2.5em;
+  position: fixed;
+  top: 100px;
+}
+
+.tree-left {
+  left: 10px;
+}
+
+.tree-right {
+  right: 10px;
+}
+
+/* ---------- Gifts at bottom ---------- */
+#christmas-gifts {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  font-size: 2em;
+  z-index: 10000;
+  pointer-events: none;
+}
+
+/* ---------- Subtle festive navbar colors ---------- */
+.navbar a.active {
+  background: #b71c1c !important; /* red */
+  color: #fff !important;
+}
+
+.back-button {
+  background: #1b5e20 !important; /* green */
+}
+
+/* Optional: add blinking effect to trees */
+@keyframes blink {
+  0%{opacity:1;color:#f44336;}
+  25%{opacity:0.5;color:#ffeb3b;}
+  50%{opacity:1;color:#4caf50;}
+  75%{opacity:0.5;color:#2196f3;}
+  100%{opacity:1;color:#f44336;}
+}
+.tree-left, .tree-right {
+  animation: blink 2s infinite alternate;
+}
+</style>
 
 </body>
 </html>
