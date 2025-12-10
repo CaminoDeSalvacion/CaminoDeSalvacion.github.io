@@ -25,12 +25,14 @@
 
   <!-- 🎄 CHRISTMAS DECOR – delete this whole <div> after the holidays -->
   <div id="christmas-decor">
+    <!-- Árbol a la orilla, regalo hacia el centro -->
     <div class="christmas-left">
       🎄 <span class="gift">🎁</span>
     </div>
 
+    <!-- Regalo hacia el centro, árbol a la orilla -->
     <div class="christmas-right">
-      🎄 <span class="gift">🎁</span>
+      <span class="gift">🎁</span> 🎄
     </div>
   </div>
 </header>
@@ -218,22 +220,22 @@ header {
   animation: blink 2s infinite alternate;
 }
 
-/* LEFT SIDE */
+/* LEFT: tree outside, gift toward center */
 #christmas-decor .christmas-left {
-  left: 10px;
+  left: 8%;                  /* closer to center than 10px */
   bottom: 0;
 }
 
-/* RIGHT SIDE */
+/* RIGHT: gift toward center, tree outside */
 #christmas-decor .christmas-right {
-  right: 10px;
+  right: 8%;                 /* closer to center than 10px */
   bottom: 0;
 }
 
 /* 🎁 Gifts smaller next to tree */
 #christmas-decor .gift {
   font-size: 1.1rem;         /* small gift */
-  margin-bottom: 0.2em;      /* lift it a bit so it's centered on trunk */
+  margin-bottom: 0.15em;     /* slight vertical adjust */
 }
 
 /* ---------- Festive navbar colors ---------- */
@@ -279,7 +281,7 @@ header {
 .light-letter::before {
   content: "";
   position: absolute;
-  top: -0.12em;            /* lowered wire closer to top of letter */
+  top: -0.12em;            /* wire close to top of letter */
   left: 5%;
   width: 90%;
   height: 2px;
@@ -291,7 +293,7 @@ header {
 .light-letter::after {
   content: "";
   position: absolute;
-  top: -0.32em;            /* lowered bulb so it's on top of letters */
+  top: -0.38em;            /* just above letters */
   left: 50%;
   transform: translateX(-50%);
   width: 0.34em;
@@ -322,4 +324,3 @@ header {
 
 </body>
 </html>
-
