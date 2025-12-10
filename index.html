@@ -96,6 +96,7 @@ function showPreviousVideo() {
 fetch(workerURL)
   .then(res => res.json())
   .then(data => {
+    const isLive=true;
     if (data.videoId) {
       currentVideo = { videoId: data.videoId, title: data.title, isLive: data.isLive };
       previousVideo = data.previousVideo || null;
