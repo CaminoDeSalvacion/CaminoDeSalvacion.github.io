@@ -61,13 +61,11 @@
   Live.init();
 </script>
 <!-- ----------------------------- -->
-<!-- CHRISTMAS VIBES MODULE        -->
+<!-- CHRISTMAS SNOW + TREES + GIFTS -->
 <!-- ----------------------------- -->
 <canvas id="snow-canvas"></canvas>
-<div id="christmas-decor">
-  <div class="christmas-tree">🎄</div>
-  <div class="blinking-lights">✨🎁✨🎄✨</div>
-</div>
+<div id="christmas-trees"></div>
+<div id="christmas-gifts"></div>
 
 <script>
 /* ---------- Snowfall ---------- */
@@ -103,6 +101,40 @@ function moveSnow() {
 }
 
 setInterval(drawSnow, 30);
+
+/* ---------- Random Christmas Trees ---------- */
+const treeContainer = document.getElementById('christmas-trees');
+function createTree() {
+  const tree = document.createElement('div');
+  tree.textContent = '🎄';
+  tree.style.position = 'absolute';
+  tree.style.top = Math.random() * window.innerHeight * 0.7 + 'px';
+  tree.style.left = Math.random() * window.innerWidth + 'px';
+  tree.style.fontSize = (20 + Math.random() * 30) + 'px';
+  tree.style.opacity = Math.random()*0.8 + 0.2;
+  treeContainer.appendChild(tree);
+
+  setTimeout(() => tree.remove(), 15000); // remove after 15s
+}
+setInterval(createTree, 800);
+
+/* ---------- Gifts at Bottom ---------- */
+const giftsContainer = document.getElementById('christmas-gifts');
+function createGift() {
+  const gift = document.createElement('div');
+  gift.textContent = '🎁';
+  gift.style.position = 'fixed';
+  gift.style.bottom = '5px';
+  gift.style.left = Math.random() * (window.innerWidth - 30) + 'px';
+  gift.style.fontSize = (20 + Math.random() * 20) + 'px';
+  gift.style.opacity = Math.random()*0.8 + 0.2;
+  giftsContainer.appendChild(gift);
+
+  setTimeout(() => gift.remove(), 20000); // remove after 20s
+}
+setInterval(createGift, 1200);
+
+/* ---------- Handle resize ---------- */
 window.addEventListener('resize', () => {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
@@ -118,64 +150,13 @@ window.addEventListener('resize', () => {
   z-index: 9999;
 }
 
-/* ---------- Decorations ---------- */
-#christmas-decor {
+/* ---------- Tree and gift containers ---------- */
+#christmas-trees, #christmas-gifts {
   position: fixed;
-  top: 20px;
-  right: 20px;
-  text-align: center;
-  z-index: 10000;
-}
-
-.christmas-tree {
-  font-size: 2.5em;
-  margin-bottom: 5px;
-  animation: bounce 2s infinite alternate;
-}
-
-.blinking-lights {
-  font-size: 1.3em;
-  animation: blink 1.5s infinite alternate;
-}
-
-/* ---------- Keyframes ---------- */
-@keyframes blink {
-  0%{opacity:1;color:#f44336;}
-  25%{opacity:0.5;color:#ffeb3b;}
-  50%{opacity:1;color:#4caf50;}
-  75%{opacity:0.5;color:#2196f3;}
-  100%{opacity:1;color:#f44336;}
-}
-
-@keyframes bounce {
-  0%{transform: translateY(0);}
-  50%{transform: translateY(-10px);}
-  100%{transform: translateY(0);}
-}
-
-/* ---------- Subtle festive navbar colors ---------- */
-.navbar a {
-  transition: 0.3s;
-}
-
-.navbar a.active {
-  background: #b71c1c !important; /* red */
-  color: #fff !important;
-}
-
-.back-button {
-  background: #1b5e20 !important; /* green */
-}
-
-.header-text h1 {
-  display: flex;
-  flex-direction: column;
-}
-
-.header-text h1 span {
-  font-size: 0.8em;
-  color: #ffeb3b;
-  text-shadow: 1px 1px 2px #000;
+  top:0; left:0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 9999;
 }
 </style>
 
