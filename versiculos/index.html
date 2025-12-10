@@ -202,20 +202,19 @@ header {
   position: absolute;
   left: 0;
   right: 0;
-  bottom: -8px;          /* a little above the bottom of header */
+  bottom: -8px;
   pointer-events: none;
   z-index: 10001;
 }
 
-/* Tree + gift sizing */
 #christmas-decor .christmas-left,
 #christmas-decor .christmas-right {
   position: absolute;
-  font-size: 3.1rem;     /* big tree */
+  font-size: 3.1rem;         /* tree size */
   display: flex;
-  flex-direction: column;/* stack tree over gift */
-  align-items: center;
-  gap: 2px;
+  flex-direction: row;       /* tree and gift side by side */
+  align-items: flex-end;     /* align bottoms together */
+  gap: 4px;
   animation: blink 2s infinite alternate;
 }
 
@@ -231,10 +230,10 @@ header {
   bottom: 0;
 }
 
-/* 🎁 Gifts small under the tree */
+/* 🎁 Gifts smaller next to tree */
 #christmas-decor .gift {
-  font-size: 1rem;       /* much smaller, like your reference */
-  margin-top: -4px;      /* tucks gift closer to the tree */
+  font-size: 1.1rem;         /* small gift */
+  margin-bottom: 0.2em;      /* lift it a bit so it's centered on trunk */
 }
 
 /* ---------- Festive navbar colors ---------- */
@@ -269,8 +268,6 @@ header {
   display: inline-block;
   color: #1b5e20;  /* green */
   font-weight: 900;
-
-  /* “outline” using text-shadow (red) */
   text-shadow:
     1px 0   #b71c1c,
    -1px 0   #b71c1c,
@@ -278,27 +275,27 @@ header {
     0  -1px #b71c1c;
 }
 
-/* little wire segment above each letter */
+/* wire just touching top of letters */
 .light-letter::before {
   content: "";
   position: absolute;
-  top: -0.4em;
-  left: 10%;
-  width: 80%;
+  top: -0.12em;            /* lowered wire closer to top of letter */
+  left: 5%;
+  width: 90%;
   height: 2px;
-  background: #222; /* dark wire */
+  background: #222;
   border-radius: 999px;
 }
 
-/* little bulb above each letter */
+/* bulb sitting right above wire */
 .light-letter::after {
   content: "";
   position: absolute;
-  top: -0.7em;           /* bulb slightly above the wire */
+  top: -0.38em;            /* lowered bulb so it's on top of letters */
   left: 50%;
   transform: translateX(-50%);
-  width: 0.38em;
-  height: 0.38em;
+  width: 0.34em;
+  height: 0.34em;
   border-radius: 50%;
   background: var(--bulb-color, #ff5252);
   box-shadow: 0 0 6px var(--bulb-color, #ff5252);
