@@ -1,10 +1,25 @@
-<!DOCTYPE html>
+<<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Camino De Salvación</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    /* Add pulsing animation for live glow */
+    @keyframes pulse-red {
+      0% { box-shadow: 0 0 5px red, 0 0 10px red; }
+      50% { box-shadow: 0 0 20px red, 0 0 40px red; }
+      100% { box-shadow: 0 0 5px red, 0 0 10px red; }
+    }
+
+    .navbar a.live {
+      background: red;
+      color: white;
+      animation: pulse-red 1.5s infinite;
+      font-weight: bold;
+    }
+  </style>
 </head>
 
 <body>
@@ -40,21 +55,15 @@
 
 <script>
 const videoBox = document.getElementById("video-box");
+const workerURL = 'https://youtube-live-proxy.iglesia-4e5.workers.dev';
 const inicioTab = document.querySelector('.navbar a[href="/"]');
 
-// --------------------
-// TEST LIVE GLOW & VIDEO
-// --------------------
+function renderVideo(videoId, title, showBack = false, isLive = false) {
+  // Apply live glow
+  if (isLive) inicioTab.classList.add('live');
+  else inicioTab.classList.remove('live');
 
-// Force the glow effect for testing
-inicioTab.classList.add('live');
-
-// Optional: show a test live video
-const testVideoId = "RV3FIOjypVM"; // Replace with any YouTube video ID
-const testVideoTitle = "Transmisión de prueba";
-
-function renderVideo(videoId, title) {
-  videoBox.innerHTML = `
+  let html = `
     <h2 style="margin:10px 0; font-size:1.5em;">${title}</h2>
     <iframe
       src="https://www.youtube.com/embed/${videoId}?autoplay=1"
@@ -62,32 +71,63 @@ function renderVideo(videoId, title) {
       allowfullscreen loading="lazy">
     </iframe>
   `;
+  if (showBack) html += `<button class="back-button" onclick="showCurrentVideo()">Volver al Video Actual</button>`;
+  videoBox.innerHTML = html;
 }
 
-// Render the test video immediately
-renderVideo(testVideoId, testVideoTitle);
+let currentVideo = null;
+let previousVideo = null;
+let showingPrevious = false;
 
-// --------------------
-// Original Worker logic (kept in case you go live)
-// --------------------
-/*
-const workerURL = 'https://youtube-live-proxy.iglesia-4e5.workers.dev';
+function showCurrentVideo() {
+  if (!currentVideo) return;
+  showingPrevious = false;
+  renderVideo(currentVideo.videoId, currentVideo.title, false, currentVideo.isLive);
+  showPreviousThumbnail();
+}
+
+function showPreviousThumbnail() {
+  if (previousVideo) {
+    const prevHTML = `
+      <div class="previous-video">
+        <h3>Video Anterior</h3>
+        <img src="https://img.youtube.com/vi/${previousVideo.videoId}/hqdefault.jpg"
+             alt="${previousVideo.title}"
+             onclick="showPreviousVideo()">
+        <p>${previousVideo.title}</p>
+      </div>
+    `;
+    videoBox.innerHTML += prevHTML;
+  }
+}
+
+function showPreviousVideo() {
+  if (!previousVideo) return;
+  showingPrevious = true;
+  renderVideo(previousVideo.videoId, previousVideo.title, true);
+}
+
+// Fetch Worker and force live for testing
 fetch(workerURL)
   .then(res => res.json())
   .then(data => {
+    const isLive = true; // 🔴 FORCE LIVE for glow test
     if (data.videoId) {
-      currentVideo = { videoId: data.videoId, title: data.title, isLive: data.isLive };
+      currentVideo = { videoId: data.videoId, title: data.title, isLive: isLive };
       previousVideo = data.previousVideo || null;
-      renderVideo(currentVideo.videoId, currentVideo.title);
+      renderVideo(currentVideo.videoId, currentVideo.title, false, currentVideo.isLive);
+      showPreviousThumbnail();
     } else {
+      // Fallback if no video
       videoBox.innerHTML = `<p>No hay transmisión disponible en este momento.</p>`;
+      inicioTab.classList.add('live'); // still glow for test
     }
   })
   .catch(err => {
     console.error(err);
     videoBox.innerHTML = `<p>Error cargando transmisión.</p>`;
+    inicioTab.classList.add('live'); // still glow for test
   });
-*/
 </script>
 
 </body>
