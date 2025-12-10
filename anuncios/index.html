@@ -13,9 +13,7 @@
   <div class="logo-container">
     <img src="../logo.png" alt="Camino De Salvación Logo">
   </div>
-
   <div class="divider"></div>
-
   <div class="header-text">
     <h1>El Camino De Salvación</h1>
     <p>Anuncios y Noticias</p>
@@ -26,12 +24,11 @@
 <div class="navbar">
   <a href="/">Inicio</a>
   <a href="../anuncios/" class="active">Anuncios</a>
-  <a href="../versiculos/">Versiculos</a>
+  <a href="../versiculos/">Versículos</a>
 </div>
 
 <!-- GLOBAL PAGE CONTAINER -->
 <div class="page-container">
-
   <h2>Anuncios de la Iglesia</h2>
 
   <div class="announcement-box">
@@ -40,7 +37,7 @@
   </div>
   
   <div class="announcement-box">
-    <h3>Miercoles, Diciembre 24, 2025 (6:00 pm)</h3>
+    <h3>Miércoles, Diciembre 24, 2025 (6:00 pm)</h3>
     <p>Drama - Dios Hecho Hombre</p>
   </div>
 
@@ -50,13 +47,25 @@
   </div>
 
   <!-- Add more announcements as needed -->
-  
 </div>
-
 
 <footer>
   <p>© 2025 El Camino De Salvación</p>
 </footer>
+
+<!-- Script to add live glow on Inicio tab -->
+<script>
+const workerURL = 'https://youtube-live-proxy.iglesia-4e5.workers.dev';
+fetch(workerURL)
+  .then(res => res.json())
+  .then(data => {
+    if (data.isLive) {
+      const inicioTab = document.querySelector('.navbar a[href="/"]');
+      inicioTab.classList.add('live');
+    }
+  })
+  .catch(err => console.error('Worker fetch error:', err));
+</script>
 
 </body>
 </html>
