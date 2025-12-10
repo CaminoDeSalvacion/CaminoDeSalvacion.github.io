@@ -167,15 +167,11 @@ window.addEventListener('resize', () => {
   font-size: 2.5em;
   position: fixed;
   top: 100px;
+  animation: blink 2s infinite alternate;
 }
 
-.tree-left {
-  left: 10px;
-}
-
-.tree-right {
-  right: 10px;
-}
+.tree-left { left: 10px; }
+.tree-right { right: 10px; }
 
 /* ---------- Gifts at bottom ---------- */
 #christmas-gifts {
@@ -188,26 +184,30 @@ window.addEventListener('resize', () => {
   pointer-events: none;
 }
 
-/* ---------- Subtle festive navbar colors ---------- */
+/* ---------- Festive navbar colors ---------- */
+@keyframes christmas-tab {
+  0% { background: #1b5e20; }   /* green */
+  50% { background: #b71c1c; }  /* red */
+  100% { background: #1b5e20; }
+}
+
 .navbar a.active {
-  background: #b71c1c !important; /* red */
+  animation: christmas-tab 2s infinite;
   color: #fff !important;
 }
 
 .back-button {
   background: #1b5e20 !important; /* green */
+  color: #fff;
 }
 
-/* Optional: add blinking effect to trees */
+/* Optional blinking for trees */
 @keyframes blink {
-  0%{opacity:1;color:#f44336;}
-  25%{opacity:0.5;color:#ffeb3b;}
+  0%{opacity:1;color:#4caf50;}
+  25%{opacity:0.5;color:#f44336;}
   50%{opacity:1;color:#4caf50;}
-  75%{opacity:0.5;color:#2196f3;}
-  100%{opacity:1;color:#f44336;}
-}
-.tree-left, .tree-right {
-  animation: blink 2s infinite alternate;
+  75%{opacity:0.5;color:#b71c1c;}
+  100%{opacity:1;color:#4caf50;}
 }
 </style>
 
