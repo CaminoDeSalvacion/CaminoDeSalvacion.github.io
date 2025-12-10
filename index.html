@@ -40,15 +40,21 @@
 
 <script>
 const videoBox = document.getElementById("video-box");
-const workerURL = 'https://youtube-live-proxy.iglesia-4e5.workers.dev';
 const inicioTab = document.querySelector('.navbar a[href="/"]');
 
-function renderVideo(videoId, title, showBack = false, isLive = false) {
-  // Live glow
-  if (isLive) inicioTab.classList.add('live');
-  else inicioTab.classList.remove('live');
+// --------------------
+// TEST LIVE GLOW & VIDEO
+// --------------------
 
-  let html = `
+// Force the glow effect for testing
+inicioTab.classList.add('live');
+
+// Optional: show a test live video
+const testVideoId = "RV3FIOjypVM"; // Replace with any YouTube video ID
+const testVideoTitle = "Transmisión de prueba";
+
+function renderVideo(videoId, title) {
+  videoBox.innerHTML = `
     <h2 style="margin:10px 0; font-size:1.5em;">${title}</h2>
     <iframe
       src="https://www.youtube.com/embed/${videoId}?autoplay=1"
@@ -56,52 +62,23 @@ function renderVideo(videoId, title, showBack = false, isLive = false) {
       allowfullscreen loading="lazy">
     </iframe>
   `;
-  if (showBack) html += `<button class="back-button" onclick="showCurrentVideo()">Volver al Video Actual</button>`;
-  videoBox.innerHTML = html;
 }
 
-let currentVideo = null;
-let previousVideo = null;
-let showingPrevious = false;
+// Render the test video immediately
+renderVideo(testVideoId, testVideoTitle);
 
-function showCurrentVideo() {
-  if (!currentVideo) return;
-  showingPrevious = false;
-  renderVideo(currentVideo.videoId, currentVideo.title, false, currentVideo.isLive);
-  showPreviousThumbnail();
-}
-
-function showPreviousThumbnail() {
-  if (previousVideo) {
-    const prevHTML = `
-      <div class="previous-video">
-        <h3>Video Anterior</h3>
-        <img src="https://img.youtube.com/vi/${previousVideo.videoId}/hqdefault.jpg"
-             alt="${previousVideo.title}"
-             onclick="showPreviousVideo()">
-        <p>${previousVideo.title}</p>
-      </div>
-    `;
-    videoBox.innerHTML += prevHTML;
-  }
-}
-
-function showPreviousVideo() {
-  if (!previousVideo) return;
-  showingPrevious = true;
-  renderVideo(previousVideo.videoId, previousVideo.title, true);
-}
-
-// Fetch Worker
+// --------------------
+// Original Worker logic (kept in case you go live)
+// --------------------
+/*
+const workerURL = 'https://youtube-live-proxy.iglesia-4e5.workers.dev';
 fetch(workerURL)
   .then(res => res.json())
   .then(data => {
-    const isLive=true;
     if (data.videoId) {
       currentVideo = { videoId: data.videoId, title: data.title, isLive: data.isLive };
       previousVideo = data.previousVideo || null;
-      renderVideo(currentVideo.videoId, currentVideo.title, false, currentVideo.isLive);
-      showPreviousThumbnail();
+      renderVideo(currentVideo.videoId, currentVideo.title);
     } else {
       videoBox.innerHTML = `<p>No hay transmisión disponible en este momento.</p>`;
     }
@@ -110,6 +87,7 @@ fetch(workerURL)
     console.error(err);
     videoBox.innerHTML = `<p>Error cargando transmisión.</p>`;
   });
+*/
 </script>
 
 </body>
