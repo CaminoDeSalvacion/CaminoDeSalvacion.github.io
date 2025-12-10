@@ -38,80 +38,58 @@
   <p>© 2025 El Camino De Salvación</p>
 </footer>
 
-<!-- Include the centralized live.js -->
+<!-- Include centralized live.js -->
 <script src="live.js"></script>
+
 <script>
-  const videoBox = document.getElementById("video-box");
+const videoBox = document.getElementById("video-box");
+let currentVideo = null;
+let previousVideo = null;
 
-  let currentVideo = null;
-  let previousVideo = null;
+function renderVideo(videoId, title, showBack = false, isLive = false) {
+  // Apply live glow using live.js
+  Live.init(isLive); // currently forced in live.js for testing
 
-  function renderVideo(videoId, title, showBack = false, isLive = false) {
-    // Update glow via live.js
-    if (isLive) Live.init(true); // force glow for testing
-    else Live.init(false);
+  let html = `
+    <h2 style="margin:10px 0; font-size:1.5em;">${title}</h2>
+    <iframe
+      src="https://www.youtube.com/embed/${videoId}?autoplay=1"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen loading="lazy">
+    </iframe>
+  `;
+  if (showBack) html += `<button class="back-button" onclick="showCurrentVideo()">Volver al Video Actual</button>`;
+  videoBox.innerHTML = html;
+}
 
-    let html = `
-      <h2 style="margin:10px 0; font-size:1.5em;">${title}</h2>
-      <iframe
-        src="https://www.youtube.com/embed/${videoId}?autoplay=1"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen loading="lazy">
-      </iframe>
+function showCurrentVideo() {
+  if (!currentVideo) return;
+  renderVideo(currentVideo.videoId, currentVideo.title, false, currentVideo.isLive);
+  showPreviousThumbnail();
+}
+
+function showPreviousThumbnail() {
+  if (previousVideo) {
+    const prevHTML = `
+      <div class="previous-video">
+        <h3>Video Anterior</h3>
+        <img src="https://img.youtube.com/vi/${previousVideo.videoId}/hqdefault.jpg"
+             alt="${previousVideo.title}"
+             onclick="showPreviousVideo()">
+        <p>${previousVideo.title}</p>
+      </div>
     `;
-    if (showBack) html += `<button class="back-button" onclick="showCurrentVideo()">Volver al Video Actual</button>`;
-    videoBox.innerHTML = html;
+    videoBox.innerHTML += prevHTML;
   }
+}
 
-  function showCurrentVideo() {
-    if (!currentVideo) return;
-    renderVideo(currentVideo.videoId, currentVideo.title, false, currentVideo.isLive);
-    showPreviousThumbnail();
-  }
+function showPreviousVideo() {
+  if (!previousVideo) return;
+  renderVideo(previousVideo.videoId, previousVideo.title, true);
+}
 
-  function showPreviousThumbnail() {
-    if (previousVideo) {
-      const prevHTML = `
-        <div class="previous-video">
-          <h3>Video Anterior</h3>
-          <img src="https://img.youtube.com/vi/${previousVideo.videoId}/hqdefault.jpg"
-               alt="${previousVideo.title}"
-               onclick="showPreviousVideo()">
-          <p>${previousVideo.title}</p>
-        </div>
-      `;
-      videoBox.innerHTML += prevHTML;
-    }
-  }
-
-  function showPreviousVideo() {
-    if (!previousVideo) return;
-    renderVideo(previousVideo.videoId, previousVideo.title, true);
-  }
-
-  // Fetch Worker and render video
-  const workerURL = 'https://youtube-live-proxy.iglesia-4e5.workers.dev';
-  fetch(workerURL)
-    .then(res => res.json())
-    .then(data => {
-      // Force live for testing
-      const isLive = true;
-
-      if (data.videoId) {
-        currentVideo = { videoId: data.videoId, title: data.title, isLive };
-        previousVideo = data.previousVideo || null;
-        renderVideo(currentVideo.videoId, currentVideo.title, false, currentVideo.isLive);
-        showPreviousThumbnail();
-      } else {
-        videoBox.innerHTML = `<p>No hay transmisión disponible en este momento.</p>`;
-        Live.init(true); // glow for test
-      }
-    })
-    .catch(err => {
-      console.error(err);
-      videoBox.innerHTML = `<p>Error cargando transmisión.</p>`;
-      Live.init(true); // glow for test
-    });
+// Fetch and render video handled in live.js
+Live.fetchAndRender(videoBox, renderVideo);
 </script>
 
 </body>
