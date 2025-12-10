@@ -5,6 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Versículos Para Memorizar - Camino De Salvación</title>
   <link rel="stylesheet" href="../style.css">
+  <style>
+    /* Live glow effect on Inicio tab */
+    .navbar a.live {
+      box-shadow: 0 0 10px red;
+      animation: glow 1.2s infinite alternate;
+    }
+    @keyframes glow {
+      0% { box-shadow: 0 0 5px red; }
+      50% { box-shadow: 0 0 15px red; }
+      100% { box-shadow: 0 0 5px red; }
+    }
+  </style>
 </head>
 
 <body>
@@ -77,12 +89,27 @@
     </div>
 
   </div>
-
 </div>
 
 <footer>
   <p>© 2025 El Camino De Salvación</p>
 </footer>
 
+<script>
+  const workerURL = 'https://youtube-live-proxy.iglesia-4e5.workers.dev';
+
+  // Fetch live info to apply glow to Inicio tab
+  fetch(workerURL)
+    .then(res => res.json())
+    .then(data => {
+      if (data.isLive) {
+        const inicioTab = document.querySelector('.navbar a[href="/"]');
+        if (inicioTab) inicioTab.classList.add('live');
+      }
+    })
+    .catch(err => console.error(err));
+</script>
+
 </body>
 </html>
+
