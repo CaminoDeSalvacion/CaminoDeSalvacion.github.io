@@ -24,12 +24,10 @@
 
   <!-- 🎄 CHRISTMAS DECOR -->
   <div id="christmas-decor">
-    <!-- Tree outside, gift inside -->
     <div class="christmas-left">
       🎄 <span class="gift">🎁</span>
     </div>
 
-    <!-- Gift inside, tree outside -->
     <div class="christmas-right">
       <span class="gift">🎁</span> 🎄
     </div>
@@ -196,7 +194,7 @@ header { position: relative; }
   position: absolute;
   left: 0;
   right: 0;
-  bottom: -6px;          /* slight tweak so they hug the header edge */
+  bottom: -6px;
   pointer-events: none;
   z-index: 10001;
 }
@@ -204,25 +202,25 @@ header { position: relative; }
 #christmas-decor .christmas-left,
 #christmas-decor .christmas-right {
   position: absolute;
-  font-size: 3.1rem;     /* tree size */
+  font-size: 3.1rem;
   display: flex;
-  flex-direction: row;   /* tree + gift side by side */
+  flex-direction: row;
   align-items: flex-end;
   gap: 4px;
   animation: blink 2s infinite alternate;
 }
 
-/* Trees closer together, gifts inside */
+/* Trees closer */
 #christmas-decor .christmas-left  { left: 8%;  bottom: -2px; }
 #christmas-decor .christmas-right { right: 8%; bottom: -2px; }
 
-/* Small gifts by trunk */
+/* Gifts */
 #christmas-decor .gift {
   font-size: 1.1rem;
-  margin-bottom: 0;      /* keep baseline aligned */
+  margin-bottom: 0;
 }
 
-/* Blink animation for trees */
+/* Tree blinking */
 @keyframes blink {
   0%   { opacity: 1;   color: #4caf50; }
   25%  { opacity: 0.5; color: #f44336; }
@@ -231,7 +229,7 @@ header { position: relative; }
   100% { opacity: 1;   color: #4caf50; }
 }
 
-/* ---------- Lights ON TOP of Letters ---------- */
+/* ---------- Christmas Lights on Letters (touching) ---------- */
 .light-letters { position: relative; }
 
 .light-letter {
@@ -242,11 +240,11 @@ header { position: relative; }
   text-shadow: none;
 }
 
-/* wire TOUCHING the top of the letters */
+/* wire touching letters */
 .light-letter::before {
   content: "";
   position: absolute;
-  top: 0em;          /* now right at the top of the glyph */
+  top: 0em;       
   left: 5%;
   width: 90%;
   height: 2px;
@@ -254,11 +252,11 @@ header { position: relative; }
   border-radius: 999px;
 }
 
-/* bulbs overlapping / touching letters */
+/* bulbs touching letters */
 .light-letter::after {
   content: "";
   position: absolute;
-  top: -0.18em;      /* pulled down so it visually touches the letter */
+  top: -0.18em;  
   left: 50%;
   transform: translateX(-50%);
   width: 0.34em;
@@ -270,9 +268,22 @@ header { position: relative; }
   animation-delay: calc(var(--index) * 0.08s);
 }
 
+/* blink */
 @keyframes bulb-blink {
   0%, 100% { opacity: 1; filter: brightness(1); }
   50%     { opacity: 0.4; filter: brightness(1.6); }
+}
+
+/* ---------- RESTORED CHRISTMAS TAB COLORS ---------- */
+@keyframes christmas-tab {
+  0% { background: #1b5e20; }
+  50% { background: #b71c1c; }
+  100% { background: #1b5e20; }
+}
+
+.navbar a.active {
+  animation: christmas-tab 2s infinite;
+  color: #fff !important;
 }
 </style>
 
