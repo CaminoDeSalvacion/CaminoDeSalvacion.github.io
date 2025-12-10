@@ -53,19 +53,8 @@
   <p>© 2025 El Camino De Salvación</p>
 </footer>
 
-<!-- Script to add live glow on Inicio tab -->
-<script>
-const workerURL = 'https://youtube-live-proxy.iglesia-4e5.workers.dev';
-fetch(workerURL)
-  .then(res => res.json())
-  .then(data => {
-    if (data.isLive) {
-      const inicioTab = document.querySelector('.navbar a[href="/"]');
-      inicioTab.classList.add('live');
-    }
-  })
-  .catch(err => console.error('Worker fetch error:', err));
-</script>
+<!-- Include the centralized live.js for glow -->
+<script src="../live.js"></script>
 
 </body>
 </html>
