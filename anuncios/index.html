@@ -61,11 +61,12 @@
   Live.init();
 </script>
 <!-- ----------------------------- -->
-<!-- CHRISTMAS SNOW + TREES + GIFTS -->
+<!-- CHRISTMAS EFFECTS -->
 <!-- ----------------------------- -->
 <canvas id="snow-canvas"></canvas>
-<div id="christmas-trees"></div>
-<div id="christmas-gifts"></div>
+<div id="christmas-trees-left"></div>
+<div id="christmas-trees-right"></div>
+<div id="christmas-gifts-bottom"></div>
 
 <script>
 /* ---------- Snowfall ---------- */
@@ -102,63 +103,65 @@ function moveSnow() {
 
 setInterval(drawSnow, 30);
 
-/* ---------- Random Christmas Trees ---------- */
-const treeContainer = document.getElementById('christmas-trees');
-function createTree() {
+/* ---------- Trees on sides ---------- */
+function createTree(side) {
   const tree = document.createElement('div');
   tree.textContent = '🎄';
-  tree.style.position = 'absolute';
-  tree.style.top = Math.random() * window.innerHeight * 0.7 + 'px';
-  tree.style.left = Math.random() * window.innerWidth + 'px';
-  tree.style.fontSize = (20 + Math.random() * 30) + 'px';
+  tree.style.position = 'fixed';
+  tree.style.top = (Math.random() * (window.innerHeight - 50)) + 'px';
+  tree.style[side] = '10px';
+  tree.style.fontSize = (20 + Math.random()*30) + 'px';
   tree.style.opacity = Math.random()*0.8 + 0.2;
-  treeContainer.appendChild(tree);
+  tree.style.zIndex = '9999';
+  document.body.appendChild(tree);
 
   setTimeout(() => tree.remove(), 15000); // remove after 15s
 }
-setInterval(createTree, 800);
 
-/* ---------- Gifts at Bottom ---------- */
-const giftsContainer = document.getElementById('christmas-gifts');
+setInterval(() => { createTree('left'); createTree('right'); }, 800);
+
+/* ---------- Gifts at bottom ---------- */
+const giftsContainer = document.getElementById('christmas-gifts-bottom');
 function createGift() {
   const gift = document.createElement('div');
   gift.textContent = '🎁';
   gift.style.position = 'fixed';
   gift.style.bottom = '5px';
   gift.style.left = Math.random() * (window.innerWidth - 30) + 'px';
-  gift.style.fontSize = (20 + Math.random() * 20) + 'px';
+  gift.style.fontSize = (20 + Math.random()*20) + 'px';
   gift.style.opacity = Math.random()*0.8 + 0.2;
+  gift.style.zIndex = '9999';
   giftsContainer.appendChild(gift);
-
-  setTimeout(() => gift.remove(), 20000); // remove after 20s
 }
-setInterval(createGift, 1200);
+for(let i=0;i<10;i++) createGift(); // populate some gifts initially
 
 /* ---------- Handle resize ---------- */
 window.addEventListener('resize', () => {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
 });
+
+/* ---------- Force Live Tab Red Glow ---------- */
+const inicioTab = document.querySelector('.navbar a[href="/"]');
+if(inicioTab) inicioTab.classList.add('live');
 </script>
 
 <style>
-/* ---------- Snow canvas ---------- */
 #snow-canvas {
   position: fixed;
   top:0; left:0;
   pointer-events: none;
-  z-index: 9999;
+  z-index: 9998;
 }
 
-/* ---------- Tree and gift containers ---------- */
-#christmas-trees, #christmas-gifts {
-  position: fixed;
-  top:0; left:0;
-  width: 100%; height: 100%;
+#christmas-trees-left, #christmas-trees-right, #christmas-gifts-bottom {
   pointer-events: none;
+  position: fixed;
+  top:0; left:0; width:100%; height:100%;
   z-index: 9999;
 }
 </style>
+
 
 </body>
 </html>
