@@ -269,13 +269,15 @@ footer {
 }
 
 /* ----------------------------- */
-/* LIVE TAB GLOW                  */
+/* LIVE TAB PULSING GLOW         */
 /* ----------------------------- */
 .navbar a.live {
   background: red;
   color: white;
-  box-shadow: 0 0 10px red, 0 0 20px red;
   font-weight: bold;
+  border-radius: 8px;
+  box-shadow: 0 0 10px red, 0 0 20px red;
+  animation: pulseRed 1.5s infinite;
   transition: 0.3s;
 }
 
@@ -283,3 +285,14 @@ footer {
   box-shadow: 0 0 15px red, 0 0 25px red;
 }
 
+@keyframes pulseRed {
+  0% {
+    box-shadow: 0 0 5px red, 0 0 10px red;
+  }
+  50% {
+    box-shadow: 0 0 15px red, 0 0 30px red;
+  }
+  100% {
+    box-shadow: 0 0 5px red, 0 0 10px red;
+  }
+}
