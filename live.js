@@ -1,37 +1,65 @@
-// live.js — centralized live status for all pages
-const workerURL = 'https://youtube-live-proxy.iglesia-4e5.workers.dev';
-
-/**
- * Fetch live video status from worker and update glow effect on Inicio tab
- */
-async function updateLiveStatus(forceLive = false) {
+// live.js
+const Live = (() => {
+  const workerURL = 'https://youtube-live-proxy.iglesia-4e5.workers.dev';
   const inicioTab = document.querySelector('.navbar a[href="/"]');
-  if (!inicioTab) return;
 
-  try {
-    let isLive = false;
+  // Apply pulsing glow effect (red)
+  const applyGlow = () => {
+    inicioTab.classList.add('live');
+  };
 
-    if (forceLive) {
-      // For testing purposes — glow red even if not live
-      isLive = true;
-    } else {
+  // Remove glow
+  const removeGlow = () => {
+    inicioTab.classList.remove('live');
+  };
+
+  // Update glow based on worker data
+  const updateTabGlow = async (forceLive = false) => {
+    try {
       const res = await fetch(workerURL);
       const data = await res.json();
-      if (data && data.isLive) {
-        isLive = true;
-      }
-    }
 
-    if (isLive) {
-      inicioTab.classList.add('live');
-    } else {
-      inicioTab.classList.remove('live');
-    }
+      // Force live mode for testing if desired
+      const isLive = forceLive || data.isLive;
 
-    return isLive;
-  } catch (err) {
-    console.error('Error fetching live status:', err);
-    inicioTab.classList.remove('live');
-    return false;
-  }
-}
+      if (isLive) applyGlow();
+      else removeGlow();
+    } catch (err) {
+      console.error('Live worker fetch error:', err);
+      // Optionally glow for testing even if worker fails
+      if (forceLive) applyGlow();
+      else removeGlow();
+    }
+  };
+
+  // Automatically add CSS for pulsing animation if not already present
+  const addGlowStyle = () => {
+    if (!document.getElementById('live-glow-style')) {
+      const style = document.createElement('style');
+      style.id = 'live-glow-style';
+      style.innerHTML = `
+        @keyframes pulse-red {
+          0% { box-shadow: 0 0 5px red, 0 0 10px red; }
+          50% { box-shadow: 0 0 20px red, 0 0 40px red; }
+          100% { box-shadow: 0 0 5px red, 0 0 10px red; }
+        }
+        .navbar a.live {
+          background: red !important;
+          color: white !important;
+          font-weight: bold;
+          animation: pulse-red 1.5s infinite;
+        }
+      `;
+      document.head.appendChild(style);
+    }
+  };
+
+  // Initialize
+  const init = (forceLive = false) => {
+    if (!inicioTab) return;
+    addGlowStyle();
+    updateTabGlow(forceLive);
+  };
+
+  return { init, updateTabGlow };
+})();
