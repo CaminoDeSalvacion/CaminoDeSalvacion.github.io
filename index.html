@@ -212,7 +212,6 @@ document.addEventListener("DOMContentLoaded", () => {
 header {
   position: relative;
 }
-
 /* ---------- Christmas Decor (trees + gifts) ---------- */
 #christmas-decor {
   position: absolute;
@@ -226,7 +225,7 @@ header {
 #christmas-decor .christmas-left,
 #christmas-decor .christmas-right {
   position: absolute;
-  font-size: 3.1rem;      /* tree size */
+  font-size: 3.1rem;
   display: flex;
   flex-direction: row;
   align-items: flex-end;
@@ -234,9 +233,9 @@ header {
   animation: blink 2s infinite alternate;
 }
 
-/* Trees closer together; gifts on inside */
-#christmas-decor .christmas-left  { left: 8%;  bottom: -2px; }
-#christmas-decor .christmas-right { right: 8%; bottom: -2px; }
+/* Trees moved FURTHER OUTWARD */
+#christmas-decor .christmas-left  { left: 3%;  bottom: -2px; }
+#christmas-decor .christmas-right { right: 3%; bottom: -2px; }
 
 /* Small gifts */
 #christmas-decor .gift {
