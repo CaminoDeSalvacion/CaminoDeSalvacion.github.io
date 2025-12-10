@@ -13,31 +13,25 @@
   <div class="logo-container">
     <img src="logo.png" alt="Camino De Salvación Logo">
   </div>
-
   <div class="divider"></div>
-
   <div class="header-text">
     <h1>El Camino De Salvación</h1>
     <p>Bienvenidos a nuestra transmisión en vivo</p>
   </div>
 </header>
 
-<!-- NAVIGATION -->
 <div class="navbar">
   <a href="/" class="active">Inicio</a>
   <a href="anuncios/">Anuncios</a>
-  <a href="versiculos/">Versiculos</a>
+  <a href="versiculos/">Versículos</a>
 </div>
 
-<!-- GLOBAL PAGE CONTAINER -->
 <div class="page-container">
-
   <main>
     <div class="video-container" id="video-box">
       <p>Cargando transmisión...</p>
     </div>
   </main>
-
 </div>
 
 <footer>
@@ -45,88 +39,77 @@
 </footer>
 
 <script>
-  const workerURL = 'https://youtube-live-proxy.iglesia-4e5.workers.dev';
-  const videoBox = document.getElementById("video-box");
+const videoBox = document.getElementById("video-box");
+const workerURL = 'https://youtube-live-proxy.iglesia-4e5.workers.dev';
+const inicioTab = document.querySelector('.navbar a[href="/"]');
 
-  let currentVideo = null;
-  let previousVideo = null;
-  let showingPrevious = false;
+function renderVideo(videoId, title, showBack = false, isLive = false) {
+  // Live glow
+  if (isLive) inicioTab.classList.add('live');
+  else inicioTab.classList.remove('live');
 
-  function renderVideo(videoId, title, showBack = false) {
-    let html = `
-      <h2 style="margin:10px 0; font-size:1.5em;">${title}</h2>
-      <iframe
-        src="https://www.youtube.com/embed/${videoId}?autoplay=1"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen loading="lazy">
-      </iframe>
+  let html = `
+    <h2 style="margin:10px 0; font-size:1.5em;">${title}</h2>
+    <iframe
+      src="https://www.youtube.com/embed/${videoId}?autoplay=1"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen loading="lazy">
+    </iframe>
+  `;
+  if (showBack) html += `<button class="back-button" onclick="showCurrentVideo()">Volver al Video Actual</button>`;
+  videoBox.innerHTML = html;
+}
+
+let currentVideo = null;
+let previousVideo = null;
+let showingPrevious = false;
+
+function showCurrentVideo() {
+  if (!currentVideo) return;
+  showingPrevious = false;
+  renderVideo(currentVideo.videoId, currentVideo.title, false, currentVideo.isLive);
+  showPreviousThumbnail();
+}
+
+function showPreviousThumbnail() {
+  if (previousVideo) {
+    const prevHTML = `
+      <div class="previous-video">
+        <h3>Video Anterior</h3>
+        <img src="https://img.youtube.com/vi/${previousVideo.videoId}/hqdefault.jpg"
+             alt="${previousVideo.title}"
+             onclick="showPreviousVideo()">
+        <p>${previousVideo.title}</p>
+      </div>
     `;
+    videoBox.innerHTML += prevHTML;
+  }
+}
 
-    if (showBack) {
-      html += `<button class="back-button" onclick="showCurrentVideo()">Volver al Video Actual</button>`;
+function showPreviousVideo() {
+  if (!previousVideo) return;
+  showingPrevious = true;
+  renderVideo(previousVideo.videoId, previousVideo.title, true);
+}
+
+// Fetch Worker
+fetch(workerURL)
+  .then(res => res.json())
+  .then(data => {
+    if (data.videoId) {
+      currentVideo = { videoId: data.videoId, title: data.title, isLive: data.isLive };
+      previousVideo = data.previousVideo || null;
+      renderVideo(currentVideo.videoId, currentVideo.title, false, currentVideo.isLive);
+      showPreviousThumbnail();
+    } else {
+      videoBox.innerHTML = `<p>No hay transmisión disponible en este momento.</p>`;
     }
-
-    videoBox.innerHTML = html;
-  }
-
-  function showCurrentVideo() {
-    if (!currentVideo) return;
-    showingPrevious = false;
-    renderVideo(currentVideo.videoId, currentVideo.title);
-    showPreviousThumbnail();
-  }
-
-  function showPreviousThumbnail() {
-    if (previousVideo) {
-      const prevHTML = `
-        <div class="previous-video">
-          <h3>Video Anterior</h3>
-          <img src="https://img.youtube.com/vi/${previousVideo.videoId}/hqdefault.jpg"
-               alt="${previousVideo.title}"
-               onclick="showPreviousVideo()">
-          <p>${previousVideo.title}</p>
-        </div>
-      `;
-      videoBox.innerHTML += prevHTML;
-    }
-  }
-
-  function showPreviousVideo() {
-    if (!previousVideo) return;
-    showingPrevious = true;
-    renderVideo(previousVideo.videoId, previousVideo.title, true);
-  }
-
-  // Attempt to fetch from worker
-  fetch(workerURL)
-    .then(res => res.json())
-    .then(data => {
-      if (data.videoId) {
-        currentVideo = { videoId: data.videoId, title: data.title };
-        previousVideo = data.previousVideo || null;
-        renderVideo(currentVideo.videoId, currentVideo.title);
-        showPreviousThumbnail();
-      } else {
-        fallbackYouTube();
-      }
-    })
-    .catch(err => {
-      console.error('Worker fetch failed:', err);
-      fallbackYouTube();
-    });
-
-  // Fallback if worker fails
-  function fallbackYouTube() {
-    const fallbackVideoId = 'RV3FIOjypVM'; // Your live YouTube ID
-    const fallbackTitle = 'Transmisión por defecto';
-
-    currentVideo = { videoId: fallbackVideoId, title: fallbackTitle };
-    previousVideo = null;
-
-    renderVideo(currentVideo.videoId, currentVideo.title);
-  }
+  })
+  .catch(err => {
+    console.error(err);
+    videoBox.innerHTML = `<p>Error cargando transmisión.</p>`;
+  });
 </script>
-
 
 </body>
 </html>
