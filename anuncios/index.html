@@ -60,6 +60,124 @@
   // Initialize live glow dynamically
   Live.init();
 </script>
+<!-- ----------------------------- -->
+<!-- CHRISTMAS VIBES MODULE        -->
+<!-- ----------------------------- -->
+<canvas id="snow-canvas"></canvas>
+<div id="christmas-decor">
+  <div class="christmas-tree">🎄</div>
+  <div class="blinking-lights">✨🎁✨🎄✨</div>
+</div>
+
+<script>
+/* ---------- Snowfall ---------- */
+const canvas = document.getElementById('snow-canvas');
+const ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+const snowflakes = Array.from({length: 120}, () => ({
+  x: Math.random()*canvas.width,
+  y: Math.random()*canvas.height,
+  r: Math.random()*4 + 1,
+  d: Math.random()*1
+}));
+
+function drawSnow() {
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle = 'white';
+  ctx.beginPath();
+  snowflakes.forEach(f => {
+    ctx.moveTo(f.x, f.y);
+    ctx.arc(f.x, f.y, f.r, 0, Math.PI*2);
+  });
+  ctx.fill();
+  moveSnow();
+}
+
+function moveSnow() {
+  snowflakes.forEach(f => {
+    f.y += Math.pow(f.d, 2) + 1;
+    if(f.y > canvas.height){ f.y = -10; f.x = Math.random()*canvas.width; }
+  });
+}
+
+setInterval(drawSnow, 30);
+window.addEventListener('resize', () => {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+});
+</script>
+
+<style>
+/* ---------- Snow canvas ---------- */
+#snow-canvas {
+  position: fixed;
+  top:0; left:0;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* ---------- Decorations ---------- */
+#christmas-decor {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  text-align: center;
+  z-index: 10000;
+}
+
+.christmas-tree {
+  font-size: 2.5em;
+  margin-bottom: 5px;
+  animation: bounce 2s infinite alternate;
+}
+
+.blinking-lights {
+  font-size: 1.3em;
+  animation: blink 1.5s infinite alternate;
+}
+
+/* ---------- Keyframes ---------- */
+@keyframes blink {
+  0%{opacity:1;color:#f44336;}
+  25%{opacity:0.5;color:#ffeb3b;}
+  50%{opacity:1;color:#4caf50;}
+  75%{opacity:0.5;color:#2196f3;}
+  100%{opacity:1;color:#f44336;}
+}
+
+@keyframes bounce {
+  0%{transform: translateY(0);}
+  50%{transform: translateY(-10px);}
+  100%{transform: translateY(0);}
+}
+
+/* ---------- Subtle festive navbar colors ---------- */
+.navbar a {
+  transition: 0.3s;
+}
+
+.navbar a.active {
+  background: #b71c1c !important; /* red */
+  color: #fff !important;
+}
+
+.back-button {
+  background: #1b5e20 !important; /* green */
+}
+
+.header-text h1 {
+  display: flex;
+  flex-direction: column;
+}
+
+.header-text h1 span {
+  font-size: 0.8em;
+  color: #ffeb3b;
+  text-shadow: 1px 1px 2px #000;
+}
+</style>
 
 </body>
 </html>
