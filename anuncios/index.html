@@ -1,24 +1,24 @@
 <!DOCTYPE html>
 <html lang="es">
-<head> 
+<head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Iglesia Cristiana El Camino De Salvación</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Anuncios - Camino De Salvación</title>
+  <link rel="stylesheet" href="../style.css">
 </head>
 
 <body>
 
 <header>
-  <div class="logo-container">
-    <img src="logo.png" alt="Camino De Salvación Logo">
+  <div class="logo-container ">
+    <img src="../logo.png" alt="Camino De Salvación Logo">
   </div>
   <div class="divider"></div>
   <div class="header-text">
-    <!-- Add lights to these titles -->
+    <!-- Add lights to the headers -->
     <h1 class="light-letters">Iglesia Cristiana </h1>
     <h1 class="light-letters">El Camino De Salvación</h1>
-    <p>Bienvenidos a nuestra transmisión en vivo</p>
+    <p>Anuncios y Noticias</p>
   </div>
 
   <!-- 🎄 CHRISTMAS DECOR (trees + gifts) -->
@@ -27,6 +27,7 @@
     <div class="christmas-left">
       🎄 <span class="gift">🎁</span>
     </div>
+
     <!-- Gift toward center, tree outside -->
     <div class="christmas-right">
       <span class="gift">🎁</span> 🎄
@@ -34,90 +35,43 @@
   </div>
 </header>
 
+<!-- NAVIGATION -->
 <div class="navbar">
-  <a href="/" class="active">Inicio</a>
-  <a href="anuncios/">Anuncios</a>
-  <a href="versiculos/">Versículos</a>
+  <a href="/">Inicio</a>
+  <a href="../anuncios/" class="active">Anuncios</a>
+  <a href="../versiculos/">Versículos</a>
 </div>
 
+<!-- GLOBAL PAGE CONTAINER -->
 <div class="page-container">
-  <main>
-    <div class="video-container" id="video-box">
-      <p>Cargando transmisión...</p>
-    </div>
-    <div id="previous-video-box"></div>
-  </main>
+  <h2>Anuncios de la Iglesia</h2>
+
+  <div class="announcement-box">
+    <h3>Domingo, Diciembre 21, 2025 (5:00pm-7:00 pm)</h3>
+    <p>Convivio De Niños</p>
+  </div>
+  
+  <div class="announcement-box">
+    <h3>Miércoles, Diciembre 24, 2025 (6:00 pm)</h3>
+    <p>Drama - Dios Hecho Hombre</p>
+  </div>
+
+  <div class="announcement-box">
+    <h3>Enero 16, 17 y 18, 2026</h3>
+    <p>Retiro de Jóvenes 2026</p>
+  </div>
+
+  <!-- Add more announcements as needed -->
 </div>
 
 <footer>
   <p>© 2025 Iglesia Cristiana El Camino De Salvación</p>
 </footer>
 
-<!-- Include centralized live.js -->
-<script src="live.js"></script>
+<!-- Include centralized live.js for dynamic glow -->
+<script src="../live.js"></script>
 <script>
-  const videoBox = document.getElementById("video-box");
-  const previousBox = document.getElementById("previous-video-box");
-
-  let currentVideo = null;
-  let previousVideo = null;
-
-  function renderVideo(videoId, title, showBack = false) {
-    const html = `
-      <h2 style="margin:10px 0; font-size:1.5em;">${title}</h2>
-      <iframe
-        src="https://www.youtube.com/embed/${videoId}?autoplay=1"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen loading="lazy">
-      </iframe>
-      ${showBack ? '<button class="back-button" onclick="showCurrentVideo()">Volver al Video Actual</button>' : ''}
-    `;
-    videoBox.innerHTML = html;
-  }
-
-  function showCurrentVideo() {
-    if (!currentVideo) return;
-    renderVideo(currentVideo.videoId, currentVideo.title, false);
-    showPreviousThumbnail();
-  }
-
-  function showPreviousThumbnail() {
-    if (!previousVideo || !previousBox) return;
-    previousBox.innerHTML = `
-      <div class="previous-video">
-        <h3>Video Anterior</h3>
-        <img src="https://img.youtube.com/vi/${previousVideo.videoId}/hqdefault.jpg"
-             alt="${previousVideo.title}"
-             onclick="showPreviousVideo()">
-        <p>${previousVideo.title}</p>
-      </div>
-    `;
-  }
-
-  function showPreviousVideo() {
-    if (!previousVideo) return;
-    renderVideo(previousVideo.videoId, previousVideo.title, true);
-  }
-
-  // Fetch Worker and render video
-  fetch('https://youtube-live-proxy.iglesia-4e5.workers.dev')
-    .then(res => res.json())
-    .then(data => {
-      if (data.videoId) {
-        currentVideo = { videoId: data.videoId, title: data.title };
-        previousVideo = data.previousVideo || null;
-        renderVideo(currentVideo.videoId, currentVideo.title, false);
-        showPreviousThumbnail();
-      } else {
-        videoBox.innerHTML = `<p>No hay transmisión disponible en este momento.</p>`;
-      }
-    })
-    .catch(err => {
-      console.error(err);
-      videoBox.innerHTML = `<p>Error cargando transmisión.</p>`;
-    });
-
-  // Initialize the dynamic live glow for Inicio tab
+  // Initialize live glow dynamically
   Live.init();
 </script>
 
@@ -134,23 +88,21 @@ const ctx = canvas.getContext('2d');
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
-const snowflakes = Array.from({ length: 120 }, () => ({
-  x: Math.random() * canvas.width,
-  y: Math.random() * canvas.height,
-  r: Math.random() * 4 + 1,
-  d: Math.random() * 1
+const snowflakes = Array.from({length: 120}, () => ({
+  x: Math.random()*canvas.width,
+  y: Math.random()*canvas.height,
+  r: Math.random()*4 + 1,
+  d: Math.random()*1
 }));
 
 function drawSnow() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle = 'white';
   ctx.beginPath();
-  ctx.fillStyle = "white";
-
   snowflakes.forEach(f => {
     ctx.moveTo(f.x, f.y);
-    ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
+    ctx.arc(f.x, f.y, f.r, 0, Math.PI*2);
   });
-
   ctx.fill();
   moveSnow();
 }
@@ -158,16 +110,16 @@ function drawSnow() {
 function moveSnow() {
   snowflakes.forEach(f => {
     f.y += Math.pow(f.d, 2) + 1;
-    if (f.y > canvas.height) {
+    if(f.y > canvas.height){
       f.y = -10;
-      f.x = Math.random() * canvas.width;
+      f.x = Math.random()*canvas.width;
     }
   });
 }
 
 setInterval(drawSnow, 30);
 
-window.addEventListener("resize", () => {
+window.addEventListener('resize', () => {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
 });
@@ -202,8 +154,8 @@ document.addEventListener("DOMContentLoaded", () => {
 /* ---------- Snow canvas ---------- */
 #snow-canvas {
   position: fixed;
-  top: 0;
-  left: 0;
+  top:0;
+  left:0;
   pointer-events: none;
   z-index: 9999;
 }
@@ -212,6 +164,7 @@ document.addEventListener("DOMContentLoaded", () => {
 header {
   position: relative;
 }
+
 /* ---------- Christmas Decor (trees + gifts) ---------- */
 #christmas-decor {
   position: absolute;
@@ -225,7 +178,7 @@ header {
 #christmas-decor .christmas-left,
 #christmas-decor .christmas-right {
   position: absolute;
-  font-size: 3.1rem;
+  font-size: 3.1rem;      /* tree size */
   display: flex;
   flex-direction: row;
   align-items: flex-end;
@@ -233,11 +186,11 @@ header {
   animation: blink 2s infinite alternate;
 }
 
-/* Trees moved EVEN FURTHER outward */
-#christmas-decor .christmas-left  { left: 1.5%;  bottom: -2px; }
-#christmas-decor .christmas-right { right: 1.5%; bottom: -2px; }
+/* Fewer letters here -> trees can be TIGHTER (more inward) */
+#christmas-decor .christmas-left  { left: 10%; bottom: -2px; }
+#christmas-decor .christmas-right { right: 10%; bottom: -2px; }
 
-/* Small gifts */
+/* Small gifts next to trees */
 #christmas-decor .gift {
   font-size: 1.1rem;
   margin-bottom: 0;
@@ -298,7 +251,7 @@ header {
   50%     { opacity: 0.4; filter: brightness(1.6); }
 }
 
-/* ---------- Festive navbar colors for active tab ---------- */
+/* ---------- Festive navbar colors ---------- */
 @keyframes christmas-tab {
   0% { background: #1b5e20; }   /* green */
   50% { background: #b71c1c; }  /* red */
@@ -310,7 +263,7 @@ header {
   color: #fff !important;
 }
 
-/* Back button (used in previous video view) */
+/* Back button style (if used anywhere here later) */
 .back-button {
   background: #1b5e20 !important;
   color: #fff;

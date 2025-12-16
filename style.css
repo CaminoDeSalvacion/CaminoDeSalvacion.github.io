@@ -1,4 +1,6 @@
-* { box-sizing: border-box; }
+* {
+  box-sizing: border-box;
+}
 
 body {
   margin: 0;
@@ -7,6 +9,11 @@ body {
   color: #333;
   text-align: center;
 }
+
+/* ----------------------------- */
+/* HEADER                        */
+/* ----------------------------- */
+
 header {
   background: linear-gradient(135deg, #2c3e50, #34495e);
   color: white;
@@ -16,6 +23,7 @@ header {
   justify-content: flex-start;
   flex-wrap: wrap;
 }
+
 .logo-container {
   background: white;
   border-radius: 50%;
@@ -27,30 +35,84 @@ header {
   margin-right: 20px;
   flex-shrink: 0;
 }
+
 .logo-container img {
   max-height: 160px;
   width: auto;
 }
+
 .divider {
   width: 3px;
   background: black;
   height: 70%;
   margin-right: 20px;
-  }
+}
+
 .header-text {
   text-align: left;
-  }
+}
+
 .header-text h1 {
   margin: 0;
   font-size: 2.5em;
 }
+
 .header-text p {
   margin: 5px 0 0;
   font-size: 1.2em;
 }
-main {
-  padding: 20px;
+
+/* ----------------------------- */
+/* GLOBAL NAVIGATION TABS        */
+/* ----------------------------- */
+
+.navbar {
+  display: flex;
+  justify-content: center;
+  background: #2c3e50;
+  padding: 10px 0;
+  gap: 20px;
 }
+
+.navbar a {
+  color: #ddd;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 10px 18px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 1.1em;
+  transition: 0.2s;
+}
+
+.navbar a:hover {
+  background: rgba(255, 255, 255, 0.18);
+  color: white;
+}
+
+.navbar a.active {
+  background: white;
+  color: #2c3e50;
+  font-weight: bold;
+}
+
+/* ----------------------------- */
+/* GLOBAL PAGE CONTAINER         */
+/* ----------------------------- */
+
+.page-container {
+  max-width: 900px;
+  margin: 30px auto;
+  background: white;
+  padding: 25px;
+  border-radius: 18px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  text-align: center;
+}
+
+/* ----------------------------- */
+/* VIDEO PLAYER + PREVIOUS VIDEO */
+/* ----------------------------- */
+
 .video-container {
   position: relative;
   max-width: 800px;
@@ -60,19 +122,14 @@ main {
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+
 iframe {
   width: 100%;
   height: 450px;
   border: none;
   border-radius: 10px;
 }
-footer {
-  background: #2c3e50;
-  color: white;
-  padding: 15px;
-  margin-top: 20px;
-  text-align: center;
-}
+
 .previous-video {
   position: relative;
   margin-top: 25px;
@@ -86,11 +143,13 @@ footer {
   margin-right: auto;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
+
 .previous-video h3 {
   margin-top: 0;
   font-size: 1.3em;
   color: #f1f1f1;
 }
+
 .previous-video img {
   max-width: 100%;
   border-radius: 10px;
@@ -98,14 +157,17 @@ footer {
   cursor: pointer;
   border: 1px solid rgba(255, 255, 255, 0.3);
 }
+
 .previous-video img:hover {
   transform: scale(1.03);
 }
+
 .previous-video p {
   margin: 8px 0 0;
   font-size: 1.05em;
   color: #e8e8e8;
 }
+
 .back-button {
   background: #2c3e50;
   color: white;
@@ -116,14 +178,121 @@ footer {
   cursor: pointer;
   transition: background 0.2s;
 }
+
 .back-button:hover {
   background: #1a242f;
- }
+}
+
+/* ----------------------------- */
+/* FOOTER                        */
+/* ----------------------------- */
+
+footer {
+  background: #2c3e50;
+  color: white;
+  padding: 15px;
+  margin-top: 20px;
+  text-align: center;
+}
+
+/* ----------------------------- */
+/* MOBILE                        */
+/* ----------------------------- */
+
 @media (max-width: 768px) {
-  header { flex-direction: column; }
-  .divider { display: none; }
-  .header-text { text-align: center; margin-top: 10px; }
-  .logo-container { width: 180px; height: 180px; margin: 0 0 10px 0; }
-  .logo-container img { max-height: 150px; }
-  .header-text h1 { font-size: 2em; }
+  header {
+    flex-direction: column;
+  }
+
+  .divider {
+    display: none;
+  }
+
+  .header-text {
+    text-align: center;
+    margin-top: 10px;
+  }
+
+  .logo-container {
+    width: 180px;
+    height: 180px;
+    margin: 0 0 10px 0;
+  }
+
+  .logo-container img {
+    max-height: 150px;
+  }
+
+  .header-text h1 {
+    font-size: 2em;
+  }
+}
+.verse-box {
+  background: rgba(0,0,0,0.05);
+  border-left: 5px solid #2c3e50;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+.verse-box h3 {
+  margin: 0 0 8px 0;
+  color: #2c3e50;
+}
+.verse-box p {
+  margin: 0;
+  font-size: 1.1em;
+}
+.announcement-box {
+  background: rgba(255, 255, 255, 0.9); /* Slightly off-white to pop from page */
+  border: 1px solid rgba(0, 0, 0, 0.1); /* Subtle border */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* Soft shadow */
+  padding: 15px 20px;
+  border-radius: 12px;
+  margin-bottom: 15px;
+  text-align: left;
+  transition: transform 0.2s ease;
+}
+
+.announcement-box:hover {
+  transform: translateY(-2px); /* small hover lift effect */
+}
+
+.announcement-box h3 {
+  margin: 0 0 5px 0;
+  color: #2c3e50;
+}
+
+.announcement-box p {
+  margin: 0;
+  color: #333;
+  font-size: 1.05em;
+}
+
+/* ----------------------------- */
+/* LIVE TAB PULSING GLOW         */
+/* ----------------------------- */
+.navbar a.live {
+  background: red;
+  color: white;
+  font-weight: bold;
+  border-radius: 8px;
+  box-shadow: 0 0 10px red, 0 0 20px red;
+  animation: pulseRed 1.5s infinite;
+  transition: 0.3s;
+}
+
+.navbar a.live:hover {
+  box-shadow: 0 0 15px red, 0 0 25px red;
+}
+
+@keyframes pulseRed {
+  0% {
+    box-shadow: 0 0 5px red, 0 0 10px red;
+  }
+  50% {
+    box-shadow: 0 0 15px red, 0 0 30px red;
+  }
+  100% {
+    box-shadow: 0 0 5px red, 0 0 10px red;
+  }
 }

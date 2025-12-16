@@ -1,130 +1,109 @@
 <!DOCTYPE html>
 <html lang="es">
-<head> 
+<head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Iglesia Cristiana El Camino De Salvación</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Versículos Para Memorizar - Camino De Salvación</title>
+  <link rel="stylesheet" href="../style.css">
 </head>
 
 <body>
 
 <header>
   <div class="logo-container">
-    <img src="logo.png" alt="Camino De Salvación Logo">
-  </div>
-  <div class="divider"></div>
-  <div class="header-text">
-    <!-- Add lights to these titles -->
-    <h1 class="light-letters">Iglesia Cristiana </h1>
-    <h1 class="light-letters">El Camino De Salvación</h1>
-    <p>Bienvenidos a nuestra transmisión en vivo</p>
+    <img src="../logo.png" alt="Camino De Salvación Logo">
   </div>
 
-  <!-- 🎄 CHRISTMAS DECOR (trees + gifts) -->
+  <div class="divider"></div>
+
+  <div class="header-text">
+    <h1 class="light-letters">Iglesia Cristiana </h1>
+    <h1 class="light-letters">El Camino De Salvación</h1>
+    <p>Versículos Para Memorizar</p>
+  </div>
+
+  <!-- 🎄 CHRISTMAS DECOR -->
   <div id="christmas-decor">
-    <!-- Tree outside, gift toward center -->
     <div class="christmas-left">
       🎄 <span class="gift">🎁</span>
     </div>
-    <!-- Gift toward center, tree outside -->
+
     <div class="christmas-right">
       <span class="gift">🎁</span> 🎄
     </div>
   </div>
 </header>
 
+<!-- NAVIGATION -->
 <div class="navbar">
-  <a href="/" class="active">Inicio</a>
-  <a href="anuncios/">Anuncios</a>
-  <a href="versiculos/">Versículos</a>
+  <a href="/">Inicio</a>
+  <a href="../anuncios/">Anuncios</a>
+  <a href="../versiculos/" class="active">Versículos</a>
 </div>
 
+<!-- PAGE CONTAINER -->
 <div class="page-container">
-  <main>
-    <div class="video-container" id="video-box">
-      <p>Cargando transmisión...</p>
+  <h2>Versículos Para Memorizar</h2>
+  <p>Estos son los versículos seleccionados para memorizar esta temporada.</p>
+
+  <div style="margin-top: 25px; text-align: left;">
+    <div class="verse-box">
+      <h3>Proverbios 1:7</h3>
+      <p>"El principio de la sabiduría es el temor de Jehová; Los insensatos desprecian la sabiduría y la enseñanza."</p>
     </div>
-    <div id="previous-video-box"></div>
-  </main>
+
+    <div class="verse-box">
+      <h3>Proverbios 2:6</h3>
+      <p>"Porque Jehová da la sabiduría, Y de su boca viene el conocimiento y la inteligencia."</p>
+    </div>
+
+    <div class="verse-box">
+      <h3>Proverbios 3:13</h3>
+      <p>"Bienaventurado el hombre que halla la sabiduría, Y que obtiene la inteligencia;"</p>
+    </div>
+
+    <div class="verse-box">
+      <h3>Proverbios 4:13</h3>
+      <p>"Retén el consejo, no lo dejes; Guárdalo, porque eso es tu vida."</p>
+    </div>
+
+    <div class="verse-box">
+      <h3>Proverbios 5:1</h3>
+      <p>"Hijo mío, está atento a mi sabiduría, Y a mi inteligencia inclina tu oído,"</p>
+    </div>
+
+    <div class="verse-box">
+      <h3>Proverbios 6:23</h3>
+      <p>"Porque el mandamiento es lámpara, y la enseñanza es luz, Y camino de vida las reprensiones que te instruyen,"</p>
+    </div>
+
+    <div class="verse-box">
+      <h3>Proverbios 7:2</h3>
+      <p>"Guarda mis mandamientos y vivirás, Y mi ley como las niñas de tus ojos."</p>
+    </div>
+
+    <div class="verse-box">
+      <h3>Proverbios 8:13</h3>
+      <p>"El temor de Jehová es aborrecer el mal; La soberbia y la arrogancia, el mal camino, Y la boca perversa, aborrezco."</p>
+    </div>
+
+    <div class="verse-box">
+      <h3>Proverbios 9:10</h3>
+      <p>"El temor de Jehová es el principio de la sabiduría, Y el conocimiento del Santísimo es la inteligencia."</p>
+    </div>
+  </div>
 </div>
 
 <footer>
   <p>© 2025 Iglesia Cristiana El Camino De Salvación</p>
 </footer>
 
-<!-- Include centralized live.js -->
-<script src="live.js"></script>
+<script src="../live.js"></script>
 <script>
-  const videoBox = document.getElementById("video-box");
-  const previousBox = document.getElementById("previous-video-box");
-
-  let currentVideo = null;
-  let previousVideo = null;
-
-  function renderVideo(videoId, title, showBack = false) {
-    const html = `
-      <h2 style="margin:10px 0; font-size:1.5em;">${title}</h2>
-      <iframe
-        src="https://www.youtube.com/embed/${videoId}?autoplay=1"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen loading="lazy">
-      </iframe>
-      ${showBack ? '<button class="back-button" onclick="showCurrentVideo()">Volver al Video Actual</button>' : ''}
-    `;
-    videoBox.innerHTML = html;
-  }
-
-  function showCurrentVideo() {
-    if (!currentVideo) return;
-    renderVideo(currentVideo.videoId, currentVideo.title, false);
-    showPreviousThumbnail();
-  }
-
-  function showPreviousThumbnail() {
-    if (!previousVideo || !previousBox) return;
-    previousBox.innerHTML = `
-      <div class="previous-video">
-        <h3>Video Anterior</h3>
-        <img src="https://img.youtube.com/vi/${previousVideo.videoId}/hqdefault.jpg"
-             alt="${previousVideo.title}"
-             onclick="showPreviousVideo()">
-        <p>${previousVideo.title}</p>
-      </div>
-    `;
-  }
-
-  function showPreviousVideo() {
-    if (!previousVideo) return;
-    renderVideo(previousVideo.videoId, previousVideo.title, true);
-  }
-
-  // Fetch Worker and render video
-  fetch('https://youtube-live-proxy.iglesia-4e5.workers.dev')
-    .then(res => res.json())
-    .then(data => {
-      if (data.videoId) {
-        currentVideo = { videoId: data.videoId, title: data.title };
-        previousVideo = data.previousVideo || null;
-        renderVideo(currentVideo.videoId, currentVideo.title, false);
-        showPreviousThumbnail();
-      } else {
-        videoBox.innerHTML = `<p>No hay transmisión disponible en este momento.</p>`;
-      }
-    })
-    .catch(err => {
-      console.error(err);
-      videoBox.innerHTML = `<p>Error cargando transmisión.</p>`;
-    });
-
-  // Initialize the dynamic live glow for Inicio tab
   Live.init();
 </script>
 
-<!-- ----------------------------- -->
-<!-- CHRISTMAS VIBES MODULE        -->
-<!-- ----------------------------- -->
-
+<!-- SNOW + CHRISTMAS MODULE -->
 <canvas id="snow-canvas"></canvas>
 
 <script>
@@ -175,7 +154,7 @@ window.addEventListener("resize", () => {
 /* ---------- Christmas Lights on Letters ---------- */
 document.addEventListener("DOMContentLoaded", () => {
   const elements = document.querySelectorAll(".light-letters");
-  const colors = ["#ff5252", "#ffca28", "#66bb6a", "#42a5f5"]; // red, yellow, green, blue
+  const colors = ["#ff5252", "#ffca28", "#66bb6a", "#42a5f5"]; 
 
   elements.forEach(el => {
     const text = el.textContent;
@@ -199,7 +178,7 @@ document.addEventListener("DOMContentLoaded", () => {
 </script>
 
 <style>
-/* ---------- Snow canvas ---------- */
+/* Snow */
 #snow-canvas {
   position: fixed;
   top: 0;
@@ -208,10 +187,8 @@ document.addEventListener("DOMContentLoaded", () => {
   z-index: 9999;
 }
 
-/* Allow decor to anchor to the header */
-header {
-  position: relative;
-}
+header { position: relative; }
+
 /* ---------- Christmas Decor (trees + gifts) ---------- */
 #christmas-decor {
   position: absolute;
@@ -233,11 +210,11 @@ header {
   animation: blink 2s infinite alternate;
 }
 
-/* Trees moved EVEN FURTHER outward */
-#christmas-decor .christmas-left  { left: 1.5%;  bottom: -2px; }
-#christmas-decor .christmas-right { right: 1.5%; bottom: -2px; }
+/* Trees closer */
+#christmas-decor .christmas-left  { left: 8%;  bottom: -2px; }
+#christmas-decor .christmas-right { right: 8%; bottom: -2px; }
 
-/* Small gifts */
+/* Gifts */
 #christmas-decor .gift {
   font-size: 1.1rem;
   margin-bottom: 0;
@@ -252,24 +229,22 @@ header {
   100% { opacity: 1;   color: #4caf50; }
 }
 
-/* ---------- Lights on top of letters ---------- */
-.light-letters {
-  position: relative;
-}
+/* ---------- Christmas Lights on Letters (touching) ---------- */
+.light-letters { position: relative; }
 
 .light-letter {
   position: relative;
   display: inline-block;
-  color: inherit;        /* keep original header color */
+  color: inherit;
   font-weight: inherit;
   text-shadow: none;
 }
 
-/* wire TOUCHING top of letters */
+/* wire touching letters */
 .light-letter::before {
   content: "";
   position: absolute;
-  top: 0em;              /* right at top of glyph */
+  top: 0em;       
   left: 5%;
   width: 90%;
   height: 2px;
@@ -281,7 +256,7 @@ header {
 .light-letter::after {
   content: "";
   position: absolute;
-  top: -0.18em;          /* overlaps letters slightly */
+  top: -0.18em;  
   left: 50%;
   transform: translateX(-50%);
   width: 0.34em;
@@ -293,27 +268,22 @@ header {
   animation-delay: calc(var(--index) * 0.08s);
 }
 
+/* blink */
 @keyframes bulb-blink {
   0%, 100% { opacity: 1; filter: brightness(1); }
   50%     { opacity: 0.4; filter: brightness(1.6); }
 }
 
-/* ---------- Festive navbar colors for active tab ---------- */
+/* ---------- RESTORED CHRISTMAS TAB COLORS ---------- */
 @keyframes christmas-tab {
-  0% { background: #1b5e20; }   /* green */
-  50% { background: #b71c1c; }  /* red */
+  0% { background: #1b5e20; }
+  50% { background: #b71c1c; }
   100% { background: #1b5e20; }
 }
 
 .navbar a.active {
   animation: christmas-tab 2s infinite;
   color: #fff !important;
-}
-
-/* Back button (used in previous video view) */
-.back-button {
-  background: #1b5e20 !important;
-  color: #fff;
 }
 </style>
 
