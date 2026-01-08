@@ -1,0 +1,103 @@
+/* ---------- Snow canvas ---------- */
+#snow-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* Allow decor to anchor to the header */
+header { position: relative; }
+
+/* ---------- Christmas Decor (trees + gifts) ---------- */
+#christmas-decor {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -6px;
+  pointer-events: none;
+  z-index: 10001;
+}
+
+#christmas-decor .christmas-left,
+#christmas-decor .christmas-right {
+  position: absolute;
+  font-size: 3.1rem;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  gap: 4px;
+  animation: blink 2s infinite alternate;
+}
+
+/* Position */
+#christmas-decor .christmas-left  { left: 10%; bottom: -2px; }
+#christmas-decor .christmas-right { right: 10%; bottom: -2px; }
+
+#christmas-decor .gift {
+  font-size: 1.1rem;
+  margin-bottom: 0;
+}
+
+@keyframes blink {
+  0%   { opacity: 1;   color: #4caf50; }
+  25%  { opacity: 0.5; color: #f44336; }
+  50%  { opacity: 1;   color: #4caf50; }
+  75%  { opacity: 0.5; color: #b71c1c; }
+  100% { opacity: 1;   color: #4caf50; }
+}
+
+/* ---------- Lights on letters ---------- */
+.light-letters { position: relative; }
+
+.light-letter {
+  position: relative;
+  display: inline-block;
+  color: inherit;
+  font-weight: inherit;
+  text-shadow: none;
+}
+
+.light-letter::before {
+  content: "";
+  position: absolute;
+  top: 0em;
+  left: 5%;
+  width: 90%;
+  height: 2px;
+  background: #222;
+  border-radius: 999px;
+}
+
+.light-letter::after {
+  content: "";
+  position: absolute;
+  top: -0.18em;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0.34em;
+  height: 0.34em;
+  border-radius: 50%;
+  background: var(--bulb-color);
+  box-shadow: 0 0 6px var(--bulb-color);
+  animation: bulb-blink 1.4s infinite;
+  animation-delay: calc(var(--index) * 0.08s);
+}
+
+@keyframes bulb-blink {
+  0%, 100% { opacity: 1; filter: brightness(1); }
+  50%      { opacity: 0.4; filter: brightness(1.6); }
+}
+
+/* ---------- Optional festive active tab (if you want it) ---------- */
+@keyframes christmas-tab {
+  0%   { background: #1b5e20; }
+  50%  { background: #b71c1c; }
+  100% { background: #1b5e20; }
+}
+
+.navbar a.active.christmas-active {
+  animation: christmas-tab 2s infinite;
+  color: #fff !important;
+}
