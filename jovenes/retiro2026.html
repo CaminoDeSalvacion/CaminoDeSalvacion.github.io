@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Retiro de Jóvenes 2026 - Lecciones</title>
+
+  <!-- Use your existing site styles -->
+  <link rel="stylesheet" href="../style.css" />
+
+  <style>
+    /* Small page-specific styles */
+    .lesson-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+      margin-top: 18px;
+      text-align: left;
+    }
+
+    @media (min-width: 768px) {
+      .lesson-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    .lesson-card {
+      background: rgba(0,0,0,0.03);
+      border: 1px solid rgba(0,0,0,0.08);
+      border-radius: 14px;
+      padding: 16px;
+    }
+
+    .lesson-card h3 {
+      margin: 0 0 8px 0;
+      color: #2c3e50;
+    }
+
+    .lesson-meta {
+      font-size: 0.95em;
+      color: #555;
+      margin-bottom: 10px;
+    }
+
+    .lesson-links a {
+      display: inline-block;
+      margin-right: 10px;
+      margin-top: 8px;
+      padding: 8px 12px;
+      border-radius: 10px;
+      background: #2c3e50;
+      color: #fff;
+      text-decoration: none;
+      font-size: 0.95em;
+    }
+
+    .lesson-links a:hover {
+      opacity: 0.9;
+    }
+
+    .note {
+      background: #fff8d6;
+      border: 1px solid #f2e4a3;
+      padding: 12px 14px;
+      border-radius: 12px;
+      text-align: left;
+      margin-top: 16px;
+    }
+
+    .back-home {
+      display: inline-block;
+      margin-top: 16px;
+      text-decoration: none;
+      color: #2c3e50;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="logo-container">
+      <img src="../logo.png" alt="Camino De Salvación Logo" />
+    </div>
+    <div class="divider"></div>
+    <div class="header-text">
+      <h1>Iglesia Cristiana</h1>
+      <h1>Camino de Salvación</h1>
+      <p>Retiro de Jóvenes 2026</p>
+    </div>
+  </header>
+
+  <div class="page-container">
+    <h2>Lecciones</h2>
+    <p>Aquí estarán las lecciones del retiro.</p>
+
+    <div class="note">
+      <strong>Nota:</strong> Esta página no aparece en el menú del sitio. Se accede solo por enlace o QR.
+    </div>
+
+    <div class="lesson-grid">
+
+      <div class="lesson-card">
+        <h3>Lección 1: (Título aquí)</h3>
+        <div class="lesson-meta"> Maestro: ___</div>
+        <p>Resumen breve de la lección (1-2 oraciones).</p>
+        <div class="lesson-links">
+          <a href="lessons/leccion-1.pdf" target="_blank" rel="noopener">PDF</a>
+       
+        </div>
+      </div>
+
+      <div class="lesson-card">
+        <h3>Lección 2: (Título aquí)</h3>
+        <div class="lesson-meta"> Maestro: ___</div>
+        <p>Resumen breve de la lección (1-2 oraciones).</p>
+        <div class="lesson-links">
+          <a href="lessons/leccion-2.pdf" target="_blank" rel="noopener">PDF</a>
+        </div>
+      </div>
+
+
+    </div>
+
+    <a class="back-home" href="../">← Volver a Inicio</a>
+  </div>
+
+  <footer>
+    <p>© 2026 Iglesia Cristiana El Camino De Salvación</p>
+  </footer>
+
+  <script src="../live.js"></script>
+  <script>
+    Live.init();
+  </script>
+</body>
+</html>

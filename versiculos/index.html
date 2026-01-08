@@ -17,34 +17,28 @@
   <div class="divider"></div>
 
   <div class="header-text">
-    <h1 class="light-letters">Iglesia Cristiana </h1>
-    <h1 class="light-letters">El Camino De Salvación</h1>
+    <h1>Iglesia Cristiana </h1>
+    <h1>El Camino De Salvación</h1>
     <p>Versículos Para Memorizar</p>
-  </div>
-
-  <!-- 🎄 CHRISTMAS DECOR -->
-  <div id="christmas-decor">
-    <div class="christmas-left">
-      🎄 <span class="gift">🎁</span>
-    </div>
-
-    <div class="christmas-right">
-      <span class="gift">🎁</span> 🎄
-    </div>
   </div>
 </header>
 
-<!-- NAVIGATION -->
 <div class="navbar">
   <a href="/">Inicio</a>
   <a href="../anuncios/">Anuncios</a>
   <a href="../versiculos/" class="active">Versículos</a>
 </div>
 
-<!-- PAGE CONTAINER -->
 <div class="page-container">
   <h2>Versículos Para Memorizar</h2>
   <p>Estos son los versículos seleccionados para memorizar esta temporada.</p>
+
+  <div class="text-size-controls" aria-label="Controles de tamaño de texto">
+    <button type="button" data-text-size="decrease" aria-label="Reducir texto">A−</button>
+    <button type="button" data-text-size="reset" aria-label="Tamaño normal">A</button>
+    <button type="button" data-text-size="increase" aria-label="Aumentar texto">A+</button>
+  </div>
+
 
   <div style="margin-top: 25px; text-align: left;">
     <div class="verse-box">
@@ -119,189 +113,7 @@
   Live.init();
 </script>
 
-<!-- SNOW + CHRISTMAS MODULE -->
-<canvas id="snow-canvas"></canvas>
-
-<script>
-/* ---------- Snowfall ---------- */
-const canvas = document.getElementById('snow-canvas');
-const ctx = canvas.getContext('2d');
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-
-const snowflakes = Array.from({ length: 120 }, () => ({
-  x: Math.random() * canvas.width,
-  y: Math.random() * canvas.height,
-  r: Math.random() * 4 + 1,
-  d: Math.random() * 1
-}));
-
-function drawSnow() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx.beginPath();
-  ctx.fillStyle = "white";
-
-  snowflakes.forEach(f => {
-    ctx.moveTo(f.x, f.y);
-    ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
-  });
-
-  ctx.fill();
-  moveSnow();
-}
-
-function moveSnow() {
-  snowflakes.forEach(f => {
-    f.y += Math.pow(f.d, 2) + 1;
-    if (f.y > canvas.height) {
-      f.y = -10;
-      f.x = Math.random() * canvas.width;
-    }
-  });
-}
-
-setInterval(drawSnow, 30);
-
-window.addEventListener("resize", () => {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-});
-
-/* ---------- Christmas Lights on Letters ---------- */
-document.addEventListener("DOMContentLoaded", () => {
-  const elements = document.querySelectorAll(".light-letters");
-  const colors = ["#ff5252", "#ffca28", "#66bb6a", "#42a5f5"]; 
-
-  elements.forEach(el => {
-    const text = el.textContent;
-    el.textContent = "";
-
-    [...text].forEach((ch, i) => {
-      if (ch === " ") {
-        el.appendChild(document.createTextNode(" "));
-        return;
-      }
-
-      const span = document.createElement("span");
-      span.textContent = ch;
-      span.className = "light-letter";
-      span.style.setProperty("--bulb-color", colors[i % colors.length]);
-      span.style.setProperty("--index", i);
-      el.appendChild(span);
-    });
-  });
-});
-</script>
-
-<style>
-/* Snow */
-#snow-canvas {
-  position: fixed;
-  top: 0;
-  left: 0;
-  pointer-events: none;
-  z-index: 9999;
-}
-
-header { position: relative; }
-
-/* ---------- Christmas Decor (trees + gifts) ---------- */
-#christmas-decor {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: -6px;
-  pointer-events: none;
-  z-index: 10001;
-}
-
-#christmas-decor .christmas-left,
-#christmas-decor .christmas-right {
-  position: absolute;
-  font-size: 3.1rem;
-  display: flex;
-  flex-direction: row;
-  align-items: flex-end;
-  gap: 4px;
-  animation: blink 2s infinite alternate;
-}
-
-/* Trees closer */
-#christmas-decor .christmas-left  { left: 8%;  bottom: -2px; }
-#christmas-decor .christmas-right { right: 8%; bottom: -2px; }
-
-/* Gifts */
-#christmas-decor .gift {
-  font-size: 1.1rem;
-  margin-bottom: 0;
-}
-
-/* Tree blinking */
-@keyframes blink {
-  0%   { opacity: 1;   color: #4caf50; }
-  25%  { opacity: 0.5; color: #f44336; }
-  50%  { opacity: 1;   color: #4caf50; }
-  75%  { opacity: 0.5; color: #b71c1c; }
-  100% { opacity: 1;   color: #4caf50; }
-}
-
-/* ---------- Christmas Lights on Letters (touching) ---------- */
-.light-letters { position: relative; }
-
-.light-letter {
-  position: relative;
-  display: inline-block;
-  color: inherit;
-  font-weight: inherit;
-  text-shadow: none;
-}
-
-/* wire touching letters */
-.light-letter::before {
-  content: "";
-  position: absolute;
-  top: 0em;       
-  left: 5%;
-  width: 90%;
-  height: 2px;
-  background: #222;
-  border-radius: 999px;
-}
-
-/* bulbs touching letters */
-.light-letter::after {
-  content: "";
-  position: absolute;
-  top: -0.18em;  
-  left: 50%;
-  transform: translateX(-50%);
-  width: 0.34em;
-  height: 0.34em;
-  border-radius: 50%;
-  background: var(--bulb-color);
-  box-shadow: 0 0 6px var(--bulb-color);
-  animation: bulb-blink 1.4s infinite;
-  animation-delay: calc(var(--index) * 0.08s);
-}
-
-/* blink */
-@keyframes bulb-blink {
-  0%, 100% { opacity: 1; filter: brightness(1); }
-  50%     { opacity: 0.4; filter: brightness(1.6); }
-}
-
-/* ---------- RESTORED CHRISTMAS TAB COLORS ---------- */
-@keyframes christmas-tab {
-  0% { background: #1b5e20; }
-  50% { background: #b71c1c; }
-  100% { background: #1b5e20; }
-}
-
-.navbar a.active {
-  animation: christmas-tab 2s infinite;
-  color: #fff !important;
-}
-</style>
+<script src="../accessibility.js"></script>
 
 </body>
 </html>
