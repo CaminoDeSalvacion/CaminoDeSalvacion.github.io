@@ -1,1 +1,335 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Volantes — Iglesia El Camino De Salvación</title>
+  <link rel="stylesheet" href="../style.css" />
 
+  <!-- ═══════════════════════════════════════════════════════════
+       PAGE-SPECIFIC STYLES — copy this entire <style> block
+       into style.css later when cleaning up the project
+  ════════════════════════════════════════════════════════════ -->
+  <style>
+    .flyers-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+      text-align: left;
+    }
+
+    .flyer-card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+      overflow: hidden;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      cursor: pointer;
+      border: 1px solid rgba(0,0,0,0.07);
+    }
+    .flyer-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.18);
+    }
+
+    .flyer-thumb {
+      width: 100%;
+      aspect-ratio: 8.5 / 11;
+      background: #f4f4f9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+    .flyer-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+    .flyer-thumb .pdf-icon {
+      font-size: 56px;
+      opacity: 0.4;
+    }
+
+    .flyer-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(44, 62, 80, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .flyer-card:hover .flyer-overlay { opacity: 1; }
+    .overlay-btn {
+      background: white;
+      color: #2c3e50;
+      border: none;
+      padding: 10px 22px;
+      border-radius: 8px;
+      font-size: 0.95em;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .flyer-info {
+      padding: 14px 16px;
+      border-top: 1px solid #eee;
+    }
+    .flyer-info h3 {
+      margin: 0 0 6px;
+      font-size: 1em;
+      color: #2c3e50;
+    }
+    .flyer-info .expiry {
+      font-size: 0.85em;
+      color: #666;
+    }
+    .flyer-info .expiry-warn {
+      display: inline-block;
+      background: #fff3cd;
+      color: #856404;
+      font-size: 0.78em;
+      font-weight: bold;
+      padding: 2px 8px;
+      border-radius: 6px;
+      margin-top: 5px;
+    }
+
+    /* LOADING / EMPTY */
+    .state-box {
+      text-align: center;
+      padding: 60px 20px;
+      color: #888;
+    }
+    .state-box .icon { font-size: 48px; display: block; margin-bottom: 12px; }
+    .state-box p { font-size: 1.1em; }
+
+    .spinner {
+      width: 38px; height: 38px;
+      border: 4px solid #ddd;
+      border-top-color: #2c3e50;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 14px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* MODAL */
+    .modal-backdrop {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.75);
+      z-index: 1000;
+      display: flex; align-items: center; justify-content: center;
+      padding: 16px;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.2s;
+    }
+    .modal-backdrop.open { opacity: 1; pointer-events: all; }
+
+    .modal {
+      background: white;
+      border-radius: 14px;
+      width: 100%; max-width: 720px;
+      max-height: 92vh;
+      display: flex; flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+      transform: scale(0.96);
+      transition: transform 0.2s;
+    }
+    .modal-backdrop.open .modal { transform: scale(1); }
+
+    .modal-header {
+      background: #2c3e50;
+      color: white;
+      padding: 14px 18px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .modal-header h3 { margin: 0; font-size: 1em; }
+    .modal-close {
+      background: none; border: none; color: white;
+      font-size: 22px; cursor: pointer; line-height: 1;
+    }
+    .modal-body {
+      flex: 1; overflow: auto;
+      background: #f4f4f9;
+      display: flex; align-items: center; justify-content: center;
+      min-height: 300px;
+    }
+    .modal-body img { max-width: 100%; max-height: 70vh; object-fit: contain; }
+    .modal-body iframe { width: 100%; height: 70vh; border: none; }
+    .modal-footer {
+      padding: 12px 18px;
+      border-top: 1px solid #eee;
+      display: flex; justify-content: flex-end;
+    }
+    .download-btn {
+      background: #2c3e50; color: white;
+      padding: 9px 20px; border-radius: 8px;
+      text-decoration: none; font-size: 0.9em;
+      transition: background 0.2s;
+    }
+    .download-btn:hover { background: #1a242f; }
+
+    @media (max-width: 480px) {
+      .flyers-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+  <!-- ═══════════════════════════════════════════════════════════
+       END PAGE-SPECIFIC STYLES
+  ════════════════════════════════════════════════════════════ -->
+</head>
+<body>
+
+  <header>
+    <div class="logo-container">
+      <img src="../logo.png" alt="Logo Iglesia El Camino De Salvación" />
+    </div>
+    <div class="divider"></div>
+    <div class="header-text">
+      <h1>Iglesia Cristiana</h1>
+      <p>El Camino De Salvación</p>
+    </div>
+  </header>
+
+  <nav class="navbar">
+    <a href="/">Inicio</a>
+    <a href="/anuncios/">Anuncios</a>
+    <a href="/versiculos/">Versículos</a>
+    <a href="/volantes/" class="active">Volantes</a>
+  </nav>
+
+  <div class="page-container">
+    <div class="text-size-controls">
+      <button onclick="adjustFont(-1)">A−</button>
+      <button onclick="adjustFont(1)">A+</button>
+    </div>
+
+    <h2 style="color:#2c3e50; margin-top:0;">📋 Volantes &amp; Avisos</h2>
+    <p style="color:#666; margin-top:-8px;">Avisos y eventos actuales de la iglesia.</p>
+
+    <div id="flyersGrid">
+      <div class="state-box">
+        <div class="spinner"></div>
+        <p>Cargando volantes...</p>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2025 Iglesia Cristiana El Camino De Salvación</p>
+  </footer>
+
+  <!-- MODAL -->
+  <div class="modal-backdrop" id="modalBackdrop">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 id="modalTitle">Volante</h3>
+        <button class="modal-close" onclick="closeModal()">✕</button>
+      </div>
+      <div class="modal-body" id="modalBody"></div>
+      <div class="modal-footer">
+        <a class="download-btn" id="downloadLink" href="#" download target="_blank">⬇ Descargar</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ═══════════════════════════════════════════
+    // CONFIG — paste your Supabase details here
+    // ═══════════════════════════════════════════
+    const SUPABASE_URL      = 'YOUR_SUPABASE_URL';
+    const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
+    const BUCKET_NAME       = 'volantes';
+    const TABLE_NAME        = 'volantes';
+    // ═══════════════════════════════════════════
+
+    async function loadFlyers() {
+      const grid = document.getElementById('flyersGrid');
+      try {
+        const res = await fetch(
+          `${SUPABASE_URL}/rest/v1/${TABLE_NAME}?select=*&order=created_at.desc&limit=5`,
+          { headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': `Bearer ${SUPABASE_ANON_KEY}` } }
+        );
+        if (!res.ok) throw new Error();
+        const all    = await res.json();
+        const active = all.filter(f => new Date(f.expires_at) > new Date());
+
+        if (!active.length) {
+          grid.innerHTML = `<div class="state-box"><span class="icon">📭</span><p>No hay volantes activos en este momento.</p></div>`;
+          return;
+        }
+
+        grid.innerHTML = `<div class="flyers-grid">${active.map(f => {
+          const url      = `${SUPABASE_URL}/storage/v1/object/public/${BUCKET_NAME}/${f.file_path}`;
+          const isPDF    = f.file_path.toLowerCase().endsWith('.pdf');
+          const expiry   = new Date(f.expires_at);
+          const daysLeft = Math.ceil((expiry - new Date()) / 86400000);
+
+          const thumb = isPDF
+            ? `<span class="pdf-icon">📄</span>`
+            : `<img src="${url}" alt="${esc(f.title)}" loading="lazy" />`;
+
+          const warn = daysLeft <= 2
+            ? `<span class="expiry-warn">⚠ Expira pronto</span>` : '';
+
+          return `
+            <div class="flyer-card" onclick="openModal('${esc(f.title)}','${url}',${isPDF})">
+              <div class="flyer-thumb">
+                ${thumb}
+                <div class="flyer-overlay"><button class="overlay-btn">Ver Volante</button></div>
+              </div>
+              <div class="flyer-info">
+                <h3>${esc(f.title)}</h3>
+                <div class="expiry">Válido hasta: ${expiry.toLocaleDateString('es-ES',{day:'numeric',month:'long',year:'numeric'})}</div>
+                ${warn}
+              </div>
+            </div>`;
+        }).join('')}</div>`;
+
+      } catch(e) {
+        grid.innerHTML = `<div class="state-box"><span class="icon">⚠️</span><p>No se pudieron cargar los volantes.</p></div>`;
+      }
+    }
+
+    function openModal(title, url, isPDF) {
+      document.getElementById('modalTitle').textContent = title;
+      document.getElementById('downloadLink').href = url;
+      document.getElementById('modalBody').innerHTML = isPDF
+        ? `<iframe src="${url}"></iframe>`
+        : `<img src="${url}" alt="${title}" />`;
+      document.getElementById('modalBackdrop').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      document.getElementById('modalBackdrop').classList.remove('open');
+      document.body.style.overflow = '';
+      document.getElementById('modalBody').innerHTML = '';
+    }
+
+    document.getElementById('modalBackdrop').addEventListener('click', function(e) {
+      if (e.target === this) closeModal();
+    });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+    function esc(s) {
+      return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    // Font size accessibility (matches your existing site)
+    function adjustFont(dir) {
+      const root = document.documentElement;
+      let scale = parseFloat(getComputedStyle(root).getPropertyValue('--base-font-scale')) || 1;
+      scale = Math.min(1.5, Math.max(0.8, scale + dir * 0.1));
+      root.style.setProperty('--base-font-scale', scale);
+    }
+
+    loadFlyers();
+  </script>
+</body>
+</html>
