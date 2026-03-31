@@ -1,1 +1,729 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <title>Admin Volantes — ECDS</title>
+  <link rel="stylesheet" href="../style.css" />
 
+  <!-- ═══════════════════════════════════════════════════════════
+       PAGE-SPECIFIC STYLES — copy this entire <style> block
+       into style.css later when cleaning up the project
+  ════════════════════════════════════════════════════════════ -->
+  <style>
+    /* Override body text-align for admin */
+    body { text-align: left; background: #f4f4f9; }
+
+    /* ── LOGIN ─────────────────────────────────── */
+    #loginScreen {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      padding: 24px 16px;
+    }
+
+    .login-card {
+      background: white;
+      border-radius: 18px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      padding: 36px 28px 28px;
+      width: 100%; max-width: 380px;
+      text-align: center;
+    }
+
+    .login-card .church-logo {
+      width: 90px; height: 90px;
+      background: #2c3e50;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 36px;
+      margin: 0 auto 16px;
+      color: white;
+    }
+
+    .login-card h2 {
+      color: #2c3e50;
+      margin: 0 0 4px;
+      font-size: 1.4em;
+    }
+    .login-card .sub {
+      color: #888;
+      font-size: 0.9em;
+      margin-bottom: 24px;
+    }
+
+    .login-card input[type="password"] {
+      width: 100%;
+      padding: 14px 16px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      font-size: 16px; /* prevent iOS zoom */
+      font-family: Arial, sans-serif;
+      outline: none;
+      transition: border-color 0.2s;
+      margin-bottom: 12px;
+    }
+    .login-card input[type="password"]:focus { border-color: #2c3e50; }
+
+    .login-card .btn-login {
+      width: 100%;
+      padding: 14px;
+      background: #2c3e50;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 1em;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .login-card .btn-login:active { background: #1a242f; }
+
+    .login-error {
+      margin-top: 10px;
+      color: #c0392b;
+      font-size: 0.9em;
+      display: none;
+    }
+
+    /* ── ADMIN PANEL ──────────────────────────── */
+    #adminPanel { display: none; }
+
+    .admin-topbar {
+      background: linear-gradient(135deg, #2c3e50, #34495e);
+      color: white;
+      padding: 14px 18px;
+      display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; z-index: 50;
+    }
+    .admin-topbar h2 { margin: 0; font-size: 1.1em; }
+    .admin-topbar p  { margin: 2px 0 0; font-size: 0.78em; color: #aac; }
+
+    .btn-logout {
+      background: rgba(255,255,255,0.12);
+      color: white;
+      border: 1px solid rgba(255,255,255,0.25);
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 0.85em;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-logout:active { background: rgba(255,255,255,0.22); }
+
+    /* TABS */
+    .admin-tabs {
+      display: flex;
+      background: #34495e;
+      position: sticky; top: 57px; z-index: 40;
+    }
+    .admin-tab {
+      flex: 1; padding: 13px 8px;
+      text-align: center;
+      color: #aac;
+      font-size: 0.9em;
+      font-weight: bold;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      transition: color 0.2s, border-color 0.2s;
+      user-select: none;
+    }
+    .admin-tab.active { color: white; border-bottom-color: white; }
+
+    .tab-pane { display: none; padding: 18px 16px 60px; max-width: 600px; margin: 0 auto; }
+    .tab-pane.active { display: block; }
+
+    /* SECTION TITLE */
+    .section-title {
+      font-size: 0.8em;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #888;
+      margin-bottom: 10px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    /* CAPTURE BUTTONS */
+    .capture-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .capture-btn {
+      position: relative;
+      background: white;
+      border: 2px dashed #ccc;
+      border-radius: 14px;
+      padding: 26px 10px;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+      overflow: hidden;
+    }
+    .capture-btn input {
+      position: absolute; inset: 0;
+      opacity: 0; width: 100%; height: 100%;
+      cursor: pointer; font-size: 16px;
+    }
+    .capture-btn:active, .capture-btn.selected {
+      border-color: #2c3e50;
+      border-style: solid;
+      background: #eaf0f6;
+    }
+    .capture-btn .c-icon   { font-size: 34px; line-height: 1; }
+    .capture-btn .c-label  { font-weight: bold; font-size: 0.9em; color: #2c3e50; text-align: center; line-height: 1.3; }
+    .capture-btn .c-sub    { font-size: 0.75em; color: #888; text-align: center; }
+
+    /* PREVIEW */
+    .preview-wrap {
+      display: none;
+      margin-bottom: 18px;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid #ddd;
+      background: #f4f4f9;
+      position: relative;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    .preview-wrap img { width: 100%; max-height: 320px; object-fit: contain; display: block; }
+    .preview-pdf { padding: 28px; text-align: center; color: #888; }
+    .preview-pdf .p-icon { font-size: 44px; display: block; margin-bottom: 6px; }
+    .preview-pdf .p-name { font-size: 0.85em; color: #555; word-break: break-all; }
+    .preview-clear {
+      position: absolute; top: 8px; right: 8px;
+      width: 30px; height: 30px;
+      background: rgba(44,62,80,0.85);
+      border-radius: 50%;
+      color: white; font-size: 14px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; z-index: 2;
+      border: none;
+    }
+
+    /* FORM */
+    .form-field { margin-bottom: 14px; }
+    .form-field label {
+      display: block;
+      font-size: 0.78em;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #888;
+      margin-bottom: 6px;
+    }
+    .form-field input {
+      width: 100%;
+      padding: 14px 13px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      font-size: 16px; /* prevent iOS zoom */
+      font-family: Arial, sans-serif;
+      outline: none;
+      transition: border-color 0.2s;
+      background: white;
+      color: #333;
+    }
+    .form-field input:focus { border-color: #2c3e50; }
+
+    /* EXPIRY PILLS */
+    .pill-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
+    .pill {
+      padding: 7px 14px;
+      border-radius: 20px;
+      border: 1px solid #ccc;
+      font-size: 0.85em;
+      color: #555;
+      cursor: pointer;
+      background: white;
+      transition: all 0.15s;
+      user-select: none;
+    }
+    .pill:active, .pill.active {
+      background: #2c3e50;
+      color: white;
+      border-color: #2c3e50;
+    }
+
+    /* TOAST */
+    .toast {
+      padding: 12px 16px;
+      border-radius: 10px;
+      font-size: 0.92em;
+      margin-bottom: 14px;
+      display: none;
+      line-height: 1.4;
+    }
+    .toast.success { background: #d4edda; border: 1px solid #c3e6cb; color: #155724; }
+    .toast.error   { background: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; }
+
+    .progress-bar-wrap {
+      display: none;
+      height: 5px;
+      background: #e0e0e0;
+      border-radius: 3px;
+      overflow: hidden;
+      margin-bottom: 14px;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      background: #2c3e50;
+      width: 0%;
+      transition: width 0.4s ease;
+    }
+
+    .btn-upload {
+      width: 100%;
+      padding: 16px;
+      background: #2c3e50;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 1em;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+      margin-top: 4px;
+    }
+    .btn-upload:active { background: #1a242f; transform: scale(0.98); }
+    .btn-upload:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
+
+    /* ── MANAGE TAB ──────────────────────────── */
+    .capacity-card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+      padding: 14px 16px;
+      margin-bottom: 18px;
+    }
+    .cap-row { display: flex; justify-content: space-between; margin-bottom: 7px; }
+    .cap-row span { font-size: 0.82em; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; color: #888; }
+    .cap-row strong { color: #2c3e50; font-size: 0.95em; }
+    .cap-bar { height: 8px; background: #eee; border-radius: 4px; overflow: hidden; }
+    .cap-fill { height: 100%; background: #2c3e50; transition: width 0.5s ease; border-radius: 4px; }
+
+    .flyer-list { display: flex; flex-direction: column; gap: 12px; }
+
+    .flyer-item {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+      display: flex; align-items: stretch;
+      overflow: hidden;
+      border: 1px solid rgba(0,0,0,0.06);
+    }
+    .flyer-item-thumb {
+      width: 68px; flex-shrink: 0;
+      background: #f4f4f9;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 26px; overflow: hidden;
+    }
+    .flyer-item-thumb img { width: 100%; height: 100%; object-fit: cover; }
+    .flyer-item-body { flex: 1; padding: 12px 14px; min-width: 0; }
+    .flyer-item-title { font-weight: bold; color: #2c3e50; font-size: 0.95em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 3px; }
+    .flyer-item-date  { font-size: 0.82em; color: #888; margin-bottom: 5px; }
+
+    .badge {
+      display: inline-block;
+      font-size: 0.72em;
+      font-weight: bold;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      border-radius: 6px;
+    }
+    .badge.active   { background: #d4edda; color: #155724; }
+    .badge.expiring { background: #fff3cd; color: #856404; }
+
+    .flyer-item-actions {
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 10px 12px 10px 0;
+    }
+    .btn-delete {
+      background: white;
+      border: 1px solid #e74c3c;
+      color: #e74c3c;
+      padding: 7px 13px;
+      font-size: 0.82em;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: background 0.2s, color 0.2s;
+      white-space: nowrap;
+    }
+    .btn-delete:active { background: #e74c3c; color: white; }
+
+    .empty-list {
+      text-align: center; padding: 40px 20px;
+      color: #888; font-size: 1em;
+    }
+    .empty-list .e-icon { font-size: 40px; display: block; margin-bottom: 10px; }
+
+    /* CONFIRM BOTTOM SHEET */
+    .confirm-sheet {
+      position: fixed; inset: 0; z-index: 200;
+      display: none; align-items: flex-end; justify-content: center;
+      background: rgba(0,0,0,0.5);
+    }
+    .confirm-sheet.open { display: flex; }
+    .confirm-inner {
+      background: white;
+      border-radius: 20px 20px 0 0;
+      padding: 24px 20px 40px;
+      width: 100%; max-width: 480px;
+      box-shadow: 0 -4px 20px rgba(0,0,0,0.15);
+    }
+    .confirm-inner h4 { color: #2c3e50; margin: 0 0 6px; font-size: 1.1em; }
+    .confirm-inner p  { color: #666; font-size: 0.9em; margin-bottom: 20px; }
+    .confirm-actions  { display: flex; gap: 10px; }
+    .btn-confirm-del {
+      flex: 1; padding: 14px;
+      background: #e74c3c; color: white;
+      border: none; border-radius: 10px;
+      font-weight: bold; font-size: 0.95em; cursor: pointer;
+    }
+    .btn-confirm-del:active { background: #c0392b; }
+    .btn-confirm-cancel {
+      flex: 1; padding: 14px;
+      background: #f4f4f9; color: #333;
+      border: 1px solid #ddd; border-radius: 10px;
+      font-size: 0.95em; cursor: pointer;
+    }
+  </style>
+  <!-- ═══════════════════════════════════════════════════════════
+       END PAGE-SPECIFIC STYLES
+  ════════════════════════════════════════════════════════════ -->
+</head>
+<body>
+
+<!-- ══ LOGIN ══════════════════════════════════════ -->
+<div id="loginScreen">
+  <div class="login-card">
+    <div class="church-logo">✞</div>
+    <h2>Panel de Admin</h2>
+    <p class="sub">Iglesia El Camino De Salvación</p>
+    <input type="password" id="passwordInput" placeholder="Contraseña"
+           onkeydown="if(event.key==='Enter')login()"
+           autocomplete="current-password" />
+    <button class="btn-login" onclick="login()">Entrar</button>
+    <div class="login-error" id="loginError">Contraseña incorrecta. Intenta de nuevo.</div>
+  </div>
+</div>
+
+<!-- ══ ADMIN PANEL ═════════════════════════════════ -->
+<div id="adminPanel">
+
+  <div class="admin-topbar">
+    <div>
+      <h2>✞ Admin — Volantes</h2>
+      <p>El Camino De Salvación</p>
+    </div>
+    <button class="btn-logout" onclick="logout()">Salir</button>
+  </div>
+
+  <div class="admin-tabs">
+    <div class="admin-tab active" onclick="switchTab('upload')">⬆ Subir</div>
+    <div class="admin-tab" onclick="switchTab('manage')">📋 Gestionar</div>
+  </div>
+
+  <!-- UPLOAD -->
+  <div class="tab-pane active" id="tab-upload">
+    <div class="toast" id="uploadToast"></div>
+    <div class="progress-bar-wrap" id="progressWrap">
+      <div class="progress-bar-fill" id="progressFill"></div>
+    </div>
+
+    <div class="section-title">Seleccionar Archivo</div>
+
+    <div class="capture-grid">
+      <label class="capture-btn" id="cameraBtn">
+        <input type="file" accept="image/*" capture="environment" onchange="handleFile(event)" />
+        <span class="c-icon">📷</span>
+        <span class="c-label">Tomar<br/>Foto</span>
+        <span class="c-sub">Cámara</span>
+      </label>
+      <label class="capture-btn" id="galleryBtn">
+        <input type="file" accept="image/*,.pdf" onchange="handleFile(event)" />
+        <span class="c-icon">🖼️</span>
+        <span class="c-label">Elegir<br/>Archivo</span>
+        <span class="c-sub">Galería / PDF</span>
+      </label>
+    </div>
+
+    <div class="preview-wrap" id="previewWrap">
+      <button class="preview-clear" onclick="clearFile()">✕</button>
+      <img id="previewImg" src="" alt="Vista previa" style="display:none" />
+      <div class="preview-pdf" id="previewPdf" style="display:none">
+        <span class="p-icon">📄</span>
+        <span class="p-name" id="pdfName"></span>
+      </div>
+    </div>
+
+    <div class="section-title" style="margin-top:4px">Detalles</div>
+
+    <div class="form-field">
+      <label>Título del Volante</label>
+      <input type="text" id="flyerTitle" placeholder="Ej: Servicio Especial de Navidad" autocomplete="off" />
+    </div>
+
+    <div class="form-field">
+      <label>Fecha de Expiración</label>
+      <div class="pill-row">
+        <div class="pill" onclick="setExpiry(3,this)">3 días</div>
+        <div class="pill active" onclick="setExpiry(7,this)">1 semana</div>
+        <div class="pill" onclick="setExpiry(14,this)">2 semanas</div>
+        <div class="pill" onclick="setExpiry(30,this)">1 mes</div>
+      </div>
+      <input type="date" id="expiryDate" onchange="clearPills()" />
+    </div>
+
+    <button class="btn-upload" id="uploadBtn" onclick="uploadFlyer()">⬆ Subir Volante</button>
+  </div>
+
+  <!-- MANAGE -->
+  <div class="tab-pane" id="tab-manage">
+    <div class="capacity-card">
+      <div class="cap-row">
+        <span>Volantes Activos</span>
+        <strong id="capText">0 / 5</strong>
+      </div>
+      <div class="cap-bar"><div class="cap-fill" id="capFill" style="width:0%"></div></div>
+    </div>
+
+    <div class="section-title">Volantes Actuales</div>
+    <div class="flyer-list" id="flyerList">
+      <div class="empty-list"><span class="e-icon">🔄</span>Cargando...</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- CONFIRM DELETE -->
+<div class="confirm-sheet" id="confirmSheet">
+  <div class="confirm-inner">
+    <h4>¿Borrar este volante?</h4>
+    <p>Esta acción no se puede deshacer.</p>
+    <div class="confirm-actions">
+      <button class="btn-confirm-del" id="confirmDelBtn">Sí, Borrar</button>
+      <button class="btn-confirm-cancel" onclick="closeConfirm()">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ═══════════════════════════════════════════
+  // CONFIG — paste your Supabase details here
+  // ═══════════════════════════════════════════
+  const SUPABASE_URL      = 'YOUR_SUPABASE_URL';
+  const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
+  const BUCKET_NAME       = 'volantes';
+  const TABLE_NAME        = 'volantes';
+  const ADMIN_PASSWORD    = 'ecds2025admin'; // ⚠️ Change this!
+  // ═══════════════════════════════════════════
+
+  let selectedFile = null, pendingId = null, pendingPath = null;
+
+  // AUTH
+  function login() {
+    if (document.getElementById('passwordInput').value === ADMIN_PASSWORD) {
+      sessionStorage.setItem('ecds_admin','1');
+      document.getElementById('loginScreen').style.display = 'none';
+      document.getElementById('adminPanel').style.display  = 'block';
+      init();
+    } else {
+      document.getElementById('loginError').style.display = 'block';
+      document.getElementById('passwordInput').value = '';
+    }
+  }
+  function logout() { sessionStorage.removeItem('ecds_admin'); location.reload(); }
+  window.onload = () => {
+    if (sessionStorage.getItem('ecds_admin') === '1') {
+      document.getElementById('loginScreen').style.display = 'none';
+      document.getElementById('adminPanel').style.display  = 'block';
+      init();
+    }
+  };
+  function init() { setExpiry(7, document.querySelector('.pill.active')); loadFlyers(); }
+
+  // TABS
+  function switchTab(name) {
+    document.querySelectorAll('.admin-tab').forEach((t,i) =>
+      t.classList.toggle('active', ['upload','manage'][i] === name));
+    document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+    document.getElementById('tab-' + name).classList.add('active');
+    if (name === 'manage') loadFlyers();
+  }
+
+  // FILE
+  function handleFile(e) {
+    const file = e.target.files[0]; if (!file) return;
+    selectedFile = file;
+    document.querySelectorAll('.capture-btn').forEach(b => b.classList.remove('selected'));
+    e.target.closest('.capture-btn').classList.add('selected');
+
+    const wrap = document.getElementById('previewWrap');
+    const img  = document.getElementById('previewImg');
+    const pdf  = document.getElementById('previewPdf');
+    wrap.style.display = 'block';
+
+    if (file.type.startsWith('image/')) {
+      img.style.display = 'block'; pdf.style.display = 'none';
+      const r = new FileReader();
+      r.onload = ev => img.src = ev.target.result;
+      r.readAsDataURL(file);
+    } else {
+      img.style.display = 'none'; pdf.style.display = 'block';
+      document.getElementById('pdfName').textContent = file.name;
+    }
+    if (!document.getElementById('flyerTitle').value)
+      document.getElementById('flyerTitle').value = file.name.replace(/\.[^.]+$/,'').replace(/[-_]/g,' ');
+  }
+
+  function clearFile() {
+    selectedFile = null;
+    document.getElementById('previewWrap').style.display = 'none';
+    document.getElementById('previewImg').src = '';
+    document.querySelectorAll('.capture-btn input').forEach(i => i.value = '');
+    document.querySelectorAll('.capture-btn').forEach(b => b.classList.remove('selected'));
+  }
+
+  // EXPIRY
+  function setExpiry(days, el) {
+    const d = new Date(); d.setDate(d.getDate() + days);
+    document.getElementById('expiryDate').value = d.toISOString().slice(0,10);
+    document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+    if (el) el.classList.add('active');
+  }
+  function clearPills() { document.querySelectorAll('.pill').forEach(p => p.classList.remove('active')); }
+
+  // UPLOAD
+  async function uploadFlyer() {
+    const title  = document.getElementById('flyerTitle').value.trim();
+    const expiry = document.getElementById('expiryDate').value;
+    if (!selectedFile) return toast('Por favor toma una foto o elige un archivo.', 'error');
+    if (!title)        return toast('Por favor escribe un título.', 'error');
+    if (!expiry)       return toast('Por favor elige una fecha de expiración.', 'error');
+
+    const ext  = (selectedFile.name.split('.').pop() || 'jpg').toLowerCase();
+    const name = `${Date.now()}-${title.replace(/\s+/g,'-').replace(/[^a-zA-Z0-9-]/g,'')}.${ext}`;
+    const btn  = document.getElementById('uploadBtn');
+    btn.disabled = true; btn.textContent = 'Subiendo...';
+    progress(25);
+
+    try {
+      const s = await fetch(`${SUPABASE_URL}/storage/v1/object/${BUCKET_NAME}/${name}`, {
+        method:'POST',
+        headers:{ 'apikey':SUPABASE_ANON_KEY, 'Authorization':`Bearer ${SUPABASE_ANON_KEY}`, 'Content-Type': selectedFile.type||'application/octet-stream' },
+        body: selectedFile
+      });
+      if (!s.ok) throw new Error('Error al subir archivo.');
+      progress(65);
+
+      const d = await fetch(`${SUPABASE_URL}/rest/v1/${TABLE_NAME}`, {
+        method:'POST',
+        headers:{ 'apikey':SUPABASE_ANON_KEY, 'Authorization':`Bearer ${SUPABASE_ANON_KEY}`, 'Content-Type':'application/json', 'Prefer':'return=minimal' },
+        body: JSON.stringify({ title, file_path: name, expires_at: new Date(expiry+'T23:59:59').toISOString() })
+      });
+      if (!d.ok) throw new Error('Error al guardar.');
+      progress(100);
+      toast('✓ ¡Volante subido correctamente!', 'success');
+      clearFile();
+      document.getElementById('flyerTitle').value = '';
+      setExpiry(7, document.querySelector('.pill'));
+      setTimeout(() => progress(0, true), 1000);
+    } catch(err) {
+      toast('❌ ' + err.message, 'error');
+      progress(0, true);
+    } finally {
+      btn.disabled = false; btn.textContent = '⬆ Subir Volante';
+    }
+  }
+
+  // LOAD
+  async function loadFlyers() {
+    const list = document.getElementById('flyerList');
+    list.innerHTML = '<div class="empty-list"><span class="e-icon">🔄</span>Cargando...</div>';
+    try {
+      const res  = await fetch(`${SUPABASE_URL}/rest/v1/${TABLE_NAME}?select=*&order=created_at.desc`,
+        { headers:{ 'apikey':SUPABASE_ANON_KEY, 'Authorization':`Bearer ${SUPABASE_ANON_KEY}` }});
+      const all    = await res.json();
+      const active = all.filter(f => new Date(f.expires_at) > new Date()).slice(0,5);
+
+      document.getElementById('capText').textContent = `${active.length} / 5`;
+      document.getElementById('capFill').style.width = (active.length/5*100) + '%';
+
+      if (!active.length) { list.innerHTML='<div class="empty-list"><span class="e-icon">📭</span>No hay volantes activos.</div>'; return; }
+
+      list.innerHTML = active.map(f => {
+        const url   = `${SUPABASE_URL}/storage/v1/object/public/${BUCKET_NAME}/${f.file_path}`;
+        const isPDF = f.file_path.toLowerCase().endsWith('.pdf');
+        const exp   = new Date(f.expires_at);
+        const days  = Math.ceil((exp - new Date()) / 86400000);
+        const badge = days <= 2
+          ? `<span class="badge expiring">⚠ ${days}d restantes</span>`
+          : `<span class="badge active">Activo</span>`;
+        const thumb = isPDF
+          ? `<div class="flyer-item-thumb">📄</div>`
+          : `<div class="flyer-item-thumb"><img src="${url}" alt="" /></div>`;
+        return `
+          <div class="flyer-item" id="item-${f.id}">
+            ${thumb}
+            <div class="flyer-item-body">
+              <div class="flyer-item-title">${esc(f.title)}</div>
+              <div class="flyer-item-date">Expira ${exp.toLocaleDateString('es-ES',{day:'numeric',month:'short'})}</div>
+              ${badge}
+            </div>
+            <div class="flyer-item-actions">
+              <button class="btn-delete" onclick="confirmDel('${f.id}','${f.file_path}')">Borrar</button>
+            </div>
+          </div>`;
+      }).join('');
+    } catch(e) {
+      list.innerHTML = '<div class="empty-list"><span class="e-icon">⚠️</span>Error al cargar.</div>';
+    }
+  }
+
+  // DELETE
+  function confirmDel(id, path) {
+    pendingId = id; pendingPath = path;
+    document.getElementById('confirmSheet').classList.add('open');
+    document.getElementById('confirmDelBtn').onclick = execDelete;
+  }
+  function closeConfirm() { document.getElementById('confirmSheet').classList.remove('open'); pendingId = pendingPath = null; }
+  async function execDelete() {
+    const id = pendingId, path = pendingPath; closeConfirm();
+    const item = document.getElementById('item-' + id);
+    if (item) item.style.opacity = '0.4';
+    try {
+      await fetch(`${SUPABASE_URL}/storage/v1/object/${BUCKET_NAME}/${path}`,
+        { method:'DELETE', headers:{ 'apikey':SUPABASE_ANON_KEY,'Authorization':`Bearer ${SUPABASE_ANON_KEY}` }});
+      await fetch(`${SUPABASE_URL}/rest/v1/${TABLE_NAME}?id=eq.${id}`,
+        { method:'DELETE', headers:{ 'apikey':SUPABASE_ANON_KEY,'Authorization':`Bearer ${SUPABASE_ANON_KEY}` }});
+      item?.remove(); loadFlyers();
+    } catch(e) { if(item) item.style.opacity='1'; alert('Error al borrar.'); }
+  }
+
+  // HELPERS
+  function toast(msg, type) {
+    const t = document.getElementById('uploadToast');
+    t.textContent = msg; t.className = `toast ${type}`; t.style.display = 'block';
+    t.scrollIntoView({ behavior:'smooth', block:'nearest' });
+    setTimeout(() => t.style.display = 'none', 4500);
+  }
+  function progress(pct, hide=false) {
+    const w = document.getElementById('progressWrap');
+    const f = document.getElementById('progressFill');
+    if (hide) { w.style.display='none'; f.style.width='0%'; return; }
+    w.style.display = 'block'; f.style.width = pct + '%';
+  }
+  function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+</script>
+</body>
+</html>
