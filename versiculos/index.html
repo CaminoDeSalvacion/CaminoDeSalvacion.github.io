@@ -297,29 +297,29 @@ function descargarVersiculos() {
 
         // Estimate space needed
         doc.setFont('helvetica', 'bold');
-        doc.setFontSize(11);
+        doc.setFontSize(14);
         const refLines = doc.splitTextToSize(ref, usableW);
 
         doc.setFont('helvetica', 'italic');
-        doc.setFontSize(10.5);
+        doc.setFontSize(13);
         const verseLines = doc.splitTextToSize(text, usableW - 16);
 
-        const blockH = (refLines.length * 14) + (verseLines.length * 14) + 22;
+        const blockH = (refLines.length * 18) + (verseLines.length * 18) + 22;
         checkPage(blockH);
 
         // Reference
         doc.setFont('helvetica', 'bold');
-        doc.setFontSize(11);
+        doc.setFontSize(14);
         doc.setTextColor(26, 58, 92);
         doc.text(refLines, marginL, y);
-        y += refLines.length * 14 + 4;
+        y += refLines.length * 18 + 4;
 
         // Verse text
         doc.setFont('helvetica', 'italic');
-        doc.setFontSize(10.5);
+        doc.setFontSize(13);
         doc.setTextColor(40, 40, 40);
         doc.text(verseLines, marginL + 14, y);
-        y += verseLines.length * 14;
+        y += verseLines.length * 18;
 
         // Thin divider (skip after last verse)
         if (i < verseBoxes.length - 1) {
