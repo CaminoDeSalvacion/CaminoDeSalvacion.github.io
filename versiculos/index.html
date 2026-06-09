@@ -39,6 +39,29 @@
     <button type="button" data-text-size="increase" aria-label="Aumentar texto">A+</button>
   </div>
 
+  <!-- Download Button -->
+  <div style="margin: 20px 0;">
+    <button id="descargar-pdf" onclick="descargarVersiculos()" style="
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 11px 22px;
+      background-color: #1a3a5c;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    ">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" viewBox="0 0 16 16">
+        <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+        <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+      </svg>
+      Descargar Todos los Versículos
+    </button>
+  </div>
 
   <div style="margin-top: 25px; text-align: left;">
     <div class="verse-box">
@@ -100,100 +123,102 @@
       <h3>Proverbios 12:15</h3>
       <p>"El camino del necio es derecho en su opinión; Mas el que obedece al consejo es sabio."</p>
     </div>
- <div class="verse-box">
+
+    <div class="verse-box">
       <h3>Proverbios 13:14</h3>
       <p>"La ley del sabio es manantial de vida Para apartarse de los lazos de la muerte."</p>
     </div>
-    
- <div class="verse-box">
+
+    <div class="verse-box">
       <h3>Proverbios 14:12</h3>
       <p>"Hay camino que al hombre le parece derecho; Pero su fin es camino de muerte."</p>
     </div>
 
-   <div class="verse-box">
+    <div class="verse-box">
       <h3>Proverbios 15:14</h3>
       <p>"El corazón entendido busca la sabiduría; Mas la boca de los necios se alimenta de necedades."</p>
     </div>
-    
+
     <div class="verse-box">
       <h3>Proverbios 16:16</h3>
       <p>"Mejor es adquirir sabiduria que oro preciado; Y adquirir inteligencia vale más que la plata."</p>
     </div>
 
-<div class="verse-box">
+    <div class="verse-box">
       <h3>Proverbios 17:27</h3>
       <p>"El que ahorra sus palabras tiene sabiduria; De espiritu prudente es el hombre entendido."</p>
     </div>
 
-   <div class="verse-box">
+    <div class="verse-box">
       <h3>Proverbios 18:21</h3>
       <p>"La muerte y la vida están en poder de la lengua, Y el que la ama comerá de sus frutos."</p>
-    </div> 
+    </div>
 
-<div class="verse-box">
+    <div class="verse-box">
       <h3>Proverbios 19:16</h3>
       <p>"El que guarda el mandamiento guarda su alma; Mas el que menosprecia sus caminos morirá."</p>
-    </div> 
+    </div>
 
-<div class="verse-box">
+    <div class="verse-box">
       <h3>Proverbios 20:13</h3>
       <p>"No ames el sueño, para que no te empobrezcas; Abre tus ojos, y te saciarás de pan."</p>
-    </div>     
+    </div>
 
-<div class="verse-box">
+    <div class="verse-box">
       <h3>Proverbios 21:16</h3>
       <p>"El hombre que se aparta del camino de la sabiduria Vendrá a parar en la compañía de los muertos."</p>
-    </div>   
+    </div>
 
     <div class="verse-box">
       <h3>Proverbios 22:4</h3>
-      <p>"Riquezas, honra y vida 
-        Son la remuneración de la humildad y del temor de Jehová."</p>
-    </div> 
+      <p>"Riquezas, honra y vida Son la remuneración de la humildad y del temor de Jehová."</p>
+    </div>
+
     <div class="verse-box">
       <h3>Proverbios 23:23</h3>
-      <p>"Compra la verdad, y no la vendas;
-La sabiduría, la enseñanza y la inteligencia."</p>
-    </div> 
+      <p>"Compra la verdad, y no la vendas; La sabiduría, la enseñanza y la inteligencia."</p>
+    </div>
+
     <div class="verse-box">
       <h3>Proverbios 24:23</h3>
-      <p>"También estos son dichos de los sabios:
-Hacer acepción de personas en el juicio no es bueno."</p>
-    </div> 
+      <p>"También estos son dichos de los sabios: Hacer acepción de personas en el juicio no es bueno."</p>
+    </div>
+
     <div class="verse-box">
       <h3>Proverbios 25:27</h3>
-      <p>"Comer mucha miel no es bueno,
-Ni el buscar la propia gloria es gloria."</p>
-    </div> 
+      <p>"Comer mucha miel no es bueno, Ni el buscar la propia gloria es gloria."</p>
+    </div>
+
     <div class="verse-box">
       <h3>Proverbios 26:20</h3>
-      <p>"Sin leña se apaga el fuego,
-Y donde no hay chismoso, cesa la contienda."</p>
-    </div> 
+      <p>"Sin leña se apaga el fuego, Y donde no hay chismoso, cesa la contienda."</p>
+    </div>
+
     <div class="verse-box">
       <h3>Proverbios 27:5</h3>
-      <p>"Mejor es reprensión manifiesta
-Que amor oculto."</p>
-    </div> 
+      <p>"Mejor es reprensión manifiesta Que amor oculto."</p>
+    </div>
+
     <div class="verse-box">
       <h3>Proverbios 28:14</h3>
-      <p>"Bienaventurado el hombre que siempre teme a Dios;
-Mas el que endurece su corazón caerá en el mal."</p>
-    </div> 
+      <p>"Bienaventurado el hombre que siempre teme a Dios; Mas el que endurece su corazón caerá en el mal."</p>
+    </div>
+
     <div class="verse-box">
       <h3>Proverbios 29:18</h3>
-      <p>"Sin profecía el pueblo se desenfrena;
-Mas el que guarda la ley es bienaventurado."</p>
-    </div> <div class="verse-box">
+      <p>"Sin profecía el pueblo se desenfrena; Mas el que guarda la ley es bienaventurado."</p>
+    </div>
+
+    <div class="verse-box">
       <h3>Proverbios 30:5</h3>
-      <p>"Toda palabra de Dios es limpia;
-Él es escudo a los que en él esperan."</p>
-    
-  </div>
+      <p>"Toda palabra de Dios es limpia; Él es escudo a los que en él esperan."</p>
+    </div>
+
     <div class="verse-box">
       <h3>Proverbios 31:10</h3>
-      <p>“Mujer virtuosa, ¿quién la hallará? Porque su estima sobrepasa largamente a la de las piedras preciosas.</p>
+      <p>"Mujer virtuosa, ¿quién la hallará? Porque su estima sobrepasa largamente a la de las piedras preciosas."</p>
     </div>
+  </div>
 </div>
 
 <footer>
@@ -206,6 +231,133 @@ Mas el que guarda la ley es bienaventurado."</p>
 </script>
 
 <script src="../accessibility.js"></script>
+
+<!-- jsPDF library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script>
+function descargarVersiculos() {
+  const btn = document.getElementById('descargar-pdf');
+  btn.textContent = 'Generando PDF...';
+  btn.disabled = true;
+
+  setTimeout(() => {
+    try {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF({ unit: 'pt', format: 'letter' });
+
+      const pageW = doc.internal.pageSize.getWidth();
+      const pageH = doc.internal.pageSize.getHeight();
+      const marginL = 50;
+      const marginR = 50;
+      const marginT = 50;
+      const marginB = 50;
+      const usableW = pageW - marginL - marginR;
+
+      let y = marginT;
+
+      // ── helper: add a new page and reset y ──
+      function checkPage(needed) {
+        if (y + needed > pageH - marginB) {
+          doc.addPage();
+          y = marginT;
+        }
+      }
+
+      // ── HEADER ──
+      // Top gold bar
+      doc.setFillColor(184, 134, 11);
+      doc.rect(marginL, y, usableW, 3, 'F');
+      y += 14;
+
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(18);
+      doc.setTextColor(26, 58, 92);
+      doc.text('Iglesia Cristiana El Camino De Salvación', pageW / 2, y, { align: 'center' });
+      y += 22;
+
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(12);
+      doc.setTextColor(80, 80, 80);
+      doc.text('Versículos Para Memorizar', pageW / 2, y, { align: 'center' });
+      y += 8;
+
+      // Bottom gold bar
+      doc.setFillColor(184, 134, 11);
+      doc.rect(marginL, y, usableW, 3, 'F');
+      y += 20;
+
+      // ── VERSES ──
+      // Collect all verse boxes from the page
+      const verseBoxes = document.querySelectorAll('.verse-box');
+
+      verseBoxes.forEach((box, i) => {
+        const ref  = box.querySelector('h3')?.innerText?.trim() || '';
+        const text = box.querySelector('p')?.innerText?.trim()  || '';
+
+        // Estimate space needed
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(11);
+        const refLines = doc.splitTextToSize(ref, usableW);
+
+        doc.setFont('helvetica', 'italic');
+        doc.setFontSize(10.5);
+        const verseLines = doc.splitTextToSize(text, usableW - 16);
+
+        const blockH = (refLines.length * 14) + (verseLines.length * 14) + 22;
+        checkPage(blockH);
+
+        // Reference
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(11);
+        doc.setTextColor(26, 58, 92);
+        doc.text(refLines, marginL, y);
+        y += refLines.length * 14 + 4;
+
+        // Verse text
+        doc.setFont('helvetica', 'italic');
+        doc.setFontSize(10.5);
+        doc.setTextColor(40, 40, 40);
+        doc.text(verseLines, marginL + 14, y);
+        y += verseLines.length * 14;
+
+        // Thin divider (skip after last verse)
+        if (i < verseBoxes.length - 1) {
+          y += 6;
+          doc.setDrawColor(200, 200, 200);
+          doc.setLineWidth(0.5);
+          doc.line(marginL + 20, y, pageW - marginR - 20, y);
+          y += 10;
+        }
+      });
+
+      // ── FOOTER ──
+      const totalPages = doc.internal.getNumberOfPages();
+      for (let p = 1; p <= totalPages; p++) {
+        doc.setPage(p);
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(8);
+        doc.setTextColor(150, 150, 150);
+        doc.text(
+          `© 2025 Iglesia Cristiana El Camino De Salvación  |  Página ${p} de ${totalPages}`,
+          pageW / 2,
+          pageH - 22,
+          { align: 'center' }
+        );
+      }
+
+      doc.save('Versiculos_Para_Memorizar.pdf');
+
+    } catch (e) {
+      alert('Hubo un error al generar el PDF. Por favor intente de nuevo.');
+      console.error(e);
+    } finally {
+      btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" viewBox="0 0 16 16" style="margin-right:6px;vertical-align:middle"><path d=".5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/><path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/></svg>Descargar Todos los Versículos`;
+      btn.disabled = false;
+    }
+  }, 50);
+}
+</script>
 
 </body>
 </html>
