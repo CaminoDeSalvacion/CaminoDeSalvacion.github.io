@@ -6,10 +6,6 @@
   <title>Volantes — Iglesia El Camino De Salvación</title>
   <link rel="stylesheet" href="../style.css" />
 
-  <!-- ═══════════════════════════════════════════════════════════
-       PAGE-SPECIFIC STYLES — copy this entire <style> block
-       into style.css later when cleaning up the project
-  ════════════════════════════════════════════════════════════ -->
   <style>
     .flyers-grid {
       display: grid;
@@ -47,10 +43,6 @@
       width: 100%;
       height: 100%;
       object-fit: contain;
-    }
-    .flyer-thumb .pdf-icon {
-      font-size: 56px;
-      opacity: 0.4;
     }
 
     .flyer-overlay {
@@ -99,7 +91,6 @@
       margin-top: 5px;
     }
 
-    /* LOADING / EMPTY */
     .state-box {
       text-align: center;
       padding: 60px 20px;
@@ -118,7 +109,6 @@
     }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* MODAL */
     .modal-backdrop {
       position: fixed; inset: 0;
       background: rgba(0,0,0,0.75);
@@ -161,7 +151,6 @@
       min-height: 300px;
     }
     .modal-body img { max-width: 100%; max-height: 70vh; object-fit: contain; }
-    .modal-body iframe { width: 100%; height: 70vh; border: none; }
     .modal-footer {
       padding: 12px 18px;
       border-top: 1px solid #eee;
@@ -179,9 +168,6 @@
       .flyers-grid { grid-template-columns: 1fr; }
     }
   </style>
-  <!-- ═══════════════════════════════════════════════════════════
-       END PAGE-SPECIFIC STYLES
-  ════════════════════════════════════════════════════════════ -->
 </head>
 <body>
 
@@ -201,6 +187,7 @@
     <a href="/anuncios/">Anuncios</a>
     <a href="/versiculos/">Versículos</a>
     <a href="/volantes/" class="active">Volantes</a>
+    <a href="/iglesias-cercanas/">Iglesias Cercanas</a>
   </nav>
 
   <div class="page-container">
@@ -209,7 +196,7 @@
       <button onclick="adjustFont(1)">A+</button>
     </div>
 
-    <h2 style="color:#2c3e50; margin-top:0;">📋 Volantes &amp; Avisos</h2>
+    <h2 style="color:#2c3e50; margin-top:0;">Volantes &amp; Avisos</h2>
     <p style="color:#666; margin-top:-8px;">Avisos y eventos actuales de la iglesia.</p>
 
     <div id="flyersGrid">
@@ -221,7 +208,7 @@
   </div>
 
   <footer>
-    <p>© 2025 Iglesia Cristiana El Camino De Salvación</p>
+    <p>&copy; 2025 Iglesia Cristiana El Camino De Salvación</p>
   </footer>
 
   <!-- MODAL -->
@@ -239,25 +226,19 @@
   </div>
 
   <script>
-    // ═══════════════════════════════════════════
-    // CONFIG — paste your Supabase details here
-    // ═══════════════════════════════════════════
-    const SUPABASE_URL      = 'YOUR_SUPABASE_URL';
-    const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
-    const BUCKET_NAME       = 'volantes';
-    const TABLE_NAME        = 'volantes';
-    // ═══════════════════════════════════════════
+    // Los volantes ahora se leen de data/volantes.json, el cual es
+    // actualizado automáticamente por el panel de administración
+    // (Cloudflare Worker) haciendo un commit a este mismo repositorio.
+    // Ya no se usa Supabase.
 
     async function loadFlyers() {
       const grid = document.getElementById('flyersGrid');
       try {
-        const res = await fetch(
-          `${SUPABASE_URL}/rest/v1/${TABLE_NAME}?select=*&order=created_at.desc&limit=5`,
-          { headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': `Bearer ${SUPABASE_ANON_KEY}` } }
-        );
+        const res = await fetch('../data/volantes.json', { cache: 'no-store' });
         if (!res.ok) throw new Error();
-        const all    = await res.json();
-        const active = all.filter(f => new Date(f.expires_at) > new Date());
+        const all = await res.json();
+
+        const active = (all || []).filter(isVigente);
 
         if (!active.length) {
           grid.innerHTML = `<div class="state-box"><span class="icon">📭</span><p>No hay volantes activos en este momento.</p></div>`;
@@ -265,28 +246,27 @@
         }
 
         grid.innerHTML = `<div class="flyers-grid">${active.map(f => {
-          const url      = `${SUPABASE_URL}/storage/v1/object/public/${BUCKET_NAME}/${f.file_path}`;
-          const isPDF    = f.file_path.toLowerCase().endsWith('.pdf');
-          const expiry   = new Date(f.expires_at);
-          const daysLeft = Math.ceil((expiry - new Date()) / 86400000);
+          const url = `../${f.image}`;
+          const title = f.caption || 'Volante';
 
-          const thumb = isPDF
-            ? `<span class="pdf-icon">📄</span>`
-            : `<img src="${url}" alt="${esc(f.title)}" loading="lazy" />`;
-
-          const warn = daysLeft <= 2
-            ? `<span class="expiry-warn">⚠ Expira pronto</span>` : '';
+          let expiryHtml = '';
+          if (f.expires) {
+            const expiry = new Date(f.expires + 'T23:59:59');
+            const daysLeft = Math.ceil((expiry - new Date()) / 86400000);
+            const warn = daysLeft <= 2
+              ? `<span class="expiry-warn">Expira pronto</span>` : '';
+            expiryHtml = `<div class="expiry">Válido hasta: ${expiry.toLocaleDateString('es-ES',{day:'numeric',month:'long',year:'numeric'})}</div>${warn}`;
+          }
 
           return `
-            <div class="flyer-card" onclick="openModal('${esc(f.title)}','${url}',${isPDF})">
+            <div class="flyer-card" onclick="openModal('${esc(title)}','${url}')">
               <div class="flyer-thumb">
-                ${thumb}
+                <img src="${url}" alt="${esc(title)}" loading="lazy" />
                 <div class="flyer-overlay"><button class="overlay-btn">Ver Volante</button></div>
               </div>
               <div class="flyer-info">
-                <h3>${esc(f.title)}</h3>
-                <div class="expiry">Válido hasta: ${expiry.toLocaleDateString('es-ES',{day:'numeric',month:'long',year:'numeric'})}</div>
-                ${warn}
+                <h3>${esc(title)}</h3>
+                ${expiryHtml}
               </div>
             </div>`;
         }).join('')}</div>`;
@@ -296,12 +276,17 @@
       }
     }
 
-    function openModal(title, url, isPDF) {
+    function isVigente(f) {
+      if (!f.expires) return true;
+      const expires = new Date(f.expires + 'T23:59:59');
+      if (isNaN(expires.getTime())) return true;
+      return expires.getTime() >= Date.now();
+    }
+
+    function openModal(title, url) {
       document.getElementById('modalTitle').textContent = title;
       document.getElementById('downloadLink').href = url;
-      document.getElementById('modalBody').innerHTML = isPDF
-        ? `<iframe src="${url}"></iframe>`
-        : `<img src="${url}" alt="${title}" />`;
+      document.getElementById('modalBody').innerHTML = `<img src="${url}" alt="${title}" />`;
       document.getElementById('modalBackdrop').classList.add('open');
       document.body.style.overflow = 'hidden';
     }
@@ -321,7 +306,6 @@
       return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
     }
 
-    // Font size accessibility (matches your existing site)
     function adjustFont(dir) {
       const root = document.documentElement;
       let scale = parseFloat(getComputedStyle(root).getPropertyValue('--base-font-scale')) || 1;
