@@ -10,10 +10,6 @@ body {
   text-align: center;
 }
 
-/* ----------------------------- */
-/* HEADER                        */
-/* ----------------------------- */
-
 header {
   background: linear-gradient(135deg, #2c3e50, #34495e);
   color: white;
@@ -62,16 +58,13 @@ header {
   font-size: 1.2em;
 }
 
-/* ----------------------------- */
-/* GLOBAL NAVIGATION TABS        */
-/* ----------------------------- */
-
 .navbar {
   display: flex;
   justify-content: center;
   background: #2c3e50;
   padding: 10px 0;
   gap: 20px;
+  flex-wrap: wrap;
 }
 
 .navbar a {
@@ -95,10 +88,6 @@ header {
   font-weight: bold;
 }
 
-/* ----------------------------- */
-/* GLOBAL PAGE CONTAINER         */
-/* ----------------------------- */
-
 .page-container {
   max-width: 900px;
   margin: 30px auto;
@@ -108,10 +97,6 @@ header {
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
   text-align: center;
 }
-
-/* ----------------------------- */
-/* VIDEO PLAYER + PREVIOUS VIDEO */
-/* ----------------------------- */
 
 .video-container {
   position: relative;
@@ -183,10 +168,6 @@ iframe {
   background: #1a242f;
 }
 
-/* ----------------------------- */
-/* FOOTER                        */
-/* ----------------------------- */
-
 footer {
   background: #2c3e50;
   color: white;
@@ -194,10 +175,6 @@ footer {
   margin-top: 20px;
   text-align: center;
 }
-
-/* ----------------------------- */
-/* MOBILE                        */
-/* ----------------------------- */
 
 @media (max-width: 768px) {
   header {
@@ -243,9 +220,9 @@ footer {
   font-size: 1.1em;
 }
 .announcement-box {
-  background: rgba(255, 255, 255, 0.9); /* Slightly off-white to pop from page */
-  border: 1px solid rgba(0, 0, 0, 0.1); /* Subtle border */
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* Soft shadow */
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   padding: 15px 20px;
   border-radius: 12px;
   margin-bottom: 15px;
@@ -254,7 +231,7 @@ footer {
 }
 
 .announcement-box:hover {
-  transform: translateY(-2px); /* small hover lift effect */
+  transform: translateY(-2px);
 }
 
 .announcement-box h3 {
@@ -268,9 +245,6 @@ footer {
   font-size: 1.05em;
 }
 
-/* ----------------------------- */
-/* LIVE TAB PULSING GLOW         */
-/* ----------------------------- */
 .navbar a.live {
   background: red;
   color: white;
@@ -297,8 +271,6 @@ footer {
   }
 }
 
-
-/* text scalling acessibility feature  */
 :root {
   --base-font-scale: 1;
 }
